@@ -7,6 +7,9 @@ import { z } from "zod";
 import { igdbAuthMiddleware } from "@/lib/server/igdb/middleware";
 import { fetchFunc } from "@/lib/server/fetch";
 import { useQuery } from "@tanstack/react-query";
+import { SearchGame } from "@/types/game";
+import GameGridEntry from "./game-grid-entry";
+import GameDetails from "./add.game-details";
 
 const searchGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
@@ -17,7 +20,8 @@ const searchGame = createServerFn({ method: "POST" })
 
     const response = await fetchFunc({
       endpoint: "game",
-      fields: "name",
+      fields:
+        "name,first_release_date,cover.url,summary,genres.name,platforms.name",
       token: igdbAccessToken as string,
       search,
     });
@@ -37,25 +41,46 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
   const [debouncedSearch] = useDebouncedValue<string>(search, {
     wait: 300,
   });
-
+  const [selectedGame, setSelectedGame] = useState<SearchGame | undefined>(
+    undefined
+  );
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["addGame", debouncedSearch],
     queryFn: () => searchGame({ data: { search: debouncedSearch } }),
   });
 
+  const handleClose = async () => {
+    onClose();
+    setSearch("");
+    setSelectedGame(undefined);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={() => onClose()}>
-      <DialogContent>
+    <Dialog open={open} onOpenChange={() => handleClose()}>
+      <DialogContent className="min-w-3/4">
         <DialogHeader>
           <DialogTitle>Add a game to your collection</DialogTitle>
+        </DialogHeader>
+        {selectedGame && <GameDetails game={selectedGame} />}
+        {!selectedGame && (
           <Input
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          {debouncedSearch}
-          {isLoading ? "isLoading" : "!isLoading"}
-          {isError ? "isError" + error : "!isError"}
-        </DialogHeader>
+        )}
+        {!selectedGame && data && search !== "" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {data.map((entry: SearchGame) => (
+              <GameGridEntry
+                key={entry.id}
+                game={entry}
+                onClick={() => {
+                  setSelectedGame(entry);
+                }}
+              />
+            ))}
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
