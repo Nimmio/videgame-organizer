@@ -106,5 +106,5 @@ model Status {
   id          Int        @id @default(autoincrement())
   games       UserGame[]
   statusTitle String
-  color       String
+  isDefault Boolean
 }

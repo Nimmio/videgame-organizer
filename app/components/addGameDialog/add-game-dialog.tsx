@@ -57,11 +57,18 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={() => handleClose()}>
-      <DialogContent className="min-w-3/4">
+      <DialogContent className="min-w-3/4 max-h-full overflow-scroll">
         <DialogHeader>
           <DialogTitle>Add a game to your collection</DialogTitle>
         </DialogHeader>
-        {selectedGame && <GameDetails game={selectedGame} />}
+        {selectedGame && (
+          <GameDetails
+            game={selectedGame}
+            onBack={() => {
+              setSelectedGame(undefined);
+            }}
+          />
+        )}
         {!selectedGame && (
           <Input
             value={search}

@@ -1144,7 +1144,7 @@ export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typ
 export const StatusScalarFieldEnum = {
   id: 'id',
   statusTitle: 'statusTitle',
-  color: 'color'
+  isDefault: 'isDefault'
 } as const
 
 export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof StatusScalarFieldEnum]

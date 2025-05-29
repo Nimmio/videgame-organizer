@@ -1,10 +1,21 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getUrl } from "@/lib/server/igdb/cover";
 import { SearchGame } from "@/types/game";
 import { ArrowLeft, Plus } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
+import { useState } from "react";
+import { format, fromUnixTime } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import getStatus from "@/lib/server/status";
 
 interface GameProps {
   game: SearchGame;
@@ -14,9 +25,17 @@ interface GameProps {
 
 export default function GameDetails({
   game,
-  onBack = () => {},
+  onBack,
   onAddGame = () => {},
 }: GameProps) {
+  const [selectedPlatform, setSelectedPlatform] = useState<string>("");
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
+
+  const { data: StatusData } = useQuery({
+    queryKey: ["status"],
+    queryFn: getStatus,
+  });
+
   return (
     <div className="w-full bg-background">
       <div className="p-4">
@@ -47,51 +66,98 @@ export default function GameDetails({
         {/* Game Details */}
         <div className="md:col-span-2 flex flex-col">
           <div className="pb-4">
-            <>
-              <h1 className="text-2xl font-bold">{game.name}</h1>
-              <p className="text-sm text-muted-foreground">
-                Released: {game.first_release_date}
-              </p>
-            </>
+            <h1 className="text-2xl font-bold">{game.name}</h1>
+            <p className="text-sm text-muted-foreground">
+              Released:{" "}
+              {game.first_release_date
+                ? format(fromUnixTime(game.first_release_date), "dd.MM.yyyy")
+                : "Release date unknown"}
+            </p>
           </div>
 
-          <div className="flex-1 grid gap-4">
+          <div className="space-y-2 mb-4">
+            <h3 className="text-sm font-medium leading-none">Genres</h3>
+            <div className="flex flex-wrap gap-2">
+              {game.genres.map((genre) => (
+                <Badge key={genre.id} variant="secondary">
+                  {genre.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2 mb-4">
+            <h3 className="text-sm font-medium leading-none">Platforms</h3>
+
+            <div className="flex flex-wrap gap-2">
+              {game.platforms.map((platform) => (
+                <Badge key={platform.id} variant="outline">
+                  {platform.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <Separator className="mb-4" />
+
+          <div className="space-y-2 flex-1">
+            <h3 className="text-sm font-medium leading-none">Summary</h3>
+            <p className="text-sm text-muted-foreground">{game.summary}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 pt-2">
             <div className="space-y-2">
-              <h3 className="text-sm font-medium leading-none">Genres</h3>
-              <div className="flex flex-wrap gap-2">
-                {game.genres.map((genre) => (
-                  <Badge key={genre.id} variant="secondary">
-                    {genre.name}
-                  </Badge>
-                ))}
+              <Label htmlFor="platform">Platform</Label>
+              <Select
+                value={selectedPlatform}
+                onValueChange={(value) => setSelectedPlatform(value)}
+              >
+                <SelectTrigger id="platform">
+                  <SelectValue placeholder="Select platform" />
+                </SelectTrigger>
+                <SelectContent>
+                  {game.platforms?.map((platform) => (
+                    <SelectItem key={platform.id} value={platform.name}>
+                      {platform.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {StatusData && StatusData?.length > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={selectedStatus}
+                  onValueChange={(value) => setSelectedStatus(value)}
+                >
+                  <SelectTrigger id="status">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {StatusData.map((statusentry) => (
+                      <SelectItem
+                        key={statusentry.id}
+                        value={statusentry.statusTitle}
+                      >
+                        {statusentry.statusTitle}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium leading-none">Platforms</h3>
-
-              <div className="flex flex-wrap gap-2">
-                {game.platforms.map((platform) => (
-                  <Badge key={platform.id} variant="outline">
-                    {platform.name}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-2 flex-1">
-              <h3 className="text-sm font-medium leading-none">Summary</h3>
-              <p className="text-sm text-muted-foreground">{game.summary}</p>
-            </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Add Game Button */}
       <div className="px-6 pb-6">
-        <Button className="w-full" size="lg" onClick={onAddGame}>
+        <Button
+          className="w-full"
+          size="lg"
+          onClick={onAddGame}
+          disabled={selectedPlatform === "" || selectedStatus === ""}
+        >
           <Plus className="mr-2 h-4 w-4" /> Add Game
         </Button>
       </div>

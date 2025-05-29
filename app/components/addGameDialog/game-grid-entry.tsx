@@ -18,9 +18,10 @@ const GameGridEntry = (props: GameGridEntryProps) => {
     >
       <div className="aspect-[3/4] relative">
         <img
-          className="object-cover w-full"
+          className="object-cover w-full max-h-[360px]"
           src={getUrl((game.cover?.url as string) || "", "cover_big")}
           alt={name}
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
