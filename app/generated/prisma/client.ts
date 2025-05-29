@@ -70,9 +70,24 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
+ * Model IGDBAuth
+ * 
+ */
+export type IGDBAuth = Prisma.IGDBAuthModel
+/**
+ * Model Game
+ * 
+ */
+export type Game = Prisma.GameModel
+/**
  * Model UserGame
  * 
  */
 export type UserGame = Prisma.UserGameModel
+/**
+ * Model Status
+ * 
+ */
+export type Status = Prisma.StatusModel
 
 

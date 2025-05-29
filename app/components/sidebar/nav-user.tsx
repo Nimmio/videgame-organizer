@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useRouteContext } from "@tanstack/react-router";
+import { redirect, useNavigate, useRouteContext } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getWebRequest } from "@tanstack/react-start/server";
 import { auth } from "@/lib/server/auth";
@@ -35,6 +35,13 @@ export const logout = createServerFn({ method: "POST" }).handler(async () => {
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useRouteContext({ from: "/_authenticated" });
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate({ to: "/login" });
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -85,10 +92,10 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuItem onClick={() => logout()}>
+            <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOutIcon />
               Log out
-            </DropdownMenuItem> */}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

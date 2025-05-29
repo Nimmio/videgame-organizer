@@ -76,6 +76,13 @@ model Verification {
   @@map("verification")
 }
 
+model IGDBAuth {
+  id           Int       @id @default(autoincrement())
+  access_token String?
+  expires      DateTime?
+  updatedAt    DateTime
+}
+
 model Game {
   id       Int        @id @default(autoincrement())
   userGame UserGame[]

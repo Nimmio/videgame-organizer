@@ -1,5 +1,10 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { Card } from "@/components/ui/card";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { auth } from "@/lib/server/auth";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
@@ -19,15 +24,13 @@ export const Route = createFileRoute("/_authenticated")({
 function LayoutComponent() {
   return (
     <SidebarProvider>
-      {/* <AppSidebar /> */}
-      <div className="min-h-screen w-full bg-gray-50">
-        <div className="container mx-auto py-8 px-4">
-          <main>
-            <SidebarTrigger />
-            <Outlet />
-          </main>
-        </div>
-      </div>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SidebarTrigger />
+        <Card className="m-8 p-4">
+          <Outlet />
+        </Card>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
