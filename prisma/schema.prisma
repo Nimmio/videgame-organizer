@@ -83,20 +83,25 @@ model IGDBAuth {
   updatedAt    DateTime
 }
 
-model Game {
-  id       Int        @id @default(autoincrement())
-  userGame UserGame[]
-  igdbId   String
+model IGDBGame {
+  id                 Int        @id @default(autoincrement())
+  userGame           UserGame[]
+  igdbId             Int        @unique
+  name               String
+  first_release_date DateTime?
+  coverUrl           String?
+  genres            Genre[]
+  platforms   Platform[]
 }
 
 model UserGame {
-  id       Int    @id @default(autoincrement())
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
-  status   Status @relation(fields: [statusId], references: [id])
-  statusId Int
-  game     Game   @relation(fields: [gameId], references: [id])
-  gameId   Int
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String
+  status       Status    @relation(fields: [statusId], references: [id])
+  statusId     Int
+  game         IGDBGame      @relation(fields: [gameId], references: [id])
+  gameId       Int
   notes        String?
   purchaseDate DateTime?
   preorderDate DateTime?
@@ -106,5 +111,19 @@ model Status {
   id          Int        @id @default(autoincrement())
   games       UserGame[]
   statusTitle String
-  isDefault Boolean
+  isDefault   Boolean
+}
+
+model Genre {
+  id     Int    @id @default(autoincrement())
+  name   String
+  igdbId Int    @unique
+  igdbGame IGDBGame []
+}
+
+model Platform {
+  id     Int    @id @default(autoincrement())
+  name   String
+  igdbId Int    @unique
+  igdbGame IGDBGame []
 }

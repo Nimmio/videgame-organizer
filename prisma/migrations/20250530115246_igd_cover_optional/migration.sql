@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "IGDBGame" ALTER COLUMN "coverUrl" DROP NOT NULL;

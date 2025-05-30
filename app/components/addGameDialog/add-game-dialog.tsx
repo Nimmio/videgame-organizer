@@ -6,12 +6,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { igdbAuthMiddleware } from "@/lib/server/igdb/middleware";
 import { fetchFunc } from "@/lib/server/fetch";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { SearchGame } from "@/types/game";
 import GameGridEntry from "./game-grid-entry";
 import GameDetails from "./add.game-details";
-import { createUserGame } from "@/lib/server/igdb/game";
 import { useRouteContext } from "@tanstack/react-router";
+import { createUserGame } from "@/lib/server/igdb/game";
 
 const searchGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
@@ -53,10 +53,25 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
 
   const { user } = useRouteContext({ from: "/_authenticated" });
 
-  const handleClose = async () => {
+  const addGameMutation = useMutation({
+    mutationFn: createUserGame,
+  });
+
+  const handleClose = () => {
     onClose();
     setSearch("");
     setSelectedGame(undefined);
+  };
+
+  const handleAdd = async ({ selectedStatus }: { selectedStatus: number }) => {
+    if (selectedGame)
+      addGameMutation.mutate({
+        data: {
+          statusId: selectedStatus,
+          igdbGame: selectedGame,
+          userId: user.id,
+        },
+      });
   };
 
   return (
@@ -72,15 +87,7 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
               setSelectedGame(undefined);
             }}
             onAddGame={(selectedStatus) => {
-              console.log("selectedStatus", selectedStatus);
-
-              createUserGame({
-                data: {
-                  statusId: selectedStatus,
-                  gameId: selectedGame.id,
-                  userId: user.id,
-                },
-              });
+              handleAdd({ selectedStatus });
             }}
           />
         )}

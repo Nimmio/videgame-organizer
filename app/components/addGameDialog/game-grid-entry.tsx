@@ -13,7 +13,7 @@ const GameGridEntry = (props: GameGridEntryProps) => {
   const { name, first_release_date } = game;
   return (
     <Card
-      className="overflow-hidden cursor-pointer transition-all hover:shadow-md group p-0"
+      className="overflow-hidden cursor-pointer transition-all hover:shadow-md group p-0 max-h-[360px]"
       onClick={onClick}
     >
       <div className="aspect-[3/4] relative">

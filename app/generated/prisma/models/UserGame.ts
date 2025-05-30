@@ -241,7 +241,7 @@ export type UserGameWhereInput = {
   preorderDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   status?: Prisma.XOR<Prisma.StatusScalarRelationFilter, Prisma.StatusWhereInput>
-  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
+  game?: Prisma.XOR<Prisma.IGDBGameScalarRelationFilter, Prisma.IGDBGameWhereInput>
 }
 
 export type UserGameOrderByWithRelationInput = {
@@ -254,7 +254,7 @@ export type UserGameOrderByWithRelationInput = {
   preorderDate?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   status?: Prisma.StatusOrderByWithRelationInput
-  game?: Prisma.GameOrderByWithRelationInput
+  game?: Prisma.IGDBGameOrderByWithRelationInput
 }
 
 export type UserGameWhereUniqueInput = Prisma.AtLeast<{
@@ -270,7 +270,7 @@ export type UserGameWhereUniqueInput = Prisma.AtLeast<{
   preorderDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   status?: Prisma.XOR<Prisma.StatusScalarRelationFilter, Prisma.StatusWhereInput>
-  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
+  game?: Prisma.XOR<Prisma.IGDBGameScalarRelationFilter, Prisma.IGDBGameWhereInput>
 }, "id">
 
 export type UserGameOrderByWithAggregationInput = {
@@ -307,7 +307,7 @@ export type UserGameCreateInput = {
   preorderDate?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutGamesInput
   status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  game: Prisma.GameCreateNestedOneWithoutUserGameInput
+  game: Prisma.IGDBGameCreateNestedOneWithoutUserGameInput
 }
 
 export type UserGameUncheckedCreateInput = {
@@ -326,7 +326,7 @@ export type UserGameUpdateInput = {
   preorderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
   status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  game?: Prisma.GameUpdateOneRequiredWithoutUserGameNestedInput
+  game?: Prisma.IGDBGameUpdateOneRequiredWithoutUserGameNestedInput
 }
 
 export type UserGameUncheckedUpdateInput = {
@@ -548,7 +548,7 @@ export type UserGameCreateWithoutUserInput = {
   purchaseDate?: Date | string | null
   preorderDate?: Date | string | null
   status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  game: Prisma.GameCreateNestedOneWithoutUserGameInput
+  game: Prisma.IGDBGameCreateNestedOneWithoutUserGameInput
 }
 
 export type UserGameUncheckedCreateWithoutUserInput = {
@@ -647,7 +647,7 @@ export type UserGameCreateWithoutStatusInput = {
   purchaseDate?: Date | string | null
   preorderDate?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutGamesInput
-  game: Prisma.GameCreateNestedOneWithoutUserGameInput
+  game: Prisma.IGDBGameCreateNestedOneWithoutUserGameInput
 }
 
 export type UserGameUncheckedCreateWithoutStatusInput = {
@@ -699,7 +699,7 @@ export type UserGameUpdateWithoutUserInput = {
   purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preorderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  game?: Prisma.GameUpdateOneRequiredWithoutUserGameNestedInput
+  game?: Prisma.IGDBGameUpdateOneRequiredWithoutUserGameNestedInput
 }
 
 export type UserGameUncheckedUpdateWithoutUserInput = {
@@ -769,7 +769,7 @@ export type UserGameUpdateWithoutStatusInput = {
   purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preorderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  game?: Prisma.GameUpdateOneRequiredWithoutUserGameNestedInput
+  game?: Prisma.IGDBGameUpdateOneRequiredWithoutUserGameNestedInput
 }
 
 export type UserGameUncheckedUpdateWithoutStatusInput = {
@@ -802,7 +802,7 @@ export type UserGameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   preorderDate?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -815,7 +815,7 @@ export type UserGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   preorderDate?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -828,7 +828,7 @@ export type UserGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   preorderDate?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectScalar = {
@@ -845,17 +845,17 @@ export type UserGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type UserGameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }
 export type UserGameIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }
 export type UserGameIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.IGDBGameDefaultArgs<ExtArgs>
 }
 
 export type $UserGamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -863,7 +863,7 @@ export type $UserGamePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     status: Prisma.$StatusPayload<ExtArgs>
-    game: Prisma.$GamePayload<ExtArgs>
+    game: Prisma.$IGDBGamePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1269,7 +1269,7 @@ export interface Prisma__UserGameClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   status<T extends Prisma.StatusDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StatusDefaultArgs<ExtArgs>>): Prisma.Prisma__StatusClient<runtime.Types.Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  game<T extends Prisma.GameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameDefaultArgs<ExtArgs>>): Prisma.Prisma__GameClient<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  game<T extends Prisma.IGDBGameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.IGDBGameDefaultArgs<ExtArgs>>): Prisma.Prisma__IGDBGameClient<runtime.Types.Result.GetResult<Prisma.$IGDBGamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

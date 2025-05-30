@@ -29,3 +29,28 @@ export const fetchFunc = async ({
 
   return response;
 };
+
+interface fetchGameParams {
+  endpoint: string;
+  token: string;
+  fields: string;
+  id: number;
+}
+
+export const fetchGame = async ({
+  endpoint,
+  token,
+  fields,
+  id,
+}: fetchGameParams) => {
+  const response = await fetch(IgdbEndpointsUrls[endpoint], {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Client-ID": readIGDBEnvVars().client,
+      Authorization: `Bearer ${token}`,
+    },
+    body: `fields ${fields}; where id = ${id}; limit 1;`,
+  });
+  return response;
+};

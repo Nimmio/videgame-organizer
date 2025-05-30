@@ -14,7 +14,7 @@ import {
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { format, fromUnixTime } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import getStatus from "@/lib/server/status";
 
 interface GameProps {

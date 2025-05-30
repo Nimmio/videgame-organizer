@@ -38,16 +38,16 @@ export { Prisma }
 
 
 // file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node")
+path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-1.1.x.so.node")
+
+// file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node")
 path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node")
 path.join(process.cwd(), "app/generated/prisma/libquery_engine-linux-musl-openssl-3.0.x.so.node")
-
-// file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node")
-path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-1.1.x.so.node")
 
 /**
  * Model User
@@ -75,10 +75,10 @@ export type Verification = Prisma.VerificationModel
  */
 export type IGDBAuth = Prisma.IGDBAuthModel
 /**
- * Model Game
+ * Model IGDBGame
  * 
  */
-export type Game = Prisma.GameModel
+export type IGDBGame = Prisma.IGDBGameModel
 /**
  * Model UserGame
  * 
@@ -89,5 +89,15 @@ export type UserGame = Prisma.UserGameModel
  * 
  */
 export type Status = Prisma.StatusModel
+/**
+ * Model Genre
+ * 
+ */
+export type Genre = Prisma.GenreModel
+/**
+ * Model Platform
+ * 
+ */
+export type Platform = Prisma.PlatformModel
 
 
