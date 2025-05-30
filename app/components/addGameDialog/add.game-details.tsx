@@ -19,17 +19,15 @@ import getStatus from "@/lib/server/status";
 
 interface GameProps {
   game: SearchGame;
-  onBack?: () => void;
-  onAddGame?: () => void;
+  onBack: () => void;
+  onAddGame: (selectedStatus: number) => void;
 }
 
-export default function GameDetails({
-  game,
-  onBack,
-  onAddGame = () => {},
-}: GameProps) {
+export default function GameDetails({ game, onBack, onAddGame }: GameProps) {
   const [selectedPlatform, setSelectedPlatform] = useState<string>("");
-  const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [selectedStatus, setSelectedStatus] = useState<number | undefined>(
+    undefined
+  );
 
   const { data: StatusData } = useQuery({
     queryKey: ["status"],
@@ -127,8 +125,8 @@ export default function GameDetails({
               <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
                 <Select
-                  value={selectedStatus}
-                  onValueChange={(value) => setSelectedStatus(value)}
+                  value={selectedStatus?.toString()}
+                  onValueChange={(value) => setSelectedStatus(+value)}
                 >
                   <SelectTrigger id="status">
                     <SelectValue placeholder="Select status" />
@@ -137,7 +135,7 @@ export default function GameDetails({
                     {StatusData.map((statusentry) => (
                       <SelectItem
                         key={statusentry.id}
-                        value={statusentry.statusTitle}
+                        value={statusentry.id.toString()}
                       >
                         {statusentry.statusTitle}
                       </SelectItem>
@@ -155,8 +153,8 @@ export default function GameDetails({
         <Button
           className="w-full"
           size="lg"
-          onClick={onAddGame}
-          disabled={selectedPlatform === "" || selectedStatus === ""}
+          onClick={() => onAddGame(selectedStatus as number)}
+          disabled={selectedPlatform === "" || !selectedStatus}
         >
           <Plus className="mr-2 h-4 w-4" /> Add Game
         </Button>

@@ -1,24 +1,28 @@
 import { UserGame } from "@/generated/prisma";
+import prisma from "@/lib/prisma";
+import { useRouteContext } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-const createUserGameSchema = z.object({
-    statusId: z.number()
-    
-})
+const CreateUserGameSchema = z.object({
+  statusId: z.number(),
+  gameId: z.number(),
+  userId: z.string(),
+});
 
-const createUserGame = createServerFn({ method: "POST" }).validator((d:UserGame) => )
-);
-
-
-
-export const createEmailLogin = createServerFn({ method: "POST" })
-  .validator((d: unknown) => EmailPasswordSchema.parse(d))
+export const createUserGame = createServerFn({ method: "POST" })
+  .validator((d: unknown) => CreateUserGameSchema.parse(d))
   .handler(async ({ data }) => {
-    const { data: signupData, error } = await authClient.signUp.email({
-      email: data.email,
-      password: data.password,
-      name: data.email,
-    });
-    return { data: signupData, error };
+    const { gameId, statusId, userId } = data;
+
+    console.log("gameId", gameId);
+
+    console.log("statusId", statusId);
+
+    console.log("userId", userId);
+    // const {} = await prisma.userGame.create({
+    //   data:{
+    //     statusId
+    //   }
+    // })
   });

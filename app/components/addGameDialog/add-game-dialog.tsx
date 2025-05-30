@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { SearchGame } from "@/types/game";
 import GameGridEntry from "./game-grid-entry";
 import GameDetails from "./add.game-details";
+import { createUserGame } from "@/lib/server/igdb/game";
+import { useRouteContext } from "@tanstack/react-router";
 
 const searchGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
@@ -49,6 +51,8 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
     queryFn: () => searchGame({ data: { search: debouncedSearch } }),
   });
 
+  const { user } = useRouteContext({ from: "/_authenticated" });
+
   const handleClose = async () => {
     onClose();
     setSearch("");
@@ -66,6 +70,17 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
             game={selectedGame}
             onBack={() => {
               setSelectedGame(undefined);
+            }}
+            onAddGame={(selectedStatus) => {
+              console.log("selectedStatus", selectedStatus);
+
+              createUserGame({
+                data: {
+                  statusId: selectedStatus,
+                  gameId: selectedGame.id,
+                  userId: user.id,
+                },
+              });
             }}
           />
         )}
