@@ -84,3 +84,5 @@ export const createUserGame = createServerFn({ method: "POST" })
       },
     });
   });
+
+export const deleteUserGame = createServerFn({ method: "POST" }).validator();

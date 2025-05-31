@@ -6,16 +6,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { igdbAuthMiddleware } from "@/lib/server/igdb/middleware";
 import { fetchFunc } from "@/lib/server/fetch";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SearchGame } from "@/types/game";
 import GameDetails from "./add.game-details";
 import { useRouteContext } from "@tanstack/react-router";
-import { createUserGame } from "@/lib/server/igdb/game";
+import { createUserGame } from "@/lib/server/game";
 import { toast } from "sonner";
 import AddGameGrid from "./add-game-grid";
 import AddGameList from "./add-game-list";
@@ -55,7 +50,7 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
     undefined
   );
   const [mode, setMode] = useState<"grid" | "list">("grid");
-  const { isLoading, isError, data, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["addGame", debouncedSearch],
     queryFn: () => searchGame({ data: { search: debouncedSearch } }),
   });

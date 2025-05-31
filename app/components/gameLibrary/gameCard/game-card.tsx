@@ -1,23 +1,26 @@
-import { Badge } from "@/components/ui/badge";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { fetchGame } from "@/lib/server/fetch";
 import { getUrl } from "@/lib/server/igdb/cover";
-import { igdbAuthMiddleware } from "@/lib/server/igdb/middleware";
 import { LibraryUserGame } from "@/types/game";
-import { useQuery } from "@tanstack/react-query";
-import { createServerFn } from "@tanstack/react-start";
 import { Eye } from "lucide-react";
-import { z } from "zod";
 import GameCardPlatformDropdown from "./game-card-platform-dropdown";
-import { Platform } from "@/generated/prisma";
+import { Platform, Status, UserGame } from "@/generated/prisma";
 import GameCardDeleteButton from "./game-card-delete-button";
 import GameCardStatusBadge from "./game-card-status-badge";
 
-const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
+interface GameCardProps {
+  userGame: LibraryUserGame;
+  onDelete: (userGameId: UserGame["id"]) => void;
+  onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
+  onPlatformChange: (userGameId: UserGame["id"], newPlatform: Platform) => void;
+}
+
+const GameCard = ({
+  userGame,
+  onDelete,
+  onStatusChange,
+  onPlatformChange,
+}: GameCardProps) => {
   const { game } = userGame;
   return (
     <div className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
@@ -36,7 +39,9 @@ const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
         <div className="absolute top-2 left-2 z-10">
           <GameCardStatusBadge
             currentStatus={userGame.status}
-            onStatusChange={(newStatus) => {}}
+            onStatusChange={(newStatus) => {
+              onStatusChange(game.id, newStatus);
+            }}
           />
         </div>
 
@@ -51,7 +56,12 @@ const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
             <span className="sr-only">View</span>
           </Button>
 
-          <GameCardDeleteButton gameName={game.name} onDelete={() => {}} />
+          <GameCardDeleteButton
+            gameName={game.name}
+            onDelete={() => {
+              onDelete(game.id);
+            }}
+          />
         </div>
 
         {/* Game Title - Bottom */}
@@ -62,7 +72,9 @@ const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
 
           <GameCardPlatformDropdown
             currentPlatform={userGame.platform as Platform}
-            onChange={(newPlatform: Platform) => {}}
+            onChange={(newPlatform: Platform) => {
+              onPlatformChange(game.id, newPlatform);
+            }}
             platformOptions={game.platforms}
           />
         </div>

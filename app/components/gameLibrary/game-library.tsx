@@ -1,18 +1,50 @@
-import { LibraryUserGame } from "@/types/game";
 import React from "react";
+import { LibraryUserGame } from "@/types/game";
 import GameCard from "./gameCard/game-card";
+import { Platform, UserGame } from "@/generated/prisma";
+import { useMutation } from "@tanstack/react-query";
 
 interface GameLibraryProps {
   userGames: LibraryUserGame[];
 }
 
+
 const GameLibrary = ({ userGames }: GameLibraryProps) => {
+
+ const addGameMutation = useMutation({
+    mutationFn: ,
+    onSuccess: () => {
+      
+    },
+  });
+
+  const handleDelete = (gameId: UserGame["id"]) => {
+    console.log("delete", gameId);
+  };
+
+  const handleStatusChange = (gameId: UserGame["id"], newStatus: Status) => {
+    console.log("statusChange", gameId);
+  };
+
+  const handlePlatformChange = (
+    gameId: UserGame["id"],
+    newPlatform: Platform
+  ) => {
+    console.log("delete", gameId);
+  };
+
   return (
     <>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {userGames.length > 0 ? (
           userGames.map((userGame) => (
-            <GameCard key={userGame.id} userGame={userGame} />
+            <GameCard
+              key={userGame.id}
+              userGame={userGame}
+              onDelete={handleDelete}
+              onPlatformChange={handlePlatformChange}
+              onStatusChange={handleStatusChange}
+            />
           ))
         ) : (
           <div className="col-span-full text-center py-10">
