@@ -16,9 +16,9 @@ export default function GameListItem({ game, onClick }: GameListItemProps) {
       className="overflow-hidden cursor-pointer transition-all hover:shadow-md hover:bg-muted/50 p-0"
       onClick={onClick}
     >
-      <CardContent className="p-4">
+      <CardContent className="pt-0 pb-0 pl-4 pr-4">
         <div className="flex gap-4">
-          <div className="w-16 h-20 relative flex-shrink-0">
+          <div className="w-16 h-20 relative flex-shrink-0 mt-1">
             <img
               src={getUrl((game.cover?.url as string) || "", "cover_big")}
               alt={game.name}
