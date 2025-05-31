@@ -101,3 +101,53 @@ export const deleteUserGame = createServerFn({ method: "POST" })
       },
     });
   });
+
+const updateStatusSchema = z.object({
+  userGameId: z.number(),
+  userId: z.string(),
+  newStatusId: z.number(),
+});
+
+export const updateStatus = createServerFn({ method: "POST" })
+  .validator((d: unknown) => updateStatusSchema.parse(d))
+  .handler(async ({ data }) => {
+    const { userGameId, userId, newStatusId } = data;
+    return await prisma.userGame.update({
+      where: {
+        userId,
+        id: userGameId,
+      },
+      data: {
+        status: {
+          connect: {
+            id: newStatusId,
+          },
+        },
+      },
+    });
+  });
+
+const updatePlatformSchema = z.object({
+  userGameId: z.number(),
+  userId: z.string(),
+  newPlatformId: z.number(),
+});
+
+export const updatePlatform = createServerFn({ method: "POST" })
+  .validator((d: unknown) => updatePlatformSchema.parse(d))
+  .handler(async ({ data }) => {
+    const { userGameId, userId, newPlatformId } = data;
+    return await prisma.userGame.update({
+      where: {
+        userId,
+        id: userGameId,
+      },
+      data: {
+        platform: {
+          connect: {
+            id: newPlatformId,
+          },
+        },
+      },
+    });
+  });

@@ -1,9 +1,13 @@
 import React from "react";
 import { LibraryUserGame } from "@/types/game";
 import GameCard from "./gameCard/game-card";
-import { Platform, UserGame } from "@/generated/prisma";
+import { Platform, Status, UserGame } from "@/generated/prisma";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteUserGame } from "@/lib/server/game";
+import {
+  deleteUserGame,
+  updatePlatform,
+  updateStatus,
+} from "@/lib/server/game";
 import { useRouteContext } from "@tanstack/react-router";
 
 interface GameLibraryProps {
@@ -13,8 +17,23 @@ interface GameLibraryProps {
 const GameLibrary = ({ userGames }: GameLibraryProps) => {
   const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
+
   const deleteUserGameMutation = useMutation({
     mutationFn: deleteUserGame,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userGames"] });
+    },
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: updateStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userGames"] });
+    },
+  });
+
+  const updatePlatformMutation = useMutation({
+    mutationFn: updatePlatform,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userGames"] });
     },
@@ -30,14 +49,26 @@ const GameLibrary = ({ userGames }: GameLibraryProps) => {
   };
 
   const handleStatusChange = (gameId: UserGame["id"], newStatus: Status) => {
-    console.log("statusChange", gameId);
+    updateStatusMutation.mutate({
+      data: {
+        userGameId: gameId,
+        userId: user.id,
+        newStatusId: newStatus.id,
+      },
+    });
   };
 
   const handlePlatformChange = (
     gameId: UserGame["id"],
     newPlatform: Platform
   ) => {
-    console.log("delete", gameId);
+    updatePlatformMutation.mutate({
+      data: {
+        userGameId: gameId,
+        userId: user.id,
+        newPlatformId: newPlatform.id,
+      },
+    });
   };
 
   return (
