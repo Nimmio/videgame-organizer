@@ -15,6 +15,7 @@ import { z } from "zod";
 import GameCardPlatformDropdown from "./game-card-platform-dropdown";
 import { Platform } from "@/generated/prisma";
 import GameCardDeleteButton from "./game-card-delete-button";
+import GameCardStatusBadge from "./game-card-status-badge";
 
 const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
   const { game } = userGame;
@@ -31,33 +32,13 @@ const GameCard = ({ userGame }: { userGame: LibraryUserGame }) => {
         {/* Dark Gradient Overlay for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40"></div>
 
-        {/* Status Badge - Top Left
+        {/* Status Badge - Top Left */}
         <div className="absolute top-2 left-2 z-10">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Badge
-                className={`cursor-pointer ${
-                  statusColorMap[game.status] || "bg-gray-500"
-                } hover:${
-                  statusColorMap[game.status] || "bg-gray-600"
-                } shadow-lg`}
-              >
-                {game.status}
-              </Badge>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {gameStatusOptions.map((status) => (
-                <DropdownMenuItem
-                  key={status}
-                  onClick={() => onStatusChange(game.id, status)}
-                  className={status === game.status ? "font-bold" : ""}
-                >
-                  {status}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div> */}
+          <GameCardStatusBadge
+            currentStatus={userGame.status}
+            onStatusChange={(newStatus) => {}}
+          />
+        </div>
 
         {/* Action Buttons - Top Right */}
         <div className="absolute top-2 right-2 z-10 flex gap-1">
