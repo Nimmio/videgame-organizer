@@ -1,18 +1,15 @@
 import React from "react";
-import { Button } from "../ui/button";
 import { Grid, List } from "lucide-react";
+import { Button } from "./ui/button";
 
 type mode = "grid" | "list";
 
-interface AddGameDialogModeButtonProps {
+interface ModeButtonProps {
   currentMode: mode;
   onChange: (newMode: mode) => void;
 }
 
-const AddGameDialogModeButton = ({
-  currentMode,
-  onChange,
-}: AddGameDialogModeButtonProps) => {
+const ModeButton = ({ currentMode, onChange }: ModeButtonProps) => {
   return (
     <div className="flex border rounded-md">
       <Button
@@ -35,4 +32,4 @@ const AddGameDialogModeButton = ({
   );
 };
 
-export default AddGameDialogModeButton;
+export default ModeButton;

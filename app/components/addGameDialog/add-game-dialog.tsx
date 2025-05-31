@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
@@ -14,7 +15,7 @@ import { createUserGame } from "@/lib/server/game";
 import { toast } from "sonner";
 import AddGameGrid from "./add-game-grid";
 import AddGameList from "./add-game-list";
-import AddGameDialogModeButton from "./add-game-dialog-mode-button";
+import ModeButton from "../mode-button";
 
 const searchGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
@@ -117,7 +118,7 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
         {!selectedGame && data && search !== "" && data.length > 0 && (
           <>
             <div className="flex justify-end mb-4">
-              <AddGameDialogModeButton
+              <ModeButton
                 currentMode={mode}
                 onChange={(newMode) => setMode(newMode)}
               />
