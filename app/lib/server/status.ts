@@ -1,3 +1,4 @@
+import { queryOptions } from "@tanstack/react-query";
 import prisma from "../prisma";
 import { createServerFn } from "@tanstack/react-start";
 const getStatus = createServerFn({ method: "GET" }).handler(
@@ -5,3 +6,6 @@ const getStatus = createServerFn({ method: "GET" }).handler(
 );
 
 export default getStatus;
+
+export const StatusQueryOptions = () =>
+  queryOptions({ queryKey: ["status"], queryFn: getStatus });

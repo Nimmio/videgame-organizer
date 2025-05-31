@@ -1,3 +1,4 @@
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,8 +15,8 @@ import {
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { format, fromUnixTime } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
-import getStatus from "@/lib/server/status";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { StatusQueryOptions } from "@/lib/server/status";
 
 interface GameProps {
   game: SearchGame;
@@ -31,10 +32,7 @@ export default function GameDetails({ game, onBack, onAddGame }: GameProps) {
     undefined
   );
 
-  const { data: StatusData } = useQuery({
-    queryKey: ["status"],
-    queryFn: getStatus,
-  });
+  const { data: StatusData } = useSuspenseQuery(StatusQueryOptions());
 
   return (
     <div className="w-full bg-background">

@@ -1,3 +1,4 @@
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -6,9 +7,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Status } from "@/generated/prisma";
-import getStatus from "@/lib/server/status";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import React from "react";
+import { StatusQueryOptions } from "@/lib/server/status";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface GameCardStatusBadgeProps {
   currentStatus: Status;
@@ -19,10 +19,7 @@ const GameCardStatusBadge = ({
   currentStatus,
   onStatusChange,
 }: GameCardStatusBadgeProps) => {
-  const { data: StatusData } = useSuspenseQuery({
-    queryKey: ["status"],
-    queryFn: getStatus,
-  });
+  const { data: StatusData } = useSuspenseQuery(StatusQueryOptions());
 
   return (
     <div>

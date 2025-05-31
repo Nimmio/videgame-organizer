@@ -8,23 +8,21 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
+import { StatusQueryOptions } from "@/lib/server/status";
 
 export const Route = createFileRoute("/_authenticated/")({
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData(
       userGameQueryOptions({ userId: context.user.id })
     );
+    await context.queryClient.ensureQueryData(StatusQueryOptions());
   },
   component: Home,
 });
 
 function Home() {
   const [addGameDialogOpen, setAddGameDialogOpen] = useState<boolean>(false);
-  const { user } = useRouteContext({ from: "/_authenticated" });
 
-  const userGameQuery = useSuspenseQuery(
-    userGameQueryOptions({ userId: user.id })
-  );
   const handleAddButtonClick = () => setAddGameDialogOpen(true);
   const handleDialogClose = () => setAddGameDialogOpen(false);
   return (
@@ -38,7 +36,7 @@ function Home() {
             Add Game
           </Button>
         </div>
-        <GameLibrary userGames={userGameQuery.data} />
+        <GameLibrary />
       </div>
     </>
   );

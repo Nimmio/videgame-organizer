@@ -1,22 +1,28 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { LibraryUserGame } from "@/types/game";
 import GameCard from "./gameCard/game-card";
 import { Platform, Status, UserGame } from "@/generated/prisma";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
   deleteUserGame,
   updatePlatform,
   updateStatus,
 } from "@/lib/server/game";
 import { useRouteContext } from "@tanstack/react-router";
+import GameLibraryControls from "./game-library-controls";
+import { userGameQueryOptions } from "@/lib/userGames";
 
-interface GameLibraryProps {
-  userGames: LibraryUserGame[];
-}
-
-const GameLibrary = ({ userGames }: GameLibraryProps) => {
+const GameLibrary = () => {
   const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
+
+  const userGameQuery = useSuspenseQuery(
+    userGameQueryOptions({ userId: user.id })
+  );
 
   const deleteUserGameMutation = useMutation({
     mutationFn: deleteUserGame,
@@ -73,9 +79,12 @@ const GameLibrary = ({ userGames }: GameLibraryProps) => {
 
   return (
     <>
+      <Suspense fallback={"Loading"}>
+        <GameLibraryControls />
+      </Suspense>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {userGames.length > 0 ? (
-          userGames.map((userGame) => (
+        {userGameQuery.data.length > 0 ? (
+          userGameQuery.data.map((userGame) => (
             <GameCard
               key={userGame.id}
               userGame={userGame}
