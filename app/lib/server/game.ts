@@ -22,7 +22,7 @@ export const createUserGame = createServerFn({ method: "POST" })
       throw new Error("");
     }
 
-    await prisma.userGame.create({
+    return await prisma.userGame.create({
       data: {
         user: {
           connect: {
@@ -85,4 +85,19 @@ export const createUserGame = createServerFn({ method: "POST" })
     });
   });
 
-export const deleteUserGame = createServerFn({ method: "POST" }).validator();
+const deleteUserGameSchema = z.object({
+  userGameId: z.number(),
+  userId: z.string(),
+});
+
+export const deleteUserGame = createServerFn({ method: "POST" })
+  .validator((d: unknown) => deleteUserGameSchema.parse(d))
+  .handler(async ({ data }) => {
+    const { userGameId, userId } = data;
+    return await prisma.userGame.delete({
+      where: {
+        userId,
+        id: userGameId,
+      },
+    });
+  });

@@ -1,5 +1,5 @@
 // app/routes/index.tsx
-
+import React from "react";
 import AddGameDialog from "@/components/addGameDialog/add-game-dialog";
 import GameLibrary from "@/components/gameLibrary/game-library";
 import { Button } from "@/components/ui/button";
