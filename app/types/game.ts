@@ -1,5 +1,10 @@
-import { IGDBGame, UserGame } from "@/generated/prisma";
-import { Status } from "better-auth";
+import {
+  Genre,
+  IGDBGame,
+  Platform,
+  Status,
+  UserGame,
+} from "@/generated/prisma";
 import { z } from "zod";
 
 export interface SearchGame {
@@ -45,6 +50,10 @@ export const SearchGameSchema = z.object({
 });
 
 export interface LibraryUserGame extends UserGame {
-  game: {...IGDBGame,};
+  game: IGDBGame & {
+    platforms: Platform[];
+    genres: Genre[];
+  };
   status: Status;
+  platform: Platform | null;
 }

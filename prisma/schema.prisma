@@ -90,8 +90,8 @@ model IGDBGame {
   name               String
   first_release_date DateTime?
   coverUrl           String?
-  genres            Genre[]
-  platforms   Platform[]
+  genres             Genre[]
+  platforms          Platform[]
 }
 
 model UserGame {
@@ -100,11 +100,13 @@ model UserGame {
   userId       String
   status       Status    @relation(fields: [statusId], references: [id])
   statusId     Int
-  game         IGDBGame      @relation(fields: [gameId], references: [id])
+  game         IGDBGame  @relation(fields: [gameId], references: [id])
   gameId       Int
   notes        String?
   purchaseDate DateTime?
   preorderDate DateTime?
+  platform     Platform? @relation(fields: [platformId], references: [id])
+  platformId   Int?
 }
 
 model Status {
@@ -115,15 +117,16 @@ model Status {
 }
 
 model Genre {
-  id     Int    @id @default(autoincrement())
-  name   String
-  igdbId Int    @unique
-  igdbGame IGDBGame []
+  id       Int        @id @default(autoincrement())
+  name     String
+  igdbId   Int        @unique
+  igdbGame IGDBGame[]
 }
 
 model Platform {
-  id     Int    @id @default(autoincrement())
-  name   String
-  igdbId Int    @unique
-  igdbGame IGDBGame []
+  id        Int        @id @default(autoincrement())
+  name      String
+  igdbId    Int        @unique
+  igdbGame  IGDBGame[]
+  userGames UserGame[]
 }

@@ -25,7 +25,6 @@ function Home() {
   const userGameQuery = useSuspenseQuery(
     userGameQueryOptions({ userId: user.id })
   );
-  console.log(userGameQuery.data);
   const handleAddButtonClick = () => setAddGameDialogOpen(true);
   const handleDialogClose = () => setAddGameDialogOpen(false);
   return (
@@ -39,7 +38,7 @@ function Home() {
             Add Game
           </Button>
         </div>
-        <GameLibrary games={userGameQuery.data} />
+        <GameLibrary userGames={userGameQuery.data} />
       </div>
     </>
   );

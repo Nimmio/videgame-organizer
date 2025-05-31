@@ -24,7 +24,7 @@ export const fetchFunc = async ({
       "Client-ID": readIGDBEnvVars().client,
       Authorization: `Bearer ${token}`,
     },
-    body: `search "${search}";fields ${fields};`,
+    body: `search "${search}";fields ${fields}; where version_parent = null;`,
   });
 
   return response;

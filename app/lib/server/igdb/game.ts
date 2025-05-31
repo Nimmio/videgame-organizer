@@ -2,19 +2,26 @@ import prisma from "@/lib/prisma";
 import { SearchGameSchema } from "@/types/game";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { getUrl } from "./cover";
 import { fromUnixTime } from "date-fns";
 
 const CreateUserGameSchema = z.object({
   statusId: z.number(),
   igdbGame: SearchGameSchema,
   userId: z.string(),
+  platformId: z.number(),
 });
 
 export const createUserGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => CreateUserGameSchema.parse(d))
   .handler(async ({ data }) => {
-    const { igdbGame, statusId, userId } = data;
+    const { igdbGame, statusId, userId, platformId } = data;
+    const selectedPlatform = igdbGame.platforms.find(
+      (platform) => platform.id === platformId
+    );
+    if (!selectedPlatform) {
+      throw new Error("");
+    }
+
     await prisma.userGame.create({
       data: {
         user: {
@@ -61,6 +68,17 @@ export const createUserGame = createServerFn({ method: "POST" })
         status: {
           connect: {
             id: statusId,
+          },
+        },
+        platform: {
+          connectOrCreate: {
+            where: {
+              igdbId: platformId,
+            },
+            create: {
+              name: selectedPlatform.name,
+              igdbId: selectedPlatform.id,
+            },
           },
         },
       },

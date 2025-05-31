@@ -6,12 +6,20 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { igdbAuthMiddleware } from "@/lib/server/igdb/middleware";
 import { fetchFunc } from "@/lib/server/fetch";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { SearchGame } from "@/types/game";
-import GameGridEntry from "./game-grid-entry";
 import GameDetails from "./add.game-details";
 import { useRouteContext } from "@tanstack/react-router";
 import { createUserGame } from "@/lib/server/igdb/game";
+import { toast } from "sonner";
+import AddGameGrid from "./add-game-grid";
+import AddGameList from "./add-game-list";
+import AddGameDialogModeButton from "./add-game-dialog-mode-button";
 
 const searchGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
@@ -46,32 +54,46 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
   const [selectedGame, setSelectedGame] = useState<SearchGame | undefined>(
     undefined
   );
+  const [mode, setMode] = useState<"grid" | "list">("grid");
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["addGame", debouncedSearch],
     queryFn: () => searchGame({ data: { search: debouncedSearch } }),
   });
 
   const { user } = useRouteContext({ from: "/_authenticated" });
-
+  const queryClient = useQueryClient();
   const addGameMutation = useMutation({
     mutationFn: createUserGame,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userGames"] });
+    },
   });
 
   const handleClose = () => {
     onClose();
     setSearch("");
     setSelectedGame(undefined);
+    setMode("grid");
   };
 
-  const handleAdd = async ({ selectedStatus }: { selectedStatus: number }) => {
+  const handleAdd = async ({
+    selectedStatus,
+    selectedPlatform,
+  }: {
+    selectedStatus: number;
+    selectedPlatform: number;
+  }) => {
     if (selectedGame)
-      addGameMutation.mutate({
+      await addGameMutation.mutate({
         data: {
           statusId: selectedStatus,
           igdbGame: selectedGame,
           userId: user.id,
+          platformId: selectedPlatform,
         },
       });
+    toast("Added Game!");
+    handleClose();
   };
 
   return (
@@ -86,8 +108,8 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
             onBack={() => {
               setSelectedGame(undefined);
             }}
-            onAddGame={(selectedStatus) => {
-              handleAdd({ selectedStatus });
+            onAddGame={(selectedStatus, selectedPlatform) => {
+              handleAdd({ selectedStatus, selectedPlatform });
             }}
           />
         )}
@@ -97,18 +119,26 @@ const AddGameDialog = ({ open, onClose }: addGameDialogProps) => {
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
         )}
-        {!selectedGame && data && search !== "" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {data.map((entry: SearchGame) => (
-              <GameGridEntry
-                key={entry.id}
-                game={entry}
-                onClick={() => {
-                  setSelectedGame(entry);
-                }}
+        {!selectedGame && data && search !== "" && data.length > 0 && (
+          <>
+            <div className="flex justify-end mb-4">
+              <AddGameDialogModeButton
+                currentMode={mode}
+                onChange={(newMode) => setMode(newMode)}
               />
-            ))}
-          </div>
+            </div>
+            {mode === "grid" ? (
+              <AddGameGrid
+                games={data}
+                onClick={(selectedGame) => setSelectedGame(selectedGame)}
+              />
+            ) : (
+              <AddGameList
+                games={data}
+                onClick={(selectedGame) => setSelectedGame(selectedGame)}
+              />
+            )}
+          </>
         )}
       </DialogContent>
     </Dialog>

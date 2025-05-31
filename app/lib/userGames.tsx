@@ -17,6 +17,7 @@ const fetchUserGames = createServerFn({ method: "GET" })
           },
         },
         status: true,
+        platform: true,
       },
     });
   });

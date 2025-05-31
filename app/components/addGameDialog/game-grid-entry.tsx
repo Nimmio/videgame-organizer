@@ -16,7 +16,7 @@ const GameGridEntry = (props: GameGridEntryProps) => {
       className="overflow-hidden cursor-pointer transition-all hover:shadow-md group p-0 max-h-[360px]"
       onClick={onClick}
     >
-      <div className="aspect-[3/4] relative">
+      <div className="relative">
         <img
           className="object-cover w-full max-h-[360px]"
           src={getUrl((game.cover?.url as string) || "", "cover_big")}

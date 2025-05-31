@@ -14,17 +14,19 @@ import {
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { format, fromUnixTime } from "date-fns";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import getStatus from "@/lib/server/status";
 
 interface GameProps {
   game: SearchGame;
   onBack: () => void;
-  onAddGame: (selectedStatus: number) => void;
+  onAddGame: (selectedStatus: number, selectedPlatform: number) => void;
 }
 
 export default function GameDetails({ game, onBack, onAddGame }: GameProps) {
-  const [selectedPlatform, setSelectedPlatform] = useState<string>("");
+  const [selectedPlatform, setSelectedPlatform] = useState<number | undefined>(
+    undefined
+  );
   const [selectedStatus, setSelectedStatus] = useState<number | undefined>(
     undefined
   );
@@ -106,15 +108,18 @@ export default function GameDetails({ game, onBack, onAddGame }: GameProps) {
             <div className="space-y-2">
               <Label htmlFor="platform">Platform</Label>
               <Select
-                value={selectedPlatform}
-                onValueChange={(value) => setSelectedPlatform(value)}
+                value={selectedPlatform?.toString()}
+                onValueChange={(value) => setSelectedPlatform(+value)}
               >
                 <SelectTrigger id="platform">
                   <SelectValue placeholder="Select platform" />
                 </SelectTrigger>
                 <SelectContent>
                   {game.platforms?.map((platform) => (
-                    <SelectItem key={platform.id} value={platform.name}>
+                    <SelectItem
+                      key={platform.id}
+                      value={platform.id.toString()}
+                    >
                       {platform.name}
                     </SelectItem>
                   ))}
@@ -153,8 +158,10 @@ export default function GameDetails({ game, onBack, onAddGame }: GameProps) {
         <Button
           className="w-full"
           size="lg"
-          onClick={() => onAddGame(selectedStatus as number)}
-          disabled={selectedPlatform === "" || !selectedStatus}
+          onClick={() =>
+            onAddGame(selectedStatus as number, selectedPlatform as number)
+          }
+          disabled={!selectedPlatform || !selectedStatus}
         >
           <Plus className="mr-2 h-4 w-4" /> Add Game
         </Button>

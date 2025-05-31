@@ -1288,7 +1288,8 @@ export const UserGameScalarFieldEnum = {
   gameId: 'gameId',
   notes: 'notes',
   purchaseDate: 'purchaseDate',
-  preorderDate: 'preorderDate'
+  preorderDate: 'preorderDate',
+  platformId: 'platformId'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]
