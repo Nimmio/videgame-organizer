@@ -1,4 +1,5 @@
 // app/routes/__root.tsx
+import React from "react";
 import type { QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import {

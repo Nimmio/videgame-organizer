@@ -1,8 +1,7 @@
 import { Status } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 
-interface CreateStatus extends Omit<Status, "createdAt" | "id" | "isDefault"> {}
-
+type CreateStatus = Omit<Status, "createdAt" | "id" | "isDefault">;
 const DefaultStatus: CreateStatus[] = [
   { statusTitle: "Backlog" },
   { statusTitle: "Playing" },
@@ -16,9 +15,9 @@ const DefaultStatus: CreateStatus[] = [
 
 async function main() {
   console.log("start seed");
-  await prisma.status.createMany({
-    data: DefaultStatus.map((status) => ({ ...status, isDefault: true })),
-  });
+  // await prisma.status.createMany({
+  //   data: DefaultStatus.map((status) => ({ ...status, isDefault: true })),
+  // });
 }
 main()
   .then(async () => {

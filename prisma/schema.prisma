@@ -130,3 +130,8 @@ model Platform {
   igdbGame  IGDBGame[]
   userGames UserGame[]
 }
+
+model System {
+  id        Int        @id @default(autoincrement())
+  message   String
+}

@@ -403,7 +403,8 @@ export const ModelName = {
   UserGame: 'UserGame',
   Status: 'Status',
   Genre: 'Genre',
-  Platform: 'Platform'
+  Platform: 'Platform',
+  System: 'System'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "iGDBGame" | "userGame" | "status" | "genre" | "platform"
+    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "iGDBGame" | "userGame" | "status" | "genre" | "platform" | "system"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1163,6 +1164,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    System: {
+      payload: Prisma.$SystemPayload<ExtArgs>
+      fields: Prisma.SystemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SystemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SystemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        findFirst: {
+          args: Prisma.SystemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SystemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        findMany: {
+          args: Prisma.SystemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>[]
+        }
+        create: {
+          args: Prisma.SystemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        createMany: {
+          args: Prisma.SystemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SystemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>[]
+        }
+        delete: {
+          args: Prisma.SystemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        update: {
+          args: Prisma.SystemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        deleteMany: {
+          args: Prisma.SystemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SystemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SystemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>[]
+        }
+        upsert: {
+          args: Prisma.SystemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemPayload>
+        }
+        aggregate: {
+          args: Prisma.SystemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSystem>
+        }
+        groupBy: {
+          args: Prisma.SystemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SystemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1320,6 +1395,14 @@ export const PlatformScalarFieldEnum = {
 } as const
 
 export type PlatformScalarFieldEnum = (typeof PlatformScalarFieldEnum)[keyof typeof PlatformScalarFieldEnum]
+
+
+export const SystemScalarFieldEnum = {
+  id: 'id',
+  message: 'message'
+} as const
+
+export type SystemScalarFieldEnum = (typeof SystemScalarFieldEnum)[keyof typeof SystemScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1499,6 +1582,7 @@ export type GlobalOmitConfig = {
   status?: Prisma.StatusOmit
   genre?: Prisma.GenreOmit
   platform?: Prisma.PlatformOmit
+  system?: Prisma.SystemOmit
 }
 
 /* Types for Logging */

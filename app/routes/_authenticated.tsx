@@ -1,3 +1,4 @@
+import React from "react";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { Card } from "@/components/ui/card";
 import {
@@ -5,11 +6,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { auth } from "@/lib/server/auth";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async ({ context, location }) => {
+  beforeLoad: async ({ context }) => {
     const { user } = context;
     if (!user) {
       throw redirect({
