@@ -27,7 +27,7 @@ export interface SearchGame {
 
 export const SearchGameSchema = z.object({
   name: z.string(),
-  first_release_date: z.number(),
+  first_release_date: z.number().optional(),
   id: z.number(),
   cover: z
     .object({

@@ -37,8 +37,9 @@ export const createUserGame = createServerFn({ method: "POST" })
             create: {
               igdbId: igdbGame.id,
               coverUrl: igdbGame.cover?.url || undefined,
-              first_release_date:
-                fromUnixTime(igdbGame.first_release_date) || undefined,
+              first_release_date: igdbGame.first_release_date
+                ? fromUnixTime(igdbGame.first_release_date)
+                : undefined,
               name: igdbGame.name,
               genres: {
                 connectOrCreate: igdbGame.genres.map((genre) => {
