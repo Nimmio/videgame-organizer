@@ -7,10 +7,16 @@
 
 */
 -- AlterTable
-ALTER TABLE "Genre" ADD COLUMN     "checksum" TEXT NOT NULL;
+ALTER TABLE "Genre" 
+ADD COLUMN     "checksum" TEXT NOT NULL DEFAULT '-',
+ALTER COLUMN "checksum" DROP DEFAULT;
 
 -- AlterTable
-ALTER TABLE "IGDBGame" ADD COLUMN     "checksum" TEXT NOT NULL;
+ALTER TABLE "IGDBGame" 
+ADD COLUMN     "checksum" TEXT NOT NULL DEFAULT '-',
+ALTER COLUMN "checksum" DROP DEFAULT;
 
 -- AlterTable
-ALTER TABLE "Platform" ADD COLUMN     "checksum" TEXT NOT NULL;
+ALTER TABLE "Platform" 
+ADD COLUMN     "checksum" TEXT NOT NULL DEFAULT '-',
+  ALTER COLUMN "checksum" DROP DEFAULT;
