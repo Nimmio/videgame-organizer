@@ -23,6 +23,7 @@ export interface SearchGame {
     name: string;
     id: number;
   }[];
+  checksum: string;
 }
 
 export const SearchGameSchema = z.object({
@@ -39,14 +40,17 @@ export const SearchGameSchema = z.object({
     z.object({
       name: z.string(),
       id: z.number(),
+      checksum: z.string().uuid(),
     })
   ),
   platforms: z.array(
     z.object({
       name: z.string(),
       id: z.number(),
+      checksum: z.string().uuid(),
     })
   ),
+  checksum: z.string().uuid(),
 });
 
 export interface LibraryUserGame extends UserGame {

@@ -92,6 +92,7 @@ model IGDBGame {
   coverUrl           String?
   genres             Genre[]
   platforms          Platform[]
+  checksum           String
 }
 
 model UserGame {
@@ -107,6 +108,7 @@ model UserGame {
   preorderDate DateTime?
   platform     Platform? @relation(fields: [platformId], references: [id])
   platformId   Int?
+
 }
 
 model Status {
@@ -121,6 +123,8 @@ model Genre {
   name     String
   igdbId   Int        @unique
   igdbGame IGDBGame[]
+    checksum           String
+
 }
 
 model Platform {
@@ -129,6 +133,8 @@ model Platform {
   igdbId    Int        @unique
   igdbGame  IGDBGame[]
   userGames UserGame[]
+    checksum           String
+
 }
 
 model System {

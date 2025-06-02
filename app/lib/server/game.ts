@@ -35,6 +35,7 @@ export const createUserGame = createServerFn({ method: "POST" })
               igdbId: igdbGame.id,
             },
             create: {
+              checksum: igdbGame.checksum,
               igdbId: igdbGame.id,
               coverUrl: igdbGame.cover?.url || undefined,
               first_release_date: igdbGame.first_release_date
@@ -48,6 +49,7 @@ export const createUserGame = createServerFn({ method: "POST" })
                     create: {
                       name: genre.name,
                       igdbId: genre.id,
+                      checksum: genre.checksum,
                     },
                   };
                 }),
@@ -59,6 +61,7 @@ export const createUserGame = createServerFn({ method: "POST" })
                     create: {
                       name: platform.name,
                       igdbId: platform.id,
+                      checksum: platform.checksum,
                     },
                   };
                 }),
@@ -79,6 +82,7 @@ export const createUserGame = createServerFn({ method: "POST" })
             create: {
               name: selectedPlatform.name,
               igdbId: selectedPlatform.id,
+              checksum: selectedPlatform.checksum,
             },
           },
         },

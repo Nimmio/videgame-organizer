@@ -41,6 +41,7 @@ export type IGDBGameMinAggregateOutputType = {
   name: string | null
   first_release_date: Date | null
   coverUrl: string | null
+  checksum: string | null
 }
 
 export type IGDBGameMaxAggregateOutputType = {
@@ -49,6 +50,7 @@ export type IGDBGameMaxAggregateOutputType = {
   name: string | null
   first_release_date: Date | null
   coverUrl: string | null
+  checksum: string | null
 }
 
 export type IGDBGameCountAggregateOutputType = {
@@ -57,6 +59,7 @@ export type IGDBGameCountAggregateOutputType = {
   name: number
   first_release_date: number
   coverUrl: number
+  checksum: number
   _all: number
 }
 
@@ -77,6 +80,7 @@ export type IGDBGameMinAggregateInputType = {
   name?: true
   first_release_date?: true
   coverUrl?: true
+  checksum?: true
 }
 
 export type IGDBGameMaxAggregateInputType = {
@@ -85,6 +89,7 @@ export type IGDBGameMaxAggregateInputType = {
   name?: true
   first_release_date?: true
   coverUrl?: true
+  checksum?: true
 }
 
 export type IGDBGameCountAggregateInputType = {
@@ -93,6 +98,7 @@ export type IGDBGameCountAggregateInputType = {
   name?: true
   first_release_date?: true
   coverUrl?: true
+  checksum?: true
   _all?: true
 }
 
@@ -188,6 +194,7 @@ export type IGDBGameGroupByOutputType = {
   name: string
   first_release_date: Date | null
   coverUrl: string | null
+  checksum: string
   _count: IGDBGameCountAggregateOutputType | null
   _avg: IGDBGameAvgAggregateOutputType | null
   _sum: IGDBGameSumAggregateOutputType | null
@@ -219,6 +226,7 @@ export type IGDBGameWhereInput = {
   name?: Prisma.StringFilter<"IGDBGame"> | string
   first_release_date?: Prisma.DateTimeNullableFilter<"IGDBGame"> | Date | string | null
   coverUrl?: Prisma.StringNullableFilter<"IGDBGame"> | string | null
+  checksum?: Prisma.StringFilter<"IGDBGame"> | string
   userGame?: Prisma.UserGameListRelationFilter
   genres?: Prisma.GenreListRelationFilter
   platforms?: Prisma.PlatformListRelationFilter
@@ -230,6 +238,7 @@ export type IGDBGameOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   first_release_date?: Prisma.SortOrderInput | Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   userGame?: Prisma.UserGameOrderByRelationAggregateInput
   genres?: Prisma.GenreOrderByRelationAggregateInput
   platforms?: Prisma.PlatformOrderByRelationAggregateInput
@@ -244,6 +253,7 @@ export type IGDBGameWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"IGDBGame"> | string
   first_release_date?: Prisma.DateTimeNullableFilter<"IGDBGame"> | Date | string | null
   coverUrl?: Prisma.StringNullableFilter<"IGDBGame"> | string | null
+  checksum?: Prisma.StringFilter<"IGDBGame"> | string
   userGame?: Prisma.UserGameListRelationFilter
   genres?: Prisma.GenreListRelationFilter
   platforms?: Prisma.PlatformListRelationFilter
@@ -255,6 +265,7 @@ export type IGDBGameOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   first_release_date?: Prisma.SortOrderInput | Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   _count?: Prisma.IGDBGameCountOrderByAggregateInput
   _avg?: Prisma.IGDBGameAvgOrderByAggregateInput
   _max?: Prisma.IGDBGameMaxOrderByAggregateInput
@@ -271,6 +282,7 @@ export type IGDBGameScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"IGDBGame"> | string
   first_release_date?: Prisma.DateTimeNullableWithAggregatesFilter<"IGDBGame"> | Date | string | null
   coverUrl?: Prisma.StringNullableWithAggregatesFilter<"IGDBGame"> | string | null
+  checksum?: Prisma.StringWithAggregatesFilter<"IGDBGame"> | string
 }
 
 export type IGDBGameCreateInput = {
@@ -278,6 +290,7 @@ export type IGDBGameCreateInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
@@ -289,6 +302,7 @@ export type IGDBGameUncheckedCreateInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
@@ -299,6 +313,7 @@ export type IGDBGameUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
   platforms?: Prisma.PlatformUpdateManyWithoutIgdbGameNestedInput
@@ -310,6 +325,7 @@ export type IGDBGameUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
   platforms?: Prisma.PlatformUncheckedUpdateManyWithoutIgdbGameNestedInput
@@ -321,6 +337,7 @@ export type IGDBGameCreateManyInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
 }
 
 export type IGDBGameUpdateManyMutationInput = {
@@ -328,6 +345,7 @@ export type IGDBGameUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type IGDBGameUncheckedUpdateManyInput = {
@@ -336,6 +354,7 @@ export type IGDBGameUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type IGDBGameCountOrderByAggregateInput = {
@@ -344,6 +363,7 @@ export type IGDBGameCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   first_release_date?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type IGDBGameAvgOrderByAggregateInput = {
@@ -357,6 +377,7 @@ export type IGDBGameMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   first_release_date?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type IGDBGameMinOrderByAggregateInput = {
@@ -365,6 +386,7 @@ export type IGDBGameMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   first_release_date?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type IGDBGameSumOrderByAggregateInput = {
@@ -482,6 +504,7 @@ export type IGDBGameCreateWithoutUserGameInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
 }
@@ -492,6 +515,7 @@ export type IGDBGameUncheckedCreateWithoutUserGameInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
 }
@@ -517,6 +541,7 @@ export type IGDBGameUpdateWithoutUserGameInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
   platforms?: Prisma.PlatformUpdateManyWithoutIgdbGameNestedInput
 }
@@ -527,6 +552,7 @@ export type IGDBGameUncheckedUpdateWithoutUserGameInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
   platforms?: Prisma.PlatformUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
@@ -536,6 +562,7 @@ export type IGDBGameCreateWithoutGenresInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
 }
@@ -546,6 +573,7 @@ export type IGDBGameUncheckedCreateWithoutGenresInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
 }
@@ -580,6 +608,7 @@ export type IGDBGameScalarWhereInput = {
   name?: Prisma.StringFilter<"IGDBGame"> | string
   first_release_date?: Prisma.DateTimeNullableFilter<"IGDBGame"> | Date | string | null
   coverUrl?: Prisma.StringNullableFilter<"IGDBGame"> | string | null
+  checksum?: Prisma.StringFilter<"IGDBGame"> | string
 }
 
 export type IGDBGameCreateWithoutPlatformsInput = {
@@ -587,6 +616,7 @@ export type IGDBGameCreateWithoutPlatformsInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
 }
@@ -597,6 +627,7 @@ export type IGDBGameUncheckedCreateWithoutPlatformsInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
+  checksum: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
 }
@@ -627,6 +658,7 @@ export type IGDBGameUpdateWithoutGenresInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   platforms?: Prisma.PlatformUpdateManyWithoutIgdbGameNestedInput
 }
@@ -637,6 +669,7 @@ export type IGDBGameUncheckedUpdateWithoutGenresInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   platforms?: Prisma.PlatformUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
@@ -647,6 +680,7 @@ export type IGDBGameUncheckedUpdateManyWithoutGenresInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type IGDBGameUpdateWithoutPlatformsInput = {
@@ -654,6 +688,7 @@ export type IGDBGameUpdateWithoutPlatformsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
 }
@@ -664,6 +699,7 @@ export type IGDBGameUncheckedUpdateWithoutPlatformsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGame?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
@@ -674,6 +710,7 @@ export type IGDBGameUncheckedUpdateManyWithoutPlatformsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   first_release_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -731,6 +768,7 @@ export type IGDBGameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   first_release_date?: boolean
   coverUrl?: boolean
+  checksum?: boolean
   userGame?: boolean | Prisma.IGDBGame$userGameArgs<ExtArgs>
   genres?: boolean | Prisma.IGDBGame$genresArgs<ExtArgs>
   platforms?: boolean | Prisma.IGDBGame$platformsArgs<ExtArgs>
@@ -743,6 +781,7 @@ export type IGDBGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   first_release_date?: boolean
   coverUrl?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["iGDBGame"]>
 
 export type IGDBGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,6 +790,7 @@ export type IGDBGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   first_release_date?: boolean
   coverUrl?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["iGDBGame"]>
 
 export type IGDBGameSelectScalar = {
@@ -759,9 +799,10 @@ export type IGDBGameSelectScalar = {
   name?: boolean
   first_release_date?: boolean
   coverUrl?: boolean
+  checksum?: boolean
 }
 
-export type IGDBGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "igdbId" | "name" | "first_release_date" | "coverUrl", ExtArgs["result"]["iGDBGame"]>
+export type IGDBGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "igdbId" | "name" | "first_release_date" | "coverUrl" | "checksum", ExtArgs["result"]["iGDBGame"]>
 export type IGDBGameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userGame?: boolean | Prisma.IGDBGame$userGameArgs<ExtArgs>
   genres?: boolean | Prisma.IGDBGame$genresArgs<ExtArgs>
@@ -784,6 +825,7 @@ export type $IGDBGamePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     first_release_date: Date | null
     coverUrl: string | null
+    checksum: string
   }, ExtArgs["result"]["iGDBGame"]>
   composites: {}
 }
@@ -1215,6 +1257,7 @@ export interface IGDBGameFieldRefs {
   readonly name: Prisma.FieldRef<"IGDBGame", 'String'>
   readonly first_release_date: Prisma.FieldRef<"IGDBGame", 'DateTime'>
   readonly coverUrl: Prisma.FieldRef<"IGDBGame", 'String'>
+  readonly checksum: Prisma.FieldRef<"IGDBGame", 'String'>
 }
     
 

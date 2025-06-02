@@ -27,7 +27,7 @@ const searchGame = createServerFn({ method: "POST" })
     const response = await fetchFunc({
       endpoint: "game",
       fields:
-        "name,first_release_date,cover.url,summary,genres.name,platforms.name",
+        "name,first_release_date,cover.url,summary,genres.name,genres.checksum,platforms.name,platforms.checksum,checksum",
       token: igdbAccessToken as string,
       search,
     });

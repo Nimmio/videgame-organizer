@@ -39,18 +39,21 @@ export type PlatformMinAggregateOutputType = {
   id: number | null
   name: string | null
   igdbId: number | null
+  checksum: string | null
 }
 
 export type PlatformMaxAggregateOutputType = {
   id: number | null
   name: string | null
   igdbId: number | null
+  checksum: string | null
 }
 
 export type PlatformCountAggregateOutputType = {
   id: number
   name: number
   igdbId: number
+  checksum: number
   _all: number
 }
 
@@ -69,18 +72,21 @@ export type PlatformMinAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
 }
 
 export type PlatformMaxAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
 }
 
 export type PlatformCountAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
   _all?: true
 }
 
@@ -174,6 +180,7 @@ export type PlatformGroupByOutputType = {
   id: number
   name: string
   igdbId: number
+  checksum: string
   _count: PlatformCountAggregateOutputType | null
   _avg: PlatformAvgAggregateOutputType | null
   _sum: PlatformSumAggregateOutputType | null
@@ -203,6 +210,7 @@ export type PlatformWhereInput = {
   id?: Prisma.IntFilter<"Platform"> | number
   name?: Prisma.StringFilter<"Platform"> | string
   igdbId?: Prisma.IntFilter<"Platform"> | number
+  checksum?: Prisma.StringFilter<"Platform"> | string
   igdbGame?: Prisma.IGDBGameListRelationFilter
   userGames?: Prisma.UserGameListRelationFilter
 }
@@ -211,6 +219,7 @@ export type PlatformOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   igdbGame?: Prisma.IGDBGameOrderByRelationAggregateInput
   userGames?: Prisma.UserGameOrderByRelationAggregateInput
 }
@@ -222,6 +231,7 @@ export type PlatformWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PlatformWhereInput[]
   NOT?: Prisma.PlatformWhereInput | Prisma.PlatformWhereInput[]
   name?: Prisma.StringFilter<"Platform"> | string
+  checksum?: Prisma.StringFilter<"Platform"> | string
   igdbGame?: Prisma.IGDBGameListRelationFilter
   userGames?: Prisma.UserGameListRelationFilter
 }, "id" | "igdbId">
@@ -230,6 +240,7 @@ export type PlatformOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   _count?: Prisma.PlatformCountOrderByAggregateInput
   _avg?: Prisma.PlatformAvgOrderByAggregateInput
   _max?: Prisma.PlatformMaxOrderByAggregateInput
@@ -244,11 +255,13 @@ export type PlatformScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Platform"> | number
   name?: Prisma.StringWithAggregatesFilter<"Platform"> | string
   igdbId?: Prisma.IntWithAggregatesFilter<"Platform"> | number
+  checksum?: Prisma.StringWithAggregatesFilter<"Platform"> | string
 }
 
 export type PlatformCreateInput = {
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutPlatformsInput
   userGames?: Prisma.UserGameCreateNestedManyWithoutPlatformInput
 }
@@ -257,6 +270,7 @@ export type PlatformUncheckedCreateInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutPlatformsInput
   userGames?: Prisma.UserGameUncheckedCreateNestedManyWithoutPlatformInput
 }
@@ -264,6 +278,7 @@ export type PlatformUncheckedCreateInput = {
 export type PlatformUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUpdateManyWithoutPlatformsNestedInput
   userGames?: Prisma.UserGameUpdateManyWithoutPlatformNestedInput
 }
@@ -272,6 +287,7 @@ export type PlatformUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUncheckedUpdateManyWithoutPlatformsNestedInput
   userGames?: Prisma.UserGameUncheckedUpdateManyWithoutPlatformNestedInput
 }
@@ -280,17 +296,20 @@ export type PlatformCreateManyInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
 }
 
 export type PlatformUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PlatformUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PlatformListRelationFilter = {
@@ -312,6 +331,7 @@ export type PlatformCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type PlatformAvgOrderByAggregateInput = {
@@ -323,12 +343,14 @@ export type PlatformMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type PlatformMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type PlatformSumOrderByAggregateInput = {
@@ -393,6 +415,7 @@ export type PlatformUpdateOneWithoutUserGamesNestedInput = {
 export type PlatformCreateWithoutIgdbGameInput = {
   name: string
   igdbId: number
+  checksum: string
   userGames?: Prisma.UserGameCreateNestedManyWithoutPlatformInput
 }
 
@@ -400,6 +423,7 @@ export type PlatformUncheckedCreateWithoutIgdbGameInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
   userGames?: Prisma.UserGameUncheckedCreateNestedManyWithoutPlatformInput
 }
 
@@ -431,11 +455,13 @@ export type PlatformScalarWhereInput = {
   id?: Prisma.IntFilter<"Platform"> | number
   name?: Prisma.StringFilter<"Platform"> | string
   igdbId?: Prisma.IntFilter<"Platform"> | number
+  checksum?: Prisma.StringFilter<"Platform"> | string
 }
 
 export type PlatformCreateWithoutUserGamesInput = {
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutPlatformsInput
 }
 
@@ -443,6 +469,7 @@ export type PlatformUncheckedCreateWithoutUserGamesInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutPlatformsInput
 }
 
@@ -465,6 +492,7 @@ export type PlatformUpdateToOneWithWhereWithoutUserGamesInput = {
 export type PlatformUpdateWithoutUserGamesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUpdateManyWithoutPlatformsNestedInput
 }
 
@@ -472,12 +500,14 @@ export type PlatformUncheckedUpdateWithoutUserGamesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUncheckedUpdateManyWithoutPlatformsNestedInput
 }
 
 export type PlatformUpdateWithoutIgdbGameInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGames?: Prisma.UserGameUpdateManyWithoutPlatformNestedInput
 }
 
@@ -485,6 +515,7 @@ export type PlatformUncheckedUpdateWithoutIgdbGameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   userGames?: Prisma.UserGameUncheckedUpdateManyWithoutPlatformNestedInput
 }
 
@@ -492,6 +523,7 @@ export type PlatformUncheckedUpdateManyWithoutIgdbGameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -538,6 +570,7 @@ export type PlatformSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
   igdbGame?: boolean | Prisma.Platform$igdbGameArgs<ExtArgs>
   userGames?: boolean | Prisma.Platform$userGamesArgs<ExtArgs>
   _count?: boolean | Prisma.PlatformCountOutputTypeDefaultArgs<ExtArgs>
@@ -547,21 +580,24 @@ export type PlatformSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["platform"]>
 
 export type PlatformSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["platform"]>
 
 export type PlatformSelectScalar = {
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }
 
-export type PlatformOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "igdbId", ExtArgs["result"]["platform"]>
+export type PlatformOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "igdbId" | "checksum", ExtArgs["result"]["platform"]>
 export type PlatformInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   igdbGame?: boolean | Prisma.Platform$igdbGameArgs<ExtArgs>
   userGames?: boolean | Prisma.Platform$userGamesArgs<ExtArgs>
@@ -580,6 +616,7 @@ export type $PlatformPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: number
     name: string
     igdbId: number
+    checksum: string
   }, ExtArgs["result"]["platform"]>
   composites: {}
 }
@@ -1008,6 +1045,7 @@ export interface PlatformFieldRefs {
   readonly id: Prisma.FieldRef<"Platform", 'Int'>
   readonly name: Prisma.FieldRef<"Platform", 'String'>
   readonly igdbId: Prisma.FieldRef<"Platform", 'Int'>
+  readonly checksum: Prisma.FieldRef<"Platform", 'String'>
 }
     
 

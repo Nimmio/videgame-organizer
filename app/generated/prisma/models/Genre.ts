@@ -39,18 +39,21 @@ export type GenreMinAggregateOutputType = {
   id: number | null
   name: string | null
   igdbId: number | null
+  checksum: string | null
 }
 
 export type GenreMaxAggregateOutputType = {
   id: number | null
   name: string | null
   igdbId: number | null
+  checksum: string | null
 }
 
 export type GenreCountAggregateOutputType = {
   id: number
   name: number
   igdbId: number
+  checksum: number
   _all: number
 }
 
@@ -69,18 +72,21 @@ export type GenreMinAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
 }
 
 export type GenreMaxAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
 }
 
 export type GenreCountAggregateInputType = {
   id?: true
   name?: true
   igdbId?: true
+  checksum?: true
   _all?: true
 }
 
@@ -174,6 +180,7 @@ export type GenreGroupByOutputType = {
   id: number
   name: string
   igdbId: number
+  checksum: string
   _count: GenreCountAggregateOutputType | null
   _avg: GenreAvgAggregateOutputType | null
   _sum: GenreSumAggregateOutputType | null
@@ -203,6 +210,7 @@ export type GenreWhereInput = {
   id?: Prisma.IntFilter<"Genre"> | number
   name?: Prisma.StringFilter<"Genre"> | string
   igdbId?: Prisma.IntFilter<"Genre"> | number
+  checksum?: Prisma.StringFilter<"Genre"> | string
   igdbGame?: Prisma.IGDBGameListRelationFilter
 }
 
@@ -210,6 +218,7 @@ export type GenreOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   igdbGame?: Prisma.IGDBGameOrderByRelationAggregateInput
 }
 
@@ -220,6 +229,7 @@ export type GenreWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.GenreWhereInput[]
   NOT?: Prisma.GenreWhereInput | Prisma.GenreWhereInput[]
   name?: Prisma.StringFilter<"Genre"> | string
+  checksum?: Prisma.StringFilter<"Genre"> | string
   igdbGame?: Prisma.IGDBGameListRelationFilter
 }, "id" | "igdbId">
 
@@ -227,6 +237,7 @@ export type GenreOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
   _count?: Prisma.GenreCountOrderByAggregateInput
   _avg?: Prisma.GenreAvgOrderByAggregateInput
   _max?: Prisma.GenreMaxOrderByAggregateInput
@@ -241,11 +252,13 @@ export type GenreScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Genre"> | number
   name?: Prisma.StringWithAggregatesFilter<"Genre"> | string
   igdbId?: Prisma.IntWithAggregatesFilter<"Genre"> | number
+  checksum?: Prisma.StringWithAggregatesFilter<"Genre"> | string
 }
 
 export type GenreCreateInput = {
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutGenresInput
 }
 
@@ -253,12 +266,14 @@ export type GenreUncheckedCreateInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutGenresInput
 }
 
 export type GenreUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUpdateManyWithoutGenresNestedInput
 }
 
@@ -266,6 +281,7 @@ export type GenreUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
   igdbGame?: Prisma.IGDBGameUncheckedUpdateManyWithoutGenresNestedInput
 }
 
@@ -273,17 +289,20 @@ export type GenreCreateManyInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
 }
 
 export type GenreUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type GenreUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type GenreListRelationFilter = {
@@ -300,6 +319,7 @@ export type GenreCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type GenreAvgOrderByAggregateInput = {
@@ -311,12 +331,14 @@ export type GenreMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type GenreMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
+  checksum?: Prisma.SortOrder
 }
 
 export type GenreSumOrderByAggregateInput = {
@@ -365,12 +387,14 @@ export type GenreUncheckedUpdateManyWithoutIgdbGameNestedInput = {
 export type GenreCreateWithoutIgdbGameInput = {
   name: string
   igdbId: number
+  checksum: string
 }
 
 export type GenreUncheckedCreateWithoutIgdbGameInput = {
   id?: number
   name: string
   igdbId: number
+  checksum: string
 }
 
 export type GenreCreateOrConnectWithoutIgdbGameInput = {
@@ -401,23 +425,27 @@ export type GenreScalarWhereInput = {
   id?: Prisma.IntFilter<"Genre"> | number
   name?: Prisma.StringFilter<"Genre"> | string
   igdbId?: Prisma.IntFilter<"Genre"> | number
+  checksum?: Prisma.StringFilter<"Genre"> | string
 }
 
 export type GenreUpdateWithoutIgdbGameInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type GenreUncheckedUpdateWithoutIgdbGameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type GenreUncheckedUpdateManyWithoutIgdbGameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -455,6 +483,7 @@ export type GenreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
   igdbGame?: boolean | Prisma.Genre$igdbGameArgs<ExtArgs>
   _count?: boolean | Prisma.GenreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["genre"]>
@@ -463,21 +492,24 @@ export type GenreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["genre"]>
 
 export type GenreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }, ExtArgs["result"]["genre"]>
 
 export type GenreSelectScalar = {
   id?: boolean
   name?: boolean
   igdbId?: boolean
+  checksum?: boolean
 }
 
-export type GenreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "igdbId", ExtArgs["result"]["genre"]>
+export type GenreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "igdbId" | "checksum", ExtArgs["result"]["genre"]>
 export type GenreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   igdbGame?: boolean | Prisma.Genre$igdbGameArgs<ExtArgs>
   _count?: boolean | Prisma.GenreCountOutputTypeDefaultArgs<ExtArgs>
@@ -494,6 +526,7 @@ export type $GenrePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: number
     name: string
     igdbId: number
+    checksum: string
   }, ExtArgs["result"]["genre"]>
   composites: {}
 }
@@ -921,6 +954,7 @@ export interface GenreFieldRefs {
   readonly id: Prisma.FieldRef<"Genre", 'Int'>
   readonly name: Prisma.FieldRef<"Genre", 'String'>
   readonly igdbId: Prisma.FieldRef<"Genre", 'Int'>
+  readonly checksum: Prisma.FieldRef<"Genre", 'String'>
 }
     
 

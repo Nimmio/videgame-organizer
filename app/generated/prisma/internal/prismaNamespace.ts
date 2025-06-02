@@ -1350,7 +1350,8 @@ export const IGDBGameScalarFieldEnum = {
   igdbId: 'igdbId',
   name: 'name',
   first_release_date: 'first_release_date',
-  coverUrl: 'coverUrl'
+  coverUrl: 'coverUrl',
+  checksum: 'checksum'
 } as const
 
 export type IGDBGameScalarFieldEnum = (typeof IGDBGameScalarFieldEnum)[keyof typeof IGDBGameScalarFieldEnum]
@@ -1382,7 +1383,8 @@ export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof 
 export const GenreScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  igdbId: 'igdbId'
+  igdbId: 'igdbId',
+  checksum: 'checksum'
 } as const
 
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
@@ -1391,7 +1393,8 @@ export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof Ge
 export const PlatformScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  igdbId: 'igdbId'
+  igdbId: 'igdbId',
+  checksum: 'checksum'
 } as const
 
 export type PlatformScalarFieldEnum = (typeof PlatformScalarFieldEnum)[keyof typeof PlatformScalarFieldEnum]
