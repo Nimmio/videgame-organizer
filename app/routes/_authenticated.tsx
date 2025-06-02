@@ -7,6 +7,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async ({ context }) => {
@@ -23,14 +24,16 @@ export const Route = createFileRoute("/_authenticated")({
 
 function LayoutComponent() {
   return (
-    <SidebarProvider>
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SidebarTrigger />
-        <Card className="m-8 p-4">
-          <Outlet />
-        </Card>
-      </SidebarInset>
-    </SidebarProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <SidebarProvider>
+        <AppSidebar variant="inset" />
+        <SidebarInset>
+          <SidebarTrigger />
+          <Card className="m-8 p-4">
+            <Outlet />
+          </Card>
+        </SidebarInset>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }
