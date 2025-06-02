@@ -10,11 +10,13 @@ import React, { useState } from "react";
 interface GameCardDeleteButtonProps {
   gameName: string;
   onDelete: () => void;
+  style?: "list" | "card";
 }
 
 const GameCardDeleteButton = ({
   gameName,
   onDelete,
+  style = "card",
 }: GameCardDeleteButtonProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -22,9 +24,13 @@ const GameCardDeleteButton = ({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="secondary"
+          variant={style === "card" ? "secondary" : "destructive"}
           size="icon"
-          className="h-8 w-8 bg-black/50 hover:bg-black/70 text-destructive border-0 backdrop-blur-sm hover:text-red-400"
+          className={`h-8 w-8 ${
+            style === "card"
+              ? "bg-black/50 hover:bg-black/70 text-destructive border-0 backdrop-blur-sm hover:text-red-400"
+              : ""
+          }`}
         >
           <Trash2 className="h-4 w-4" />
           <span className="sr-only">Delete</span>

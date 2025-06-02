@@ -76,6 +76,7 @@ const GameCard = ({
               onPlatformChange(game.id, newPlatform);
             }}
             platformOptions={game.platforms}
+            style="white"
           />
         </div>
       </div>

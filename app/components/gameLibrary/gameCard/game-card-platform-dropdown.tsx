@@ -1,3 +1,4 @@
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,16 +12,24 @@ interface GameCardPlatformDropdownProps {
   currentPlatform: Platform;
   platformOptions: Platform[];
   onChange: (newPlatform: Platform) => void;
+  style?: "default" | "white";
 }
 
 const GameCardPlatformDropdown = ({
   currentPlatform,
   platformOptions,
   onChange,
+  style = "default",
 }: GameCardPlatformDropdownProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-white/80 hover:text-white cursor-pointer drop-shadow-lg">
+      <DropdownMenuTrigger
+        className={`flex items-center gap-1 text-sm ${
+          style === "white"
+            ? "text-white/80 hover:text-white cursor-pointer drop-shadow-lg"
+            : ""
+        }`}
+      >
         {currentPlatform.name}
         <ChevronDown className="h-3 w-3" />
       </DropdownMenuTrigger>

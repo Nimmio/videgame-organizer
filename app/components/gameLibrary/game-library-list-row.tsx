@@ -4,16 +4,24 @@ import { LibraryUserGame } from "@/types/game";
 import { getUrl } from "@/lib/server/igdb/cover";
 import GameCardStatusBadge from "./gameCard/game-card-status-badge";
 import GameCardPlatformDropdown from "./gameCard/game-card-platform-dropdown";
-import { Platform } from "@/generated/prisma";
+import { Platform, Status, UserGame } from "@/generated/prisma";
 import { Button } from "../ui/button";
 import { Eye } from "lucide-react";
 import GameCardDeleteButton from "./gameCard/game-card-delete-button";
 
 interface GameLibraryListRowProps {
   userGame: LibraryUserGame;
+  onDelete: (userGameId: UserGame["id"]) => void;
+  onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
+  onPlatformChange: (userGameId: UserGame["id"], newPlatform: Platform) => void;
 }
 
-const GameLibraryListRow = ({ userGame }: GameLibraryListRowProps) => {
+const GameLibraryListRow = ({
+  userGame,
+  onDelete,
+  onStatusChange,
+  onPlatformChange,
+}: GameLibraryListRowProps) => {
   const { game } = userGame;
   return (
     <TableRow key={game.id}>
@@ -29,15 +37,16 @@ const GameLibraryListRow = ({ userGame }: GameLibraryListRowProps) => {
         <GameCardStatusBadge
           currentStatus={userGame.status}
           onStatusChange={(newStatus) => {
-            //   onStatusChange(game.id, newStatus);
+            onStatusChange(game.id, newStatus);
           }}
         />
       </TableCell>
       <TableCell>
         <GameCardPlatformDropdown
           currentPlatform={userGame.platform as Platform}
+          style="default"
           onChange={(newPlatform: Platform) => {
-            // onPlatformChange(game.id, newPlatform);
+            onPlatformChange(game.id, newPlatform);
           }}
           platformOptions={game.platforms}
         />
@@ -52,8 +61,9 @@ const GameLibraryListRow = ({ userGame }: GameLibraryListRowProps) => {
           <GameCardDeleteButton
             gameName={game.name}
             onDelete={() => {
-              //   onDelete(game.id);
+              onDelete(game.id);
             }}
+            style="list"
           />
         </div>
       </TableCell>

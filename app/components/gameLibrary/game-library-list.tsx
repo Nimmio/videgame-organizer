@@ -1,5 +1,4 @@
 import React from "react";
-import GameCard from "./gameCard/game-card";
 import { LibraryUserGame } from "@/types/game";
 import { Platform, Status, UserGame } from "@/generated/prisma";
 import {
@@ -10,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import GameCardPlatformDropdown from "./gameCard/game-card-platform-dropdown";
 import GameLibraryListRow from "./game-library-list-row";
 
 interface GameLibraryListProps {
@@ -41,7 +39,13 @@ const GameLibraryList = ({
         <TableBody>
           {games.length > 0 ? (
             games.map((game) => (
-              <GameLibraryListRow userGame={game} key={game.id} />
+              <GameLibraryListRow
+                userGame={game}
+                key={game.id}
+                onDelete={onDelete}
+                onPlatformChange={onPlatformChange}
+                onStatusChange={onStatusChange}
+              />
             ))
           ) : (
             <TableRow>
