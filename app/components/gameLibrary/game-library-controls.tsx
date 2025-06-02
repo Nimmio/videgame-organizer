@@ -18,8 +18,17 @@ import { PlatformQueryOptions } from "@/lib/server/platform";
 import { useRouteContext } from "@tanstack/react-router";
 import { userGameQueryOptions } from "@/lib/userGames";
 import { useDebouncedValue } from "@tanstack/react-pacer";
+import { libraryViewMode } from "./game-library";
 
-const GameLibraryControls = () => {
+interface GameLibraryControlsProps {
+  mode: libraryViewMode;
+  onModeChange: (newMode: libraryViewMode) => void;
+}
+
+const GameLibraryControls = ({
+  mode,
+  onModeChange,
+}: GameLibraryControlsProps) => {
   const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
 
@@ -29,7 +38,6 @@ const GameLibraryControls = () => {
   });
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [platformFilter, setPlatformFilter] = useState<string>("all");
-  const [mode, setMode] = useState<"grid" | "list">("grid");
   const [limit, setLimit] = useState<number>(20);
 
   const { data: StatusOptions } = useSuspenseQuery(StatusQueryOptions());
@@ -99,10 +107,7 @@ const GameLibraryControls = () => {
           ))}
         </SelectContent>
       </Select>
-      <Select
-        value={mode}
-        onValueChange={(value: "grid" | "list") => setMode(value)}
-      >
+      <Select value={mode} onValueChange={onModeChange}>
         <SelectTrigger id="view-mode" className="w-full">
           <SelectValue placeholder="View Mode" />
         </SelectTrigger>

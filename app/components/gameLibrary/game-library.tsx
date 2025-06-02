@@ -1,6 +1,4 @@
-import React, { Suspense } from "react";
-import { LibraryUserGame } from "@/types/game";
-import GameCard from "./gameCard/game-card";
+import React, { Suspense, useState } from "react";
 import { Platform, Status, UserGame } from "@/generated/prisma";
 import {
   useMutation,
@@ -15,10 +13,16 @@ import {
 import { useRouteContext } from "@tanstack/react-router";
 import GameLibraryControls from "./game-library-controls";
 import { userGameQueryOptions } from "@/lib/userGames";
+import GameLibraryGrid from "./game-library-grid";
+import GameLibraryList from "./game-library-list";
+
+export type libraryViewMode = "grid" | "list";
 
 const GameLibrary = () => {
   const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
+
+  const [mode, setMode] = useState<libraryViewMode>("grid");
 
   const userGameQuery = useSuspenseQuery(
     userGameQueryOptions({ userId: user.id })
@@ -79,27 +83,24 @@ const GameLibrary = () => {
   return (
     <>
       <Suspense fallback={"Loading"}>
-        <GameLibraryControls />
+        <GameLibraryControls mode={mode} onModeChange={setMode} />
       </Suspense>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {userGameQuery.data.length > 0 ? (
-          userGameQuery.data.map((userGame) => (
-            <GameCard
-              key={userGame.id}
-              userGame={userGame}
-              onDelete={handleDelete}
-              onPlatformChange={handlePlatformChange}
-              onStatusChange={handleStatusChange}
-            />
-          ))
-        ) : (
-          <div className="col-span-full text-center py-10">
-            <p className="text-muted-foreground">
-              No games found matching your filters.
-            </p>
-          </div>
-        )}
-      </div>
+      {mode === "grid" && (
+        <GameLibraryGrid
+          games={userGameQuery.data}
+          onDelete={handleDelete}
+          onPlatformChange={handlePlatformChange}
+          onStatusChange={handleStatusChange}
+        />
+      )}
+      {mode == "list" && (
+        <GameLibraryList
+          games={userGameQuery.data}
+          onDelete={handleDelete}
+          onPlatformChange={handlePlatformChange}
+          onStatusChange={handleStatusChange}
+        />
+      )}
     </>
   );
 };
