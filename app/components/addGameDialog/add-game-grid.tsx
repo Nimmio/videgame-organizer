@@ -1,3 +1,4 @@
+import React from "react";
 import { SearchGame } from "@/types/game";
 import GameGridEntry from "./game-grid-entry";
 

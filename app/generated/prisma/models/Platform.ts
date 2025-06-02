@@ -261,7 +261,7 @@ export type PlatformScalarWhereWithAggregatesInput = {
 export type PlatformCreateInput = {
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutPlatformsInput
   userGames?: Prisma.UserGameCreateNestedManyWithoutPlatformInput
 }
@@ -270,7 +270,7 @@ export type PlatformUncheckedCreateInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutPlatformsInput
   userGames?: Prisma.UserGameUncheckedCreateNestedManyWithoutPlatformInput
 }
@@ -296,7 +296,7 @@ export type PlatformCreateManyInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
 }
 
 export type PlatformUpdateManyMutationInput = {
@@ -415,7 +415,7 @@ export type PlatformUpdateOneWithoutUserGamesNestedInput = {
 export type PlatformCreateWithoutIgdbGameInput = {
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   userGames?: Prisma.UserGameCreateNestedManyWithoutPlatformInput
 }
 
@@ -423,7 +423,7 @@ export type PlatformUncheckedCreateWithoutIgdbGameInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   userGames?: Prisma.UserGameUncheckedCreateNestedManyWithoutPlatformInput
 }
 
@@ -461,7 +461,7 @@ export type PlatformScalarWhereInput = {
 export type PlatformCreateWithoutUserGamesInput = {
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutPlatformsInput
 }
 
@@ -469,7 +469,7 @@ export type PlatformUncheckedCreateWithoutUserGamesInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutPlatformsInput
 }
 

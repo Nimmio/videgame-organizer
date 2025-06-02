@@ -290,7 +290,7 @@ export type IGDBGameCreateInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
@@ -302,7 +302,7 @@ export type IGDBGameUncheckedCreateInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
@@ -337,7 +337,7 @@ export type IGDBGameCreateManyInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
 }
 
 export type IGDBGameUpdateManyMutationInput = {
@@ -504,7 +504,7 @@ export type IGDBGameCreateWithoutUserGameInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
 }
@@ -515,7 +515,7 @@ export type IGDBGameUncheckedCreateWithoutUserGameInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
 }
@@ -562,7 +562,7 @@ export type IGDBGameCreateWithoutGenresInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutIgdbGameInput
 }
@@ -573,7 +573,7 @@ export type IGDBGameUncheckedCreateWithoutGenresInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutIgdbGameInput
 }
@@ -616,7 +616,7 @@ export type IGDBGameCreateWithoutPlatformsInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
 }
@@ -627,7 +627,7 @@ export type IGDBGameUncheckedCreateWithoutPlatformsInput = {
   name: string
   first_release_date?: Date | string | null
   coverUrl?: string | null
-  checksum: string
+  checksum?: string
   userGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
 }

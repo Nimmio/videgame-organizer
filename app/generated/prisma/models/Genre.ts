@@ -258,7 +258,7 @@ export type GenreScalarWhereWithAggregatesInput = {
 export type GenreCreateInput = {
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutGenresInput
 }
 
@@ -266,7 +266,7 @@ export type GenreUncheckedCreateInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
   igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutGenresInput
 }
 
@@ -289,7 +289,7 @@ export type GenreCreateManyInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
 }
 
 export type GenreUpdateManyMutationInput = {
@@ -387,14 +387,14 @@ export type GenreUncheckedUpdateManyWithoutIgdbGameNestedInput = {
 export type GenreCreateWithoutIgdbGameInput = {
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
 }
 
 export type GenreUncheckedCreateWithoutIgdbGameInput = {
   id?: number
   name: string
   igdbId: number
-  checksum: string
+  checksum?: string
 }
 
 export type GenreCreateOrConnectWithoutIgdbGameInput = {

@@ -1,3 +1,4 @@
+import React from "react";
 import { Card } from "../ui/card";
 import { format, fromUnixTime } from "date-fns";
 import { SearchGame } from "@/types/game";
