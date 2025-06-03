@@ -28,10 +28,9 @@ function LayoutComponent() {
       <SidebarProvider>
         <AppSidebar variant="inset" />
         <SidebarInset>
-          <SidebarTrigger />
-          <Card className="m-8 p-4">
+          <div className="ml-8 mr-8 p-4">
             <Outlet />
-          </Card>
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </ThemeProvider>
