@@ -83,31 +83,22 @@ model IGDBAuth {
   updatedAt    DateTime
 }
 
-model IGDBGame {
-  id                 Int        @id @default(autoincrement())
-  userGame           UserGame[]
-  igdbId             Int        @unique
-  name               String
-  first_release_date DateTime?
-  coverUrl           String?
-  genres             Genre[]
-  platforms          Platform[]
-  checksum           String     @default("-")
-}
-
 model UserGame {
-  id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String
-  status       Status    @relation(fields: [statusId], references: [id])
-  statusId     Int
-  game         IGDBGame  @relation(fields: [gameId], references: [id])
-  gameId       Int
-  notes        String?
-  purchaseDate DateTime?
-  preorderDate DateTime?
-  platform     Platform? @relation(fields: [platformId], references: [id])
-  platformId   Int?
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
+  status      Status     @relation(fields: [statusId], references: [id])
+  statusId    Int
+  notes       String?
+  releaseDate DateTime?
+  startDate   DateTime?
+  finishDate  DateTime?
+  platform    Platform?  @relation(fields: [platformId], references: [id], name: "playedPlatform")
+  platformId  Int?
+  platforms   Platform[] @relation(name: "allPlatforms")
+  genres      Genre[]
+  igdbID      Int
+  
 }
 
 model Status {
@@ -115,26 +106,35 @@ model Status {
   games       UserGame[]
   statusTitle String
   isDefault   Boolean
+  group       StatusGroup
 }
 
 model Genre {
   id       Int        @id @default(autoincrement())
   name     String
   igdbId   Int        @unique
-  igdbGame IGDBGame[]
+  igdbGame UserGame[]
   checksum String     @default("-")
 }
 
 model Platform {
-  id        Int        @id @default(autoincrement())
-  name      String
-  igdbId    Int        @unique
-  igdbGame  IGDBGame[]
-  userGames UserGame[]
-  checksum  String     @default("-")
+  id                  Int        @id @default(autoincrement())
+  name                String
+  igdbId              Int        @unique
+  userGames           UserGame[] @relation(name: "playedPlatform")
+  userGamesAllPatfors UserGame[] @relation(name: "allPlatforms")
+  checksum            String     @default("-")
 }
 
 model System {
   id      Int    @id @default(autoincrement())
   message String
+}
+
+enum StatusGroup {
+  PLAYING
+  BACKLOG
+  FINISHED
+  PLANNED
+  DROPPED
 }

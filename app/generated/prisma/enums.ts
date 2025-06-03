@@ -7,7 +7,12 @@
 *
 * 🟢 You can import this file directly.
 */
+export const StatusGroup = {
+  PLAYING: 'PLAYING',
+  BACKLOG: 'BACKLOG',
+  FINISHED: 'FINISHED',
+  PLANNED: 'PLANNED',
+  DROPPED: 'DROPPED'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type StatusGroup = (typeof StatusGroup)[keyof typeof StatusGroup]

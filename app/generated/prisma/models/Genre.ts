@@ -211,7 +211,7 @@ export type GenreWhereInput = {
   name?: Prisma.StringFilter<"Genre"> | string
   igdbId?: Prisma.IntFilter<"Genre"> | number
   checksum?: Prisma.StringFilter<"Genre"> | string
-  igdbGame?: Prisma.IGDBGameListRelationFilter
+  igdbGame?: Prisma.UserGameListRelationFilter
 }
 
 export type GenreOrderByWithRelationInput = {
@@ -219,7 +219,7 @@ export type GenreOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   igdbId?: Prisma.SortOrder
   checksum?: Prisma.SortOrder
-  igdbGame?: Prisma.IGDBGameOrderByRelationAggregateInput
+  igdbGame?: Prisma.UserGameOrderByRelationAggregateInput
 }
 
 export type GenreWhereUniqueInput = Prisma.AtLeast<{
@@ -230,7 +230,7 @@ export type GenreWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.GenreWhereInput | Prisma.GenreWhereInput[]
   name?: Prisma.StringFilter<"Genre"> | string
   checksum?: Prisma.StringFilter<"Genre"> | string
-  igdbGame?: Prisma.IGDBGameListRelationFilter
+  igdbGame?: Prisma.UserGameListRelationFilter
 }, "id" | "igdbId">
 
 export type GenreOrderByWithAggregationInput = {
@@ -259,7 +259,7 @@ export type GenreCreateInput = {
   name: string
   igdbId: number
   checksum?: string
-  igdbGame?: Prisma.IGDBGameCreateNestedManyWithoutGenresInput
+  igdbGame?: Prisma.UserGameCreateNestedManyWithoutGenresInput
 }
 
 export type GenreUncheckedCreateInput = {
@@ -267,14 +267,14 @@ export type GenreUncheckedCreateInput = {
   name: string
   igdbId: number
   checksum?: string
-  igdbGame?: Prisma.IGDBGameUncheckedCreateNestedManyWithoutGenresInput
+  igdbGame?: Prisma.UserGameUncheckedCreateNestedManyWithoutGenresInput
 }
 
 export type GenreUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
   checksum?: Prisma.StringFieldUpdateOperationsInput | string
-  igdbGame?: Prisma.IGDBGameUpdateManyWithoutGenresNestedInput
+  igdbGame?: Prisma.UserGameUpdateManyWithoutGenresNestedInput
 }
 
 export type GenreUncheckedUpdateInput = {
@@ -282,7 +282,7 @@ export type GenreUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   igdbId?: Prisma.IntFieldUpdateOperationsInput | number
   checksum?: Prisma.StringFieldUpdateOperationsInput | string
-  igdbGame?: Prisma.IGDBGameUncheckedUpdateManyWithoutGenresNestedInput
+  igdbGame?: Prisma.UserGameUncheckedUpdateManyWithoutGenresNestedInput
 }
 
 export type GenreCreateManyInput = {
@@ -475,7 +475,7 @@ export type GenreCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
  * GenreCountOutputType without action
  */
 export type GenreCountOutputTypeCountIgdbGameArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.IGDBGameWhereInput
+  where?: Prisma.UserGameWhereInput
 }
 
 
@@ -520,7 +520,7 @@ export type GenreIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $GenrePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Genre"
   objects: {
-    igdbGame: Prisma.$IGDBGamePayload<ExtArgs>[]
+    igdbGame: Prisma.$UserGamePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -921,7 +921,7 @@ readonly fields: GenreFieldRefs;
  */
 export interface Prisma__GenreClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  igdbGame<T extends Prisma.Genre$igdbGameArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Genre$igdbGameArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IGDBGamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  igdbGame<T extends Prisma.Genre$igdbGameArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Genre$igdbGameArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserGamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1347,23 +1347,23 @@ export type GenreDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
  */
 export type Genre$igdbGameArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the IGDBGame
+   * Select specific fields to fetch from the UserGame
    */
-  select?: Prisma.IGDBGameSelect<ExtArgs> | null
+  select?: Prisma.UserGameSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the IGDBGame
+   * Omit specific fields from the UserGame
    */
-  omit?: Prisma.IGDBGameOmit<ExtArgs> | null
+  omit?: Prisma.UserGameOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.IGDBGameInclude<ExtArgs> | null
-  where?: Prisma.IGDBGameWhereInput
-  orderBy?: Prisma.IGDBGameOrderByWithRelationInput | Prisma.IGDBGameOrderByWithRelationInput[]
-  cursor?: Prisma.IGDBGameWhereUniqueInput
+  include?: Prisma.UserGameInclude<ExtArgs> | null
+  where?: Prisma.UserGameWhereInput
+  orderBy?: Prisma.UserGameOrderByWithRelationInput | Prisma.UserGameOrderByWithRelationInput[]
+  cursor?: Prisma.UserGameWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.IGDBGameScalarFieldEnum | Prisma.IGDBGameScalarFieldEnum[]
+  distinct?: Prisma.UserGameScalarFieldEnum | Prisma.UserGameScalarFieldEnum[]
 }
 
 /**

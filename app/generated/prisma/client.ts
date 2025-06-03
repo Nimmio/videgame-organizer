@@ -38,16 +38,16 @@ export { Prisma }
 
 
 // file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node")
+path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-1.1.x.so.node")
+
+// file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node")
 path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node")
 path.join(process.cwd(), "app/generated/prisma/libquery_engine-linux-musl-openssl-3.0.x.so.node")
-
-// file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node")
-path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-1.1.x.so.node")
 
 /**
  * Model User
@@ -75,11 +75,6 @@ export type Verification = Prisma.VerificationModel
  */
 export type IGDBAuth = Prisma.IGDBAuthModel
 /**
- * Model IGDBGame
- * 
- */
-export type IGDBGame = Prisma.IGDBGameModel
-/**
  * Model UserGame
  * 
  */
@@ -105,4 +100,5 @@ export type Platform = Prisma.PlatformModel
  */
 export type System = Prisma.SystemModel
 
-
+export type StatusGroup = $Enums.StatusGroup
+export const StatusGroup = $Enums.StatusGroup

@@ -37,18 +37,21 @@ export type StatusMinAggregateOutputType = {
   id: number | null
   statusTitle: string | null
   isDefault: boolean | null
+  group: $Enums.StatusGroup | null
 }
 
 export type StatusMaxAggregateOutputType = {
   id: number | null
   statusTitle: string | null
   isDefault: boolean | null
+  group: $Enums.StatusGroup | null
 }
 
 export type StatusCountAggregateOutputType = {
   id: number
   statusTitle: number
   isDefault: number
+  group: number
   _all: number
 }
 
@@ -65,18 +68,21 @@ export type StatusMinAggregateInputType = {
   id?: true
   statusTitle?: true
   isDefault?: true
+  group?: true
 }
 
 export type StatusMaxAggregateInputType = {
   id?: true
   statusTitle?: true
   isDefault?: true
+  group?: true
 }
 
 export type StatusCountAggregateInputType = {
   id?: true
   statusTitle?: true
   isDefault?: true
+  group?: true
   _all?: true
 }
 
@@ -170,6 +176,7 @@ export type StatusGroupByOutputType = {
   id: number
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
   _count: StatusCountAggregateOutputType | null
   _avg: StatusAvgAggregateOutputType | null
   _sum: StatusSumAggregateOutputType | null
@@ -199,6 +206,7 @@ export type StatusWhereInput = {
   id?: Prisma.IntFilter<"Status"> | number
   statusTitle?: Prisma.StringFilter<"Status"> | string
   isDefault?: Prisma.BoolFilter<"Status"> | boolean
+  group?: Prisma.EnumStatusGroupFilter<"Status"> | $Enums.StatusGroup
   games?: Prisma.UserGameListRelationFilter
 }
 
@@ -206,6 +214,7 @@ export type StatusOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   statusTitle?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
+  group?: Prisma.SortOrder
   games?: Prisma.UserGameOrderByRelationAggregateInput
 }
 
@@ -216,6 +225,7 @@ export type StatusWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StatusWhereInput | Prisma.StatusWhereInput[]
   statusTitle?: Prisma.StringFilter<"Status"> | string
   isDefault?: Prisma.BoolFilter<"Status"> | boolean
+  group?: Prisma.EnumStatusGroupFilter<"Status"> | $Enums.StatusGroup
   games?: Prisma.UserGameListRelationFilter
 }, "id">
 
@@ -223,6 +233,7 @@ export type StatusOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   statusTitle?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
+  group?: Prisma.SortOrder
   _count?: Prisma.StatusCountOrderByAggregateInput
   _avg?: Prisma.StatusAvgOrderByAggregateInput
   _max?: Prisma.StatusMaxOrderByAggregateInput
@@ -237,11 +248,13 @@ export type StatusScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Status"> | number
   statusTitle?: Prisma.StringWithAggregatesFilter<"Status"> | string
   isDefault?: Prisma.BoolWithAggregatesFilter<"Status"> | boolean
+  group?: Prisma.EnumStatusGroupWithAggregatesFilter<"Status"> | $Enums.StatusGroup
 }
 
 export type StatusCreateInput = {
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
   games?: Prisma.UserGameCreateNestedManyWithoutStatusInput
 }
 
@@ -249,12 +262,14 @@ export type StatusUncheckedCreateInput = {
   id?: number
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
   games?: Prisma.UserGameUncheckedCreateNestedManyWithoutStatusInput
 }
 
 export type StatusUpdateInput = {
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
   games?: Prisma.UserGameUpdateManyWithoutStatusNestedInput
 }
 
@@ -262,6 +277,7 @@ export type StatusUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
   games?: Prisma.UserGameUncheckedUpdateManyWithoutStatusNestedInput
 }
 
@@ -269,17 +285,20 @@ export type StatusCreateManyInput = {
   id?: number
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
 }
 
 export type StatusUpdateManyMutationInput = {
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
 }
 
 export type StatusUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
 }
 
 export type StatusScalarRelationFilter = {
@@ -291,6 +310,7 @@ export type StatusCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   statusTitle?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
+  group?: Prisma.SortOrder
 }
 
 export type StatusAvgOrderByAggregateInput = {
@@ -301,12 +321,14 @@ export type StatusMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   statusTitle?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
+  group?: Prisma.SortOrder
 }
 
 export type StatusMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   statusTitle?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
+  group?: Prisma.SortOrder
 }
 
 export type StatusSumOrderByAggregateInput = {
@@ -327,15 +349,21 @@ export type StatusUpdateOneRequiredWithoutGamesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StatusUpdateToOneWithWhereWithoutGamesInput, Prisma.StatusUpdateWithoutGamesInput>, Prisma.StatusUncheckedUpdateWithoutGamesInput>
 }
 
+export type EnumStatusGroupFieldUpdateOperationsInput = {
+  set?: $Enums.StatusGroup
+}
+
 export type StatusCreateWithoutGamesInput = {
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
 }
 
 export type StatusUncheckedCreateWithoutGamesInput = {
   id?: number
   statusTitle: string
   isDefault: boolean
+  group: $Enums.StatusGroup
 }
 
 export type StatusCreateOrConnectWithoutGamesInput = {
@@ -357,12 +385,14 @@ export type StatusUpdateToOneWithWhereWithoutGamesInput = {
 export type StatusUpdateWithoutGamesInput = {
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
 }
 
 export type StatusUncheckedUpdateWithoutGamesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   statusTitle?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  group?: Prisma.EnumStatusGroupFieldUpdateOperationsInput | $Enums.StatusGroup
 }
 
 
@@ -400,6 +430,7 @@ export type StatusSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   statusTitle?: boolean
   isDefault?: boolean
+  group?: boolean
   games?: boolean | Prisma.Status$gamesArgs<ExtArgs>
   _count?: boolean | Prisma.StatusCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["status"]>
@@ -408,21 +439,24 @@ export type StatusSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   statusTitle?: boolean
   isDefault?: boolean
+  group?: boolean
 }, ExtArgs["result"]["status"]>
 
 export type StatusSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   statusTitle?: boolean
   isDefault?: boolean
+  group?: boolean
 }, ExtArgs["result"]["status"]>
 
 export type StatusSelectScalar = {
   id?: boolean
   statusTitle?: boolean
   isDefault?: boolean
+  group?: boolean
 }
 
-export type StatusOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "statusTitle" | "isDefault", ExtArgs["result"]["status"]>
+export type StatusOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "statusTitle" | "isDefault" | "group", ExtArgs["result"]["status"]>
 export type StatusInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   games?: boolean | Prisma.Status$gamesArgs<ExtArgs>
   _count?: boolean | Prisma.StatusCountOutputTypeDefaultArgs<ExtArgs>
@@ -439,6 +473,7 @@ export type $StatusPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: number
     statusTitle: string
     isDefault: boolean
+    group: $Enums.StatusGroup
   }, ExtArgs["result"]["status"]>
   composites: {}
 }
@@ -866,6 +901,7 @@ export interface StatusFieldRefs {
   readonly id: Prisma.FieldRef<"Status", 'Int'>
   readonly statusTitle: Prisma.FieldRef<"Status", 'String'>
   readonly isDefault: Prisma.FieldRef<"Status", 'Boolean'>
+  readonly group: Prisma.FieldRef<"Status", 'StatusGroup'>
 }
     
 

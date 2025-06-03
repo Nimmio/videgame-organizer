@@ -201,6 +201,23 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
+export type EnumStatusGroupFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusGroup | Prisma.EnumStatusGroupFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel> | $Enums.StatusGroup
+}
+
+export type EnumStatusGroupWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusGroup | Prisma.EnumStatusGroupFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusGroupWithAggregatesFilter<$PrismaModel> | $Enums.StatusGroup
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -400,6 +417,23 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumStatusGroupFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusGroup | Prisma.EnumStatusGroupFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel> | $Enums.StatusGroup
+}
+
+export type NestedEnumStatusGroupWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusGroup | Prisma.EnumStatusGroupFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusGroup[] | Prisma.ListEnumStatusGroupFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusGroupWithAggregatesFilter<$PrismaModel> | $Enums.StatusGroup
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusGroupFilter<$PrismaModel>
 }
 
 

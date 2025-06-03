@@ -399,7 +399,6 @@ export const ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   IGDBAuth: 'IGDBAuth',
-  IGDBGame: 'IGDBGame',
   UserGame: 'UserGame',
   Status: 'Status',
   Genre: 'Genre',
@@ -420,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "iGDBGame" | "userGame" | "status" | "genre" | "platform" | "system"
+    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "userGame" | "status" | "genre" | "platform" | "system"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,80 +790,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.IGDBAuthCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.IGDBAuthCountAggregateOutputType> | number
-        }
-      }
-    }
-    IGDBGame: {
-      payload: Prisma.$IGDBGamePayload<ExtArgs>
-      fields: Prisma.IGDBGameFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.IGDBGameFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.IGDBGameFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        findFirst: {
-          args: Prisma.IGDBGameFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.IGDBGameFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        findMany: {
-          args: Prisma.IGDBGameFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>[]
-        }
-        create: {
-          args: Prisma.IGDBGameCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        createMany: {
-          args: Prisma.IGDBGameCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.IGDBGameCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>[]
-        }
-        delete: {
-          args: Prisma.IGDBGameDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        update: {
-          args: Prisma.IGDBGameUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        deleteMany: {
-          args: Prisma.IGDBGameDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.IGDBGameUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.IGDBGameUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>[]
-        }
-        upsert: {
-          args: Prisma.IGDBGameUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$IGDBGamePayload>
-        }
-        aggregate: {
-          args: Prisma.IGDBGameAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateIGDBGame>
-        }
-        groupBy: {
-          args: Prisma.IGDBGameGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.IGDBGameGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.IGDBGameCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.IGDBGameCountAggregateOutputType> | number
         }
       }
     }
@@ -1345,27 +1270,16 @@ export const IGDBAuthScalarFieldEnum = {
 export type IGDBAuthScalarFieldEnum = (typeof IGDBAuthScalarFieldEnum)[keyof typeof IGDBAuthScalarFieldEnum]
 
 
-export const IGDBGameScalarFieldEnum = {
-  id: 'id',
-  igdbId: 'igdbId',
-  name: 'name',
-  first_release_date: 'first_release_date',
-  coverUrl: 'coverUrl',
-  checksum: 'checksum'
-} as const
-
-export type IGDBGameScalarFieldEnum = (typeof IGDBGameScalarFieldEnum)[keyof typeof IGDBGameScalarFieldEnum]
-
-
 export const UserGameScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   statusId: 'statusId',
-  gameId: 'gameId',
   notes: 'notes',
-  purchaseDate: 'purchaseDate',
-  preorderDate: 'preorderDate',
-  platformId: 'platformId'
+  releaseDate: 'releaseDate',
+  startDate: 'startDate',
+  finishDate: 'finishDate',
+  platformId: 'platformId',
+  igdbID: 'igdbID'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]
@@ -1374,7 +1288,8 @@ export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typ
 export const StatusScalarFieldEnum = {
   id: 'id',
   statusTitle: 'statusTitle',
-  isDefault: 'isDefault'
+  isDefault: 'isDefault',
+  group: 'group'
 } as const
 
 export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof StatusScalarFieldEnum]
@@ -1488,6 +1403,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'StatusGroup'
+ */
+export type EnumStatusGroupFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusGroup'>
+    
+
+
+/**
+ * Reference to a field of type 'StatusGroup[]'
+ */
+export type ListEnumStatusGroupFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusGroup[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1580,7 +1509,6 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
   iGDBAuth?: Prisma.IGDBAuthOmit
-  iGDBGame?: Prisma.IGDBGameOmit
   userGame?: Prisma.UserGameOmit
   status?: Prisma.StatusOmit
   genre?: Prisma.GenreOmit

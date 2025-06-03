@@ -6,14 +6,14 @@ import { Status } from "@/generated/prisma";
 type CreateStatus = Omit<Status, "createdAt" | "id" | "isDefault">;
 
 const DefaultStatus: CreateStatus[] = [
-  { statusTitle: "Backlog" },
-  { statusTitle: "Playing" },
-  { statusTitle: "On-Hold" },
-  { statusTitle: "Completed" },
-  { statusTitle: "100% Completed" },
-  { statusTitle: "Dropped" },
-  { statusTitle: "Wishlist" },
-  { statusTitle: "Pre-ordered" },
+  { statusTitle: "Backlog", group: "BACKLOG" },
+  { statusTitle: "Playing", group: "PLAYING" },
+  { statusTitle: "On-Hold", group: "BACKLOG" },
+  { statusTitle: "Completed", group: "FINISHED" },
+  { statusTitle: "100% Completed", group: "FINISHED" },
+  { statusTitle: "Dropped", group: "DROPPED" },
+  { statusTitle: "Wishlist", group: "PLANNED" },
+  { statusTitle: "Pre-ordered", group: "PLANNED" },
 ];
 
 const getStatus = createServerFn({ method: "GET" }).handler(async () => {
