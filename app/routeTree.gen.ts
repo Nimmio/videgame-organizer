@@ -15,6 +15,8 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedRouletteImport } from './routes/_authenticated/roulette'
+import { Route as AuthenticatedLibraryImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedAdministrationImport } from './routes/_authenticated/administration'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
@@ -40,6 +42,18 @@ const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
 const AuthenticatedSettingsRoute = AuthenticatedSettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedRouletteRoute = AuthenticatedRouletteImport.update({
+  id: '/roulette',
+  path: '/roulette',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedLibraryRoute = AuthenticatedLibraryImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -101,6 +115,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdministrationImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/library': {
+      id: '/_authenticated/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof AuthenticatedLibraryImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/roulette': {
+      id: '/_authenticated/roulette'
+      path: '/roulette'
+      fullPath: '/roulette'
+      preLoaderRoute: typeof AuthenticatedRouletteImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -134,12 +162,16 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface AuthenticatedRouteChildren {
   AuthenticatedAdministrationRoute: typeof AuthenticatedAdministrationRoute
+  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
+  AuthenticatedRouletteRoute: typeof AuthenticatedRouletteRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdministrationRoute: AuthenticatedAdministrationRoute,
+  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
+  AuthenticatedRouletteRoute: AuthenticatedRouletteRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
@@ -153,6 +185,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/administration': typeof AuthenticatedAdministrationRoute
+  '/library': typeof AuthenticatedLibraryRoute
+  '/roulette': typeof AuthenticatedRouletteRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/': typeof AuthenticatedIndexRoute
 }
@@ -162,6 +196,8 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/administration': typeof AuthenticatedAdministrationRoute
+  '/library': typeof AuthenticatedLibraryRoute
+  '/roulette': typeof AuthenticatedRouletteRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/': typeof AuthenticatedIndexRoute
 }
@@ -173,15 +209,33 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_authenticated/administration': typeof AuthenticatedAdministrationRoute
+  '/_authenticated/library': typeof AuthenticatedLibraryRoute
+  '/_authenticated/roulette': typeof AuthenticatedRouletteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/login' | '/signup' | '/administration' | '/settings' | '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/signup'
+    | '/administration'
+    | '/library'
+    | '/roulette'
+    | '/settings'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/login' | '/signup' | '/administration' | '/settings' | '/'
+  to:
+    | ''
+    | '/login'
+    | '/signup'
+    | '/administration'
+    | '/library'
+    | '/roulette'
+    | '/settings'
+    | '/'
   id:
     | '__root__'
     | '/_auth'
@@ -189,6 +243,8 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_authenticated/administration'
+    | '/_authenticated/library'
+    | '/_authenticated/roulette'
     | '/_authenticated/settings'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
@@ -229,6 +285,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/administration",
+        "/_authenticated/library",
+        "/_authenticated/roulette",
         "/_authenticated/settings",
         "/_authenticated/"
       ]
@@ -243,6 +301,14 @@ export const routeTree = rootRoute
     },
     "/_authenticated/administration": {
       "filePath": "_authenticated/administration.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/library": {
+      "filePath": "_authenticated/library.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/roulette": {
+      "filePath": "_authenticated/roulette.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/settings": {

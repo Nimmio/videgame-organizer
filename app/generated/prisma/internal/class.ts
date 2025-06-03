@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/home/bewi/Documents/Coding/backlog-tanstack/app/generated/prisma",
+      "value": "/home/bewi/Documents/Coding/videgame-organizer/app/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -31,7 +31,7 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-1.1.x",
+        "value": "debian-openssl-3.0.x",
         "native": true
       },
       {
@@ -48,7 +48,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/bewi/Documents/Coding/backlog-tanstack/prisma/schema.prisma",
+    "sourceFilePath": "/home/bewi/Documents/Coding/videgame-organizer/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
