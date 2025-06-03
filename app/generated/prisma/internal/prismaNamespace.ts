@@ -1279,7 +1279,9 @@ export const UserGameScalarFieldEnum = {
   startDate: 'startDate',
   finishDate: 'finishDate',
   platformId: 'platformId',
-  igdbID: 'igdbID'
+  igdbID: 'igdbID',
+  title: 'title',
+  coverUrl: 'coverUrl'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]

@@ -39,19 +39,11 @@ const fetchUserGames = createServerFn({ method: "GET" })
     return await prisma.userGame.findMany({
       where: {
         userId: userId,
-        game: {
-          name: { contains: search, mode: "insensitive" },
-        },
+        title: { contains: search, mode: "insensitive" },
         platform: platformWhere,
         status: statusWhere,
       },
       include: {
-        game: {
-          include: {
-            genres: true,
-            platforms: true,
-          },
-        },
         status: true,
         platform: true,
       },

@@ -52,12 +52,3 @@ export const SearchGameSchema = z.object({
   ),
   checksum: z.string().uuid(),
 });
-
-export interface LibraryUserGame extends UserGame {
-  game: IGDBGame & {
-    platforms: Platform[];
-    genres: Genre[];
-  };
-  status: Status;
-  platform: Platform | null;
-}

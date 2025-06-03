@@ -98,7 +98,8 @@ model UserGame {
   platforms   Platform[] @relation(name: "allPlatforms")
   genres      Genre[]
   igdbID      Int
-  
+  title   String
+  coverUrl String?
 }
 
 model Status {
