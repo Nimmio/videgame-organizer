@@ -14,16 +14,16 @@ import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import GameLookup from "./game-lookup";
 import GameManual from "./game-manual";
-import { SearchGame } from "@/types/game";
+import { SearchGame, SearchGameWithPlatfrom } from "@/types/game";
 
 const AddGameDialog = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("manual");
-  const [selectedLookupGame, setSelectedLookupGame] = useState<unknown | null>(
-    null
-  );
+  const [selectedLookupGame, setSelectedLookupGame] = useState<
+    undefined | SearchGameWithPlatfrom
+  >(undefined);
   const handleAddGame = () => {};
-  const handleSelectLookupGame = (lookupGame: SearchGame) => {
+  const handleSelectLookupGame = (lookupGame: SearchGameWithPlatfrom) => {
     setSelectedLookupGame(lookupGame);
     setActiveTab("manual");
   };
@@ -35,7 +35,7 @@ const AddGameDialog = () => {
           Add Game
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="max-w-3xl min-w-1/2">
         <DialogHeader>
           <DialogTitle>Add New Game</DialogTitle>
         </DialogHeader>
@@ -51,22 +51,9 @@ const AddGameDialog = () => {
           </TabsContent>
 
           <TabsContent value="lookup" className="py-4">
-            <GameLookup onSelectGame={(data) => handleSelectLookupGame(data)} />
+            <GameLookup onSelectGame={(game) => handleSelectLookupGame(game)} />
           </TabsContent>
         </Tabs>
-
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => {
-              resetNewGameForm();
-              setIsAddDialogOpen(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button onClick={handleAddGame}>Add to Library</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

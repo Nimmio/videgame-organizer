@@ -19,6 +19,10 @@ export interface SearchGame {
   checksum: string;
 }
 
+export type SearchGameWithPlatfrom = SearchGame & {
+  platform: SearchGame["platforms"][0];
+};
+
 export const SearchGameSchema = z.object({
   name: z.string(),
   first_release_date: z.number().optional(),

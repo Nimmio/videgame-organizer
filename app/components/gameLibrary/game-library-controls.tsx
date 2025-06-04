@@ -7,7 +7,6 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { StatusQueryOptions } from "@/lib/server/status";
-import { PlatformQueryOptions } from "@/lib/server/platform";
 import { useRouteContext } from "@tanstack/react-router";
 import { userGameQueryOptions } from "@/lib/userGames";
 import { useDebouncedValue } from "@tanstack/react-pacer";
@@ -42,9 +41,6 @@ const GameLibraryControls = ({
   const [limit, setLimit] = useState<number>(20);
 
   const { data: StatusOptions } = useSuspenseQuery(StatusQueryOptions());
-  const { data: PlatformOptions } = useSuspenseQuery(
-    PlatformQueryOptions({ userId: user.id })
-  );
 
   const LimitOptions = [5, 20, 50, 100];
 

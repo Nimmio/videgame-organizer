@@ -5,85 +5,46 @@ import { z } from "zod";
 import { fromUnixTime } from "date-fns";
 
 const CreateUserGameSchema = z.object({
-  statusId: z.number(),
-  igdbGame: SearchGameSchema,
+  title: z.string().min(1),
+  platform: z.string().optional(),
+  genres: z.array(z.string()),
+  status: z.number(),
+  coverUrl: z.string().url().or(z.literal("")),
+  summary: z.string().optional(),
+  notes: z.string().optional(),
   userId: z.string(),
-  platformId: z.number(),
 });
 
 export const createUserGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => CreateUserGameSchema.parse(d))
   .handler(async ({ data }) => {
-    const { igdbGame, statusId, userId, platformId } = data;
-    const selectedPlatform = igdbGame.platforms.find(
-      (platform) => platform.id === platformId
-    );
-    if (!selectedPlatform) {
-      throw new Error("");
-    }
+    const {
+      title,
+      platform,
+      genres,
+      status,
+      coverUrl,
+      summary,
+      notes,
+      userId,
+    } = data;
 
     return await prisma.userGame.create({
       data: {
+        title,
+        platform,
+        genres,
+        status: {
+          connect: {
+            id: status,
+          },
+        },
+        coverUrl,
+        summary,
+        notes,
         user: {
           connect: {
             id: userId,
-          },
-        },
-        game: {
-          connectOrCreate: {
-            where: {
-              igdbId: igdbGame.id,
-            },
-            create: {
-              checksum: igdbGame.checksum,
-              igdbId: igdbGame.id,
-              coverUrl: igdbGame.cover?.url || undefined,
-              first_release_date: igdbGame.first_release_date
-                ? fromUnixTime(igdbGame.first_release_date)
-                : undefined,
-              name: igdbGame.name,
-              genres: {
-                connectOrCreate: igdbGame.genres.map((genre) => {
-                  return {
-                    where: { igdbId: genre.id },
-                    create: {
-                      name: genre.name,
-                      igdbId: genre.id,
-                      checksum: genre.checksum,
-                    },
-                  };
-                }),
-              },
-              platforms: {
-                connectOrCreate: igdbGame.platforms.map((platform) => {
-                  return {
-                    where: { igdbId: platform.id },
-                    create: {
-                      name: platform.name,
-                      igdbId: platform.id,
-                      checksum: platform.checksum,
-                    },
-                  };
-                }),
-              },
-            },
-          },
-        },
-        status: {
-          connect: {
-            id: statusId,
-          },
-        },
-        platform: {
-          connectOrCreate: {
-            where: {
-              igdbId: platformId,
-            },
-            create: {
-              name: selectedPlatform.name,
-              igdbId: selectedPlatform.id,
-              checksum: selectedPlatform.checksum,
-            },
           },
         },
       },

@@ -3,17 +3,17 @@ import prisma from "../prisma";
 import { createServerFn } from "@tanstack/react-start";
 import { Status } from "@/generated/prisma";
 
-type CreateStatus = Omit<Status, "createdAt" | "id" | "isDefault">;
+type CreateStatus = Omit<Status, "createdAt" | "isDefault">;
 
 const DefaultStatus: CreateStatus[] = [
-  { statusTitle: "Backlog", group: "BACKLOG" },
-  { statusTitle: "Playing", group: "PLAYING" },
-  { statusTitle: "On-Hold", group: "BACKLOG" },
-  { statusTitle: "Completed", group: "FINISHED" },
-  { statusTitle: "100% Completed", group: "FINISHED" },
-  { statusTitle: "Dropped", group: "DROPPED" },
-  { statusTitle: "Wishlist", group: "PLANNED" },
-  { statusTitle: "Pre-ordered", group: "PLANNED" },
+  { id: 1, statusTitle: "Backlog", group: "BACKLOG" },
+  { id: 2, statusTitle: "Playing", group: "PLAYING" },
+  { id: 3, statusTitle: "On-Hold", group: "BACKLOG" },
+  { id: 4, statusTitle: "Completed", group: "FINISHED" },
+  { id: 5, statusTitle: "100% Completed", group: "FINISHED" },
+  { id: 6, statusTitle: "Dropped", group: "DROPPED" },
+  { id: 7, statusTitle: "Wishlist", group: "PLANNED" },
+  { id: 8, statusTitle: "Pre-ordered", group: "PLANNED" },
 ];
 
 const getStatus = createServerFn({ method: "GET" }).handler(async () => {

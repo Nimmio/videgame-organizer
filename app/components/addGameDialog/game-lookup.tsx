@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import React, { useState } from "react";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import { useQuery } from "@tanstack/react-query";
@@ -9,12 +9,13 @@ import { fetchFunc } from "@/lib/server/fetch";
 import { getUrl } from "@/lib/server/igdb/cover";
 import { format, fromUnixTime } from "date-fns";
 import { Input } from "../ui/input";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { SearchGame } from "@/types/game";
+import { SearchGame, SearchGameWithPlatfrom } from "@/types/game";
+import { Button } from "../ui/button";
 
 interface GameLookupProps {
-  onSelectGame: (data: SearchGame) => void;
+  onSelectGame: (data: SearchGameWithPlatfrom) => void;
 }
 
 const searchGame = createServerFn({ method: "GET" })
@@ -69,12 +70,8 @@ const GameLookup = ({ onSelectGame }: GameLookupProps) => {
 
           <div className="grid gap-4 max-h-[400px] overflow-y-auto p-1">
             {data &&
-              data.map((game) => (
-                <Card
-                  key={game.id}
-                  className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => onSelectGame(game)}
-                >
+              data.map((game: SearchGame) => (
+                <Card key={game.id} className="overflow-hidden">
                   <CardContent>
                     <div className="flex gap-4">
                       <img
@@ -117,6 +114,30 @@ const GameLookup = ({ onSelectGame }: GameLookupProps) => {
                       </div>
                     </div>
                   </CardContent>
+                  <CardFooter>
+                    <div className="w-full">
+                      <div className="text-xs font-medium text-muted-foreground">
+                        Available on:
+                      </div>
+                      <div className="grid grid-cols-2 gap-1">
+                        {game.platforms.length > 0 &&
+                          game.platforms.map((platform) => (
+                            <Button
+                              key={platform.id}
+                              variant="outline"
+                              size="sm"
+                              className="h-8 text-xs justify-start cursor-pointer"
+                              onClick={() => {
+                                onSelectGame({ ...game, platform });
+                              }}
+                            >
+                              <Plus className="w-3 h-3 mr-1" />
+                              {platform.name}
+                            </Button>
+                          ))}
+                      </div>
+                    </div>
+                  </CardFooter>
                 </Card>
               ))}
           </div>

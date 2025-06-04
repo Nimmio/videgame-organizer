@@ -14,20 +14,7 @@ const fetchUserGamesSchema = z.object({
 const fetchUserGames = createServerFn({ method: "GET" })
   .validator((d: unknown) => fetchUserGamesSchema.parse(d))
   .handler(async ({ data }) => {
-    const {
-      userId,
-      search = "",
-      platform: platformFilter = "all",
-      status: statusFilter = "all",
-      limit,
-    } = data;
-
-    const platformWhere =
-      platformFilter !== "all"
-        ? {
-            id: platformFilter as number,
-          }
-        : {};
+    const { userId, search = "", status: statusFilter = "all", limit } = data;
 
     const statusWhere =
       statusFilter !== "all"
@@ -40,12 +27,10 @@ const fetchUserGames = createServerFn({ method: "GET" })
       where: {
         userId: userId,
         title: { contains: search, mode: "insensitive" },
-        platform: platformWhere,
         status: statusWhere,
       },
       include: {
         status: true,
-        platform: true,
       },
       take: limit,
     });

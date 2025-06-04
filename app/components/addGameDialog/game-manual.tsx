@@ -11,34 +11,101 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { SearchGame } from "@/types/game";
+import { SearchGameWithPlatfrom } from "@/types/game";
 import PlatformAutoComplete from "../PlatformAutoComplete";
+import GenresInput from "./genres-input";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { StatusQueryOptions } from "@/lib/server/status";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { getUrl } from "@/lib/server/igdb/cover";
+import { createUserGame } from "@/lib/server/game";
+import { useRouteContext } from "@tanstack/react-router";
 
 const formSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1),
+  platform: z.string().optional(),
+  genres: z.array(z.string()),
+  status: z.number(),
+  coverUrl: z.string().url().or(z.literal("")),
+  summary: z.string().optional(),
+  notes: z.string().optional(),
 });
 
-const GameManual = ({ selectedGame }: { selectedGame: SearchGame }) => {
+const GameManual = ({
+  selectedGame,
+}: {
+  selectedGame?: SearchGameWithPlatfrom;
+}) => {
+  const queryClient = useQueryClient();
+  const { user } = useRouteContext({ from: "/_authenticated" });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      platform: "",
+      genres: [],
+      status: 1,
+      coverUrl: "",
+      summary: "",
+      notes: "",
+    },
+  });
+
+  const createGameMutation = useMutation({
+    mutationFn: createUserGame,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userGames"] });
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    createGameMutation.mutate({ data: { ...values, userId: user.id } });
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
   useEffect(() => {
+    if (selectedGame !== undefined) form.reset();
     if (selectedGame) {
       if (selectedGame.name) {
         form.setValue("title", selectedGame.name);
       }
+      if (selectedGame.platform) {
+        form.setValue("platform", selectedGame.platform.name);
+      }
+      if (selectedGame.genres) {
+        form.setValue(
+          "genres",
+          selectedGame.genres.map((genre) => genre.name)
+        );
+      }
+      if (selectedGame.cover?.url) {
+        form.setValue(
+          "coverUrl",
+          getUrl((selectedGame.cover?.url as string) || "", "cover_big")
+        );
+      }
+      if (selectedGame.summary) {
+        form.setValue("summary", selectedGame.summary);
+      }
     }
   }, [selectedGame]);
+
+  const { data: AllStatus } = useSuspenseQuery(StatusQueryOptions());
 
   return (
     <div className="grid gap-4">
@@ -51,122 +118,111 @@ const GameManual = ({ selectedGame }: { selectedGame: SearchGame }) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Title" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
-        </form>
-      </Form>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="title"
+            name="platform"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Platform (optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <PlatformAutoComplete {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
-        </form>
-      </Form>
-      <PlatformAutoComplete />
-      {/* {newGame.coverUrl && (
-        <div className="flex justify-center mb-2">
-          <img
-            src={newGame.coverUrl || "/placeholder.svg"}
-            alt="Game cover"
-            className="h-40 object-cover rounded-md shadow-md"
+          <FormField
+            control={form.control}
+            name="genres"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Genres</FormLabel>
+                <FormControl>
+                  <GenresInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-      )}
-
-      <div>
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
-          value={newGame.title || ""}
-          onChange={(e) => setNewGame({ ...newGame, title: e.target.value })}
-        />
-      </div>
-      <div>
-        <Label htmlFor="platform">Platform</Label>
-        <Input
-          id="platform"
-          value={newGame?.platform || ""}
-          onChange={(e) => setNewGame({ ...newGame, platform: e.target.value })}
-        />
-      </div>
-      <div>
-        <Label htmlFor="genre">Genre</Label>
-        <Input
-          id="genre"
-          value={newGame?.genre || ""}
-          onChange={(e) => setNewGame({ ...newGame, genre: e.target.value })}
-        />
-      </div>
-      <div>
-        <Label htmlFor="year">Release Year</Label>
-        <Input
-          id="year"
-          type="number"
-          value={newGame?.releaseYear || ""}
-          onChange={(e) =>
-            setNewGame({
-              ...newGame,
-              releaseYear: Number.parseInt(e.target.value),
-            })
-          }
-        />
-      </div>
-      <div>
-        <Label htmlFor="status">Status</Label>
-        <Select
-          value={newGame?.status}
-          onValueChange={(value) =>
-            setNewGame({ ...newGame, status: value as Game["status"] })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-             {Object.entries(statusConfig).map(([status, config]) => (
-                      <SelectItem key={status} value={status}>
-                        <div className="flex items-center">
-                          <config.icon className="w-3 h-3 mr-2" />
-                          {config.label}
-                        </div>
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select
+                  onValueChange={(newValue: string) =>
+                    field.onChange(+newValue)
+                  }
+                  defaultValue={field.value.toString()}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {AllStatus.map((status) => (
+                      <SelectItem key={status.id} value={status.id.toString()}>
+                        {status.statusTitle}
                       </SelectItem>
                     ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        <Label htmlFor="coverUrl">Cover Image URL (optional)</Label>
-        <Input
-          id="coverUrl"
-          value={newGame?.coverUrl || ""}
-          onChange={(e) => setNewGame({ ...newGame, coverUrl: e.target.value })}
-          placeholder="/placeholder.svg?height=300&width=200"
-        />
-      </div>
-      <div>
-        <Label htmlFor="notes">Notes</Label>
-        <Textarea
-          id="notes"
-          value={newGame?.notes || ""}
-          onChange={(e) => setNewGame({ ...newGame, notes: e.target.value })}
-        />
-      </div> */}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="coverUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cover Image Url (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Cover Url" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="summary"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Summary (optional)</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Summary" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Notes (optional)</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Notes" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="w-full" type="submit">
+            Add to Library
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

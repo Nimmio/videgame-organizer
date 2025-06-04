@@ -90,14 +90,12 @@ model UserGame {
   status      Status     @relation(fields: [statusId], references: [id])
   statusId    Int
   notes       String?
+  summary String?
   releaseDate DateTime?
   startDate   DateTime?
   finishDate  DateTime?
-  platform    Platform?  @relation(fields: [platformId], references: [id], name: "playedPlatform")
-  platformId  Int?
-  platforms   Platform[] @relation(name: "allPlatforms")
-  genres      Genre[]
-  igdbID      Int
+  platform    String?
+  genres      String[]
   title   String
   coverUrl String?
 }
@@ -108,23 +106,6 @@ model Status {
   statusTitle String
   isDefault   Boolean
   group       StatusGroup
-}
-
-model Genre {
-  id       Int        @id @default(autoincrement())
-  name     String
-  igdbId   Int        @unique
-  igdbGame UserGame[]
-  checksum String     @default("-")
-}
-
-model Platform {
-  id                  Int        @id @default(autoincrement())
-  name                String
-  igdbId              Int        @unique
-  userGames           UserGame[] @relation(name: "playedPlatform")
-  userGamesAllPatfors UserGame[] @relation(name: "allPlatforms")
-  checksum            String     @default("-")
 }
 
 model System {

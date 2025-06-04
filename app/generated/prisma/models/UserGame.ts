@@ -28,15 +28,11 @@ export type AggregateUserGame = {
 export type UserGameAvgAggregateOutputType = {
   id: number | null
   statusId: number | null
-  platformId: number | null
-  igdbID: number | null
 }
 
 export type UserGameSumAggregateOutputType = {
   id: number | null
   statusId: number | null
-  platformId: number | null
-  igdbID: number | null
 }
 
 export type UserGameMinAggregateOutputType = {
@@ -44,11 +40,11 @@ export type UserGameMinAggregateOutputType = {
   userId: string | null
   statusId: number | null
   notes: string | null
+  summary: string | null
   releaseDate: Date | null
   startDate: Date | null
   finishDate: Date | null
-  platformId: number | null
-  igdbID: number | null
+  platform: string | null
   title: string | null
   coverUrl: string | null
 }
@@ -58,11 +54,11 @@ export type UserGameMaxAggregateOutputType = {
   userId: string | null
   statusId: number | null
   notes: string | null
+  summary: string | null
   releaseDate: Date | null
   startDate: Date | null
   finishDate: Date | null
-  platformId: number | null
-  igdbID: number | null
+  platform: string | null
   title: string | null
   coverUrl: string | null
 }
@@ -72,11 +68,12 @@ export type UserGameCountAggregateOutputType = {
   userId: number
   statusId: number
   notes: number
+  summary: number
   releaseDate: number
   startDate: number
   finishDate: number
-  platformId: number
-  igdbID: number
+  platform: number
+  genres: number
   title: number
   coverUrl: number
   _all: number
@@ -86,15 +83,11 @@ export type UserGameCountAggregateOutputType = {
 export type UserGameAvgAggregateInputType = {
   id?: true
   statusId?: true
-  platformId?: true
-  igdbID?: true
 }
 
 export type UserGameSumAggregateInputType = {
   id?: true
   statusId?: true
-  platformId?: true
-  igdbID?: true
 }
 
 export type UserGameMinAggregateInputType = {
@@ -102,11 +95,11 @@ export type UserGameMinAggregateInputType = {
   userId?: true
   statusId?: true
   notes?: true
+  summary?: true
   releaseDate?: true
   startDate?: true
   finishDate?: true
-  platformId?: true
-  igdbID?: true
+  platform?: true
   title?: true
   coverUrl?: true
 }
@@ -116,11 +109,11 @@ export type UserGameMaxAggregateInputType = {
   userId?: true
   statusId?: true
   notes?: true
+  summary?: true
   releaseDate?: true
   startDate?: true
   finishDate?: true
-  platformId?: true
-  igdbID?: true
+  platform?: true
   title?: true
   coverUrl?: true
 }
@@ -130,11 +123,12 @@ export type UserGameCountAggregateInputType = {
   userId?: true
   statusId?: true
   notes?: true
+  summary?: true
   releaseDate?: true
   startDate?: true
   finishDate?: true
-  platformId?: true
-  igdbID?: true
+  platform?: true
+  genres?: true
   title?: true
   coverUrl?: true
   _all?: true
@@ -231,11 +225,12 @@ export type UserGameGroupByOutputType = {
   userId: string
   statusId: number
   notes: string | null
+  summary: string | null
   releaseDate: Date | null
   startDate: Date | null
   finishDate: Date | null
-  platformId: number | null
-  igdbID: number
+  platform: string | null
+  genres: string[]
   title: string
   coverUrl: string | null
   _count: UserGameCountAggregateOutputType | null
@@ -268,18 +263,16 @@ export type UserGameWhereInput = {
   userId?: Prisma.StringFilter<"UserGame"> | string
   statusId?: Prisma.IntFilter<"UserGame"> | number
   notes?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  summary?: Prisma.StringNullableFilter<"UserGame"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   finishDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
-  platformId?: Prisma.IntNullableFilter<"UserGame"> | number | null
-  igdbID?: Prisma.IntFilter<"UserGame"> | number
+  platform?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  genres?: Prisma.StringNullableListFilter<"UserGame">
   title?: Prisma.StringFilter<"UserGame"> | string
   coverUrl?: Prisma.StringNullableFilter<"UserGame"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   status?: Prisma.XOR<Prisma.StatusScalarRelationFilter, Prisma.StatusWhereInput>
-  platform?: Prisma.XOR<Prisma.PlatformNullableScalarRelationFilter, Prisma.PlatformWhereInput> | null
-  platforms?: Prisma.PlatformListRelationFilter
-  genres?: Prisma.GenreListRelationFilter
 }
 
 export type UserGameOrderByWithRelationInput = {
@@ -287,18 +280,16 @@ export type UserGameOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  summary?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   finishDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  platformId?: Prisma.SortOrderInput | Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
+  platform?: Prisma.SortOrderInput | Prisma.SortOrder
+  genres?: Prisma.SortOrder
   title?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   status?: Prisma.StatusOrderByWithRelationInput
-  platform?: Prisma.PlatformOrderByWithRelationInput
-  platforms?: Prisma.PlatformOrderByRelationAggregateInput
-  genres?: Prisma.GenreOrderByRelationAggregateInput
 }
 
 export type UserGameWhereUniqueInput = Prisma.AtLeast<{
@@ -309,18 +300,16 @@ export type UserGameWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"UserGame"> | string
   statusId?: Prisma.IntFilter<"UserGame"> | number
   notes?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  summary?: Prisma.StringNullableFilter<"UserGame"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   finishDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
-  platformId?: Prisma.IntNullableFilter<"UserGame"> | number | null
-  igdbID?: Prisma.IntFilter<"UserGame"> | number
+  platform?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  genres?: Prisma.StringNullableListFilter<"UserGame">
   title?: Prisma.StringFilter<"UserGame"> | string
   coverUrl?: Prisma.StringNullableFilter<"UserGame"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   status?: Prisma.XOR<Prisma.StatusScalarRelationFilter, Prisma.StatusWhereInput>
-  platform?: Prisma.XOR<Prisma.PlatformNullableScalarRelationFilter, Prisma.PlatformWhereInput> | null
-  platforms?: Prisma.PlatformListRelationFilter
-  genres?: Prisma.GenreListRelationFilter
 }, "id">
 
 export type UserGameOrderByWithAggregationInput = {
@@ -328,11 +317,12 @@ export type UserGameOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  summary?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   finishDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  platformId?: Prisma.SortOrderInput | Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
+  platform?: Prisma.SortOrderInput | Prisma.SortOrder
+  genres?: Prisma.SortOrder
   title?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserGameCountOrderByAggregateInput
@@ -350,28 +340,28 @@ export type UserGameScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserGame"> | string
   statusId?: Prisma.IntWithAggregatesFilter<"UserGame"> | number
   notes?: Prisma.StringNullableWithAggregatesFilter<"UserGame"> | string | null
+  summary?: Prisma.StringNullableWithAggregatesFilter<"UserGame"> | string | null
   releaseDate?: Prisma.DateTimeNullableWithAggregatesFilter<"UserGame"> | Date | string | null
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"UserGame"> | Date | string | null
   finishDate?: Prisma.DateTimeNullableWithAggregatesFilter<"UserGame"> | Date | string | null
-  platformId?: Prisma.IntNullableWithAggregatesFilter<"UserGame"> | number | null
-  igdbID?: Prisma.IntWithAggregatesFilter<"UserGame"> | number
+  platform?: Prisma.StringNullableWithAggregatesFilter<"UserGame"> | string | null
+  genres?: Prisma.StringNullableListFilter<"UserGame">
   title?: Prisma.StringWithAggregatesFilter<"UserGame"> | string
   coverUrl?: Prisma.StringNullableWithAggregatesFilter<"UserGame"> | string | null
 }
 
 export type UserGameCreateInput = {
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
   user: Prisma.UserCreateNestedOneWithoutGamesInput
   status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  platform?: Prisma.PlatformCreateNestedOneWithoutUserGamesInput
-  platforms?: Prisma.PlatformCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameUncheckedCreateInput = {
@@ -379,30 +369,28 @@ export type UserGameUncheckedCreateInput = {
   userId: string
   statusId: number
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
-  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
   status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  platform?: Prisma.PlatformUpdateOneWithoutUserGamesNestedInput
-  platforms?: Prisma.PlatformUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameUncheckedUpdateInput = {
@@ -410,15 +398,14 @@ export type UserGameUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   statusId?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameCreateManyInput = {
@@ -426,21 +413,24 @@ export type UserGameCreateManyInput = {
   userId: string
   statusId: number
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
 }
 
 export type UserGameUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -450,11 +440,12 @@ export type UserGameUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   statusId?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -469,16 +460,25 @@ export type UserGameOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type UserGameCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   finishDate?: Prisma.SortOrder
-  platformId?: Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
+  platform?: Prisma.SortOrder
+  genres?: Prisma.SortOrder
   title?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
 }
@@ -486,8 +486,6 @@ export type UserGameCountOrderByAggregateInput = {
 export type UserGameAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
-  platformId?: Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
 }
 
 export type UserGameMaxOrderByAggregateInput = {
@@ -495,11 +493,11 @@ export type UserGameMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   finishDate?: Prisma.SortOrder
-  platformId?: Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
+  platform?: Prisma.SortOrder
   title?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
 }
@@ -509,11 +507,11 @@ export type UserGameMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   finishDate?: Prisma.SortOrder
-  platformId?: Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
+  platform?: Prisma.SortOrder
   title?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
 }
@@ -521,8 +519,6 @@ export type UserGameMinOrderByAggregateInput = {
 export type UserGameSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   statusId?: Prisma.SortOrder
-  platformId?: Prisma.SortOrder
-  igdbID?: Prisma.SortOrder
 }
 
 export type UserGameCreateNestedManyWithoutUserInput = {
@@ -567,12 +563,13 @@ export type UserGameUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type UserGameCreategenresInput = {
+  set: string[]
+}
+
+export type UserGameUpdategenresInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type UserGameCreateNestedManyWithoutStatusInput = {
@@ -617,151 +614,31 @@ export type UserGameUncheckedUpdateManyWithoutStatusNestedInput = {
   deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
 }
 
-export type UserGameCreateNestedManyWithoutGenresInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput> | Prisma.UserGameCreateWithoutGenresInput[] | Prisma.UserGameUncheckedCreateWithoutGenresInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutGenresInput | Prisma.UserGameCreateOrConnectWithoutGenresInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameUncheckedCreateNestedManyWithoutGenresInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput> | Prisma.UserGameCreateWithoutGenresInput[] | Prisma.UserGameUncheckedCreateWithoutGenresInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutGenresInput | Prisma.UserGameCreateOrConnectWithoutGenresInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameUpdateManyWithoutGenresNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput> | Prisma.UserGameCreateWithoutGenresInput[] | Prisma.UserGameUncheckedCreateWithoutGenresInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutGenresInput | Prisma.UserGameCreateOrConnectWithoutGenresInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutGenresInput | Prisma.UserGameUpsertWithWhereUniqueWithoutGenresInput[]
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutGenresInput | Prisma.UserGameUpdateWithWhereUniqueWithoutGenresInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutGenresInput | Prisma.UserGameUpdateManyWithWhereWithoutGenresInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
-export type UserGameUncheckedUpdateManyWithoutGenresNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput> | Prisma.UserGameCreateWithoutGenresInput[] | Prisma.UserGameUncheckedCreateWithoutGenresInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutGenresInput | Prisma.UserGameCreateOrConnectWithoutGenresInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutGenresInput | Prisma.UserGameUpsertWithWhereUniqueWithoutGenresInput[]
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutGenresInput | Prisma.UserGameUpdateWithWhereUniqueWithoutGenresInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutGenresInput | Prisma.UserGameUpdateManyWithWhereWithoutGenresInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
-export type UserGameCreateNestedManyWithoutPlatformInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput> | Prisma.UserGameCreateWithoutPlatformInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformInput | Prisma.UserGameCreateOrConnectWithoutPlatformInput[]
-  createMany?: Prisma.UserGameCreateManyPlatformInputEnvelope
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameCreateNestedManyWithoutPlatformsInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput> | Prisma.UserGameCreateWithoutPlatformsInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformsInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformsInput | Prisma.UserGameCreateOrConnectWithoutPlatformsInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameUncheckedCreateNestedManyWithoutPlatformInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput> | Prisma.UserGameCreateWithoutPlatformInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformInput | Prisma.UserGameCreateOrConnectWithoutPlatformInput[]
-  createMany?: Prisma.UserGameCreateManyPlatformInputEnvelope
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameUncheckedCreateNestedManyWithoutPlatformsInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput> | Prisma.UserGameCreateWithoutPlatformsInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformsInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformsInput | Prisma.UserGameCreateOrConnectWithoutPlatformsInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-}
-
-export type UserGameUpdateManyWithoutPlatformNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput> | Prisma.UserGameCreateWithoutPlatformInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformInput | Prisma.UserGameCreateOrConnectWithoutPlatformInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformInput | Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformInput[]
-  createMany?: Prisma.UserGameCreateManyPlatformInputEnvelope
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformInput | Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutPlatformInput | Prisma.UserGameUpdateManyWithWhereWithoutPlatformInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
-export type UserGameUpdateManyWithoutPlatformsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput> | Prisma.UserGameCreateWithoutPlatformsInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformsInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformsInput | Prisma.UserGameCreateOrConnectWithoutPlatformsInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformsInput | Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformsInput[]
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformsInput | Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformsInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutPlatformsInput | Prisma.UserGameUpdateManyWithWhereWithoutPlatformsInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
-export type UserGameUncheckedUpdateManyWithoutPlatformNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput> | Prisma.UserGameCreateWithoutPlatformInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformInput | Prisma.UserGameCreateOrConnectWithoutPlatformInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformInput | Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformInput[]
-  createMany?: Prisma.UserGameCreateManyPlatformInputEnvelope
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformInput | Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutPlatformInput | Prisma.UserGameUpdateManyWithWhereWithoutPlatformInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
-export type UserGameUncheckedUpdateManyWithoutPlatformsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput> | Prisma.UserGameCreateWithoutPlatformsInput[] | Prisma.UserGameUncheckedCreateWithoutPlatformsInput[]
-  connectOrCreate?: Prisma.UserGameCreateOrConnectWithoutPlatformsInput | Prisma.UserGameCreateOrConnectWithoutPlatformsInput[]
-  upsert?: Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformsInput | Prisma.UserGameUpsertWithWhereUniqueWithoutPlatformsInput[]
-  set?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  disconnect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  delete?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  connect?: Prisma.UserGameWhereUniqueInput | Prisma.UserGameWhereUniqueInput[]
-  update?: Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformsInput | Prisma.UserGameUpdateWithWhereUniqueWithoutPlatformsInput[]
-  updateMany?: Prisma.UserGameUpdateManyWithWhereWithoutPlatformsInput | Prisma.UserGameUpdateManyWithWhereWithoutPlatformsInput[]
-  deleteMany?: Prisma.UserGameScalarWhereInput | Prisma.UserGameScalarWhereInput[]
-}
-
 export type UserGameCreateWithoutUserInput = {
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
   status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  platform?: Prisma.PlatformCreateNestedOneWithoutUserGamesInput
-  platforms?: Prisma.PlatformCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameUncheckedCreateWithoutUserInput = {
   id?: number
   statusId: number
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
-  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameCreateOrConnectWithoutUserInput = {
@@ -798,42 +675,41 @@ export type UserGameScalarWhereInput = {
   userId?: Prisma.StringFilter<"UserGame"> | string
   statusId?: Prisma.IntFilter<"UserGame"> | number
   notes?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  summary?: Prisma.StringNullableFilter<"UserGame"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
   finishDate?: Prisma.DateTimeNullableFilter<"UserGame"> | Date | string | null
-  platformId?: Prisma.IntNullableFilter<"UserGame"> | number | null
-  igdbID?: Prisma.IntFilter<"UserGame"> | number
+  platform?: Prisma.StringNullableFilter<"UserGame"> | string | null
+  genres?: Prisma.StringNullableListFilter<"UserGame">
   title?: Prisma.StringFilter<"UserGame"> | string
   coverUrl?: Prisma.StringNullableFilter<"UserGame"> | string | null
 }
 
 export type UserGameCreateWithoutStatusInput = {
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
   user: Prisma.UserCreateNestedOneWithoutGamesInput
-  platform?: Prisma.PlatformCreateNestedOneWithoutUserGamesInput
-  platforms?: Prisma.PlatformCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameUncheckedCreateWithoutStatusInput = {
   id?: number
   userId: string
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
-  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
 }
 
 export type UserGameCreateOrConnectWithoutStatusInput = {
@@ -862,212 +738,57 @@ export type UserGameUpdateManyWithWhereWithoutStatusInput = {
   data: Prisma.XOR<Prisma.UserGameUpdateManyMutationInput, Prisma.UserGameUncheckedUpdateManyWithoutStatusInput>
 }
 
-export type UserGameCreateWithoutGenresInput = {
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  user: Prisma.UserCreateNestedOneWithoutGamesInput
-  status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  platform?: Prisma.PlatformCreateNestedOneWithoutUserGamesInput
-  platforms?: Prisma.PlatformCreateNestedManyWithoutUserGamesAllPatforsInput
-}
-
-export type UserGameUncheckedCreateWithoutGenresInput = {
-  id?: number
-  userId: string
-  statusId: number
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutUserGamesAllPatforsInput
-}
-
-export type UserGameCreateOrConnectWithoutGenresInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput>
-}
-
-export type UserGameUpsertWithWhereUniqueWithoutGenresInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserGameUpdateWithoutGenresInput, Prisma.UserGameUncheckedUpdateWithoutGenresInput>
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutGenresInput, Prisma.UserGameUncheckedCreateWithoutGenresInput>
-}
-
-export type UserGameUpdateWithWhereUniqueWithoutGenresInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserGameUpdateWithoutGenresInput, Prisma.UserGameUncheckedUpdateWithoutGenresInput>
-}
-
-export type UserGameUpdateManyWithWhereWithoutGenresInput = {
-  where: Prisma.UserGameScalarWhereInput
-  data: Prisma.XOR<Prisma.UserGameUpdateManyMutationInput, Prisma.UserGameUncheckedUpdateManyWithoutGenresInput>
-}
-
-export type UserGameCreateWithoutPlatformInput = {
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  user: Prisma.UserCreateNestedOneWithoutGamesInput
-  status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  platforms?: Prisma.PlatformCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
-}
-
-export type UserGameUncheckedCreateWithoutPlatformInput = {
-  id?: number
-  userId: string
-  statusId: number
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutUserGamesAllPatforsInput
-  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
-}
-
-export type UserGameCreateOrConnectWithoutPlatformInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput>
-}
-
-export type UserGameCreateManyPlatformInputEnvelope = {
-  data: Prisma.UserGameCreateManyPlatformInput | Prisma.UserGameCreateManyPlatformInput[]
-  skipDuplicates?: boolean
-}
-
-export type UserGameCreateWithoutPlatformsInput = {
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  user: Prisma.UserCreateNestedOneWithoutGamesInput
-  status: Prisma.StatusCreateNestedOneWithoutGamesInput
-  platform?: Prisma.PlatformCreateNestedOneWithoutUserGamesInput
-  genres?: Prisma.GenreCreateNestedManyWithoutIgdbGameInput
-}
-
-export type UserGameUncheckedCreateWithoutPlatformsInput = {
-  id?: number
-  userId: string
-  statusId: number
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutIgdbGameInput
-}
-
-export type UserGameCreateOrConnectWithoutPlatformsInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput>
-}
-
-export type UserGameUpsertWithWhereUniqueWithoutPlatformInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserGameUpdateWithoutPlatformInput, Prisma.UserGameUncheckedUpdateWithoutPlatformInput>
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformInput, Prisma.UserGameUncheckedCreateWithoutPlatformInput>
-}
-
-export type UserGameUpdateWithWhereUniqueWithoutPlatformInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserGameUpdateWithoutPlatformInput, Prisma.UserGameUncheckedUpdateWithoutPlatformInput>
-}
-
-export type UserGameUpdateManyWithWhereWithoutPlatformInput = {
-  where: Prisma.UserGameScalarWhereInput
-  data: Prisma.XOR<Prisma.UserGameUpdateManyMutationInput, Prisma.UserGameUncheckedUpdateManyWithoutPlatformInput>
-}
-
-export type UserGameUpsertWithWhereUniqueWithoutPlatformsInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserGameUpdateWithoutPlatformsInput, Prisma.UserGameUncheckedUpdateWithoutPlatformsInput>
-  create: Prisma.XOR<Prisma.UserGameCreateWithoutPlatformsInput, Prisma.UserGameUncheckedCreateWithoutPlatformsInput>
-}
-
-export type UserGameUpdateWithWhereUniqueWithoutPlatformsInput = {
-  where: Prisma.UserGameWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserGameUpdateWithoutPlatformsInput, Prisma.UserGameUncheckedUpdateWithoutPlatformsInput>
-}
-
-export type UserGameUpdateManyWithWhereWithoutPlatformsInput = {
-  where: Prisma.UserGameScalarWhereInput
-  data: Prisma.XOR<Prisma.UserGameUpdateManyMutationInput, Prisma.UserGameUncheckedUpdateManyWithoutPlatformsInput>
-}
-
 export type UserGameCreateManyUserInput = {
   id?: number
   statusId: number
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
 }
 
 export type UserGameUpdateWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  platform?: Prisma.PlatformUpdateOneWithoutUserGamesNestedInput
-  platforms?: Prisma.PlatformUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   statusId?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   statusId?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -1076,236 +797,57 @@ export type UserGameCreateManyStatusInput = {
   id?: number
   userId: string
   notes?: string | null
+  summary?: string | null
   releaseDate?: Date | string | null
   startDate?: Date | string | null
   finishDate?: Date | string | null
-  platformId?: number | null
-  igdbID: number
+  platform?: string | null
+  genres?: Prisma.UserGameCreategenresInput | string[]
   title: string
   coverUrl?: string | null
 }
 
 export type UserGameUpdateWithoutStatusInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  platform?: Prisma.PlatformUpdateOneWithoutUserGamesNestedInput
-  platforms?: Prisma.PlatformUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameUncheckedUpdateWithoutStatusInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
 }
 
 export type UserGameUncheckedUpdateManyWithoutStatusInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
+  platform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.UserGameUpdategenresInput | string[]
   title?: Prisma.StringFieldUpdateOperationsInput | string
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type UserGameUpdateWithoutGenresInput = {
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  platform?: Prisma.PlatformUpdateOneWithoutUserGamesNestedInput
-  platforms?: Prisma.PlatformUpdateManyWithoutUserGamesAllPatforsNestedInput
-}
-
-export type UserGameUncheckedUpdateWithoutGenresInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutUserGamesAllPatforsNestedInput
-}
-
-export type UserGameUncheckedUpdateManyWithoutGenresInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type UserGameCreateManyPlatformInput = {
-  id?: number
-  userId: string
-  statusId: number
-  notes?: string | null
-  releaseDate?: Date | string | null
-  startDate?: Date | string | null
-  finishDate?: Date | string | null
-  igdbID: number
-  title: string
-  coverUrl?: string | null
-}
-
-export type UserGameUpdateWithoutPlatformInput = {
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  platforms?: Prisma.PlatformUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
-}
-
-export type UserGameUncheckedUpdateWithoutPlatformInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutUserGamesAllPatforsNestedInput
-  genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
-}
-
-export type UserGameUncheckedUpdateManyWithoutPlatformInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type UserGameUpdateWithoutPlatformsInput = {
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  status?: Prisma.StatusUpdateOneRequiredWithoutGamesNestedInput
-  platform?: Prisma.PlatformUpdateOneWithoutUserGamesNestedInput
-  genres?: Prisma.GenreUpdateManyWithoutIgdbGameNestedInput
-}
-
-export type UserGameUncheckedUpdateWithoutPlatformsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  genres?: Prisma.GenreUncheckedUpdateManyWithoutIgdbGameNestedInput
-}
-
-export type UserGameUncheckedUpdateManyWithoutPlatformsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  statusId?: Prisma.IntFieldUpdateOperationsInput | number
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  platformId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  igdbID?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type UserGameCountOutputType
- */
-
-export type UserGameCountOutputType = {
-  platforms: number
-  genres: number
-}
-
-export type UserGameCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  platforms?: boolean | UserGameCountOutputTypeCountPlatformsArgs
-  genres?: boolean | UserGameCountOutputTypeCountGenresArgs
-}
-
-/**
- * UserGameCountOutputType without action
- */
-export type UserGameCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserGameCountOutputType
-   */
-  select?: Prisma.UserGameCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * UserGameCountOutputType without action
- */
-export type UserGameCountOutputTypeCountPlatformsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PlatformWhereInput
-}
-
-/**
- * UserGameCountOutputType without action
- */
-export type UserGameCountOutputTypeCountGenresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.GenreWhereInput
-}
 
 
 export type UserGameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1313,19 +855,16 @@ export type UserGameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   userId?: boolean
   statusId?: boolean
   notes?: boolean
+  summary?: boolean
   releaseDate?: boolean
   startDate?: boolean
   finishDate?: boolean
-  platformId?: boolean
-  igdbID?: boolean
+  platform?: boolean
+  genres?: boolean
   title?: boolean
   coverUrl?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
-  platforms?: boolean | Prisma.UserGame$platformsArgs<ExtArgs>
-  genres?: boolean | Prisma.UserGame$genresArgs<ExtArgs>
-  _count?: boolean | Prisma.UserGameCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1333,16 +872,16 @@ export type UserGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   userId?: boolean
   statusId?: boolean
   notes?: boolean
+  summary?: boolean
   releaseDate?: boolean
   startDate?: boolean
   finishDate?: boolean
-  platformId?: boolean
-  igdbID?: boolean
+  platform?: boolean
+  genres?: boolean
   title?: boolean
   coverUrl?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1350,16 +889,16 @@ export type UserGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   userId?: boolean
   statusId?: boolean
   notes?: boolean
+  summary?: boolean
   releaseDate?: boolean
   startDate?: boolean
   finishDate?: boolean
-  platformId?: boolean
-  igdbID?: boolean
+  platform?: boolean
+  genres?: boolean
   title?: boolean
   coverUrl?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
 
 export type UserGameSelectScalar = {
@@ -1367,33 +906,28 @@ export type UserGameSelectScalar = {
   userId?: boolean
   statusId?: boolean
   notes?: boolean
+  summary?: boolean
   releaseDate?: boolean
   startDate?: boolean
   finishDate?: boolean
-  platformId?: boolean
-  igdbID?: boolean
+  platform?: boolean
+  genres?: boolean
   title?: boolean
   coverUrl?: boolean
 }
 
-export type UserGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "statusId" | "notes" | "releaseDate" | "startDate" | "finishDate" | "platformId" | "igdbID" | "title" | "coverUrl", ExtArgs["result"]["userGame"]>
+export type UserGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "statusId" | "notes" | "summary" | "releaseDate" | "startDate" | "finishDate" | "platform" | "genres" | "title" | "coverUrl", ExtArgs["result"]["userGame"]>
 export type UserGameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
-  platforms?: boolean | Prisma.UserGame$platformsArgs<ExtArgs>
-  genres?: boolean | Prisma.UserGame$genresArgs<ExtArgs>
-  _count?: boolean | Prisma.UserGameCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserGameIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
 }
 export type UserGameIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   status?: boolean | Prisma.StatusDefaultArgs<ExtArgs>
-  platform?: boolean | Prisma.UserGame$platformArgs<ExtArgs>
 }
 
 export type $UserGamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1401,20 +935,18 @@ export type $UserGamePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     status: Prisma.$StatusPayload<ExtArgs>
-    platform: Prisma.$PlatformPayload<ExtArgs> | null
-    platforms: Prisma.$PlatformPayload<ExtArgs>[]
-    genres: Prisma.$GenrePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: string
     statusId: number
     notes: string | null
+    summary: string | null
     releaseDate: Date | null
     startDate: Date | null
     finishDate: Date | null
-    platformId: number | null
-    igdbID: number
+    platform: string | null
+    genres: string[]
     title: string
     coverUrl: string | null
   }, ExtArgs["result"]["userGame"]>
@@ -1813,9 +1345,6 @@ export interface Prisma__UserGameClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   status<T extends Prisma.StatusDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StatusDefaultArgs<ExtArgs>>): Prisma.Prisma__StatusClient<runtime.Types.Result.GetResult<Prisma.$StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  platform<T extends Prisma.UserGame$platformArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserGame$platformArgs<ExtArgs>>): Prisma.Prisma__PlatformClient<runtime.Types.Result.GetResult<Prisma.$PlatformPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  platforms<T extends Prisma.UserGame$platformsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserGame$platformsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlatformPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  genres<T extends Prisma.UserGame$genresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserGame$genresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1849,11 +1378,12 @@ export interface UserGameFieldRefs {
   readonly userId: Prisma.FieldRef<"UserGame", 'String'>
   readonly statusId: Prisma.FieldRef<"UserGame", 'Int'>
   readonly notes: Prisma.FieldRef<"UserGame", 'String'>
+  readonly summary: Prisma.FieldRef<"UserGame", 'String'>
   readonly releaseDate: Prisma.FieldRef<"UserGame", 'DateTime'>
   readonly startDate: Prisma.FieldRef<"UserGame", 'DateTime'>
   readonly finishDate: Prisma.FieldRef<"UserGame", 'DateTime'>
-  readonly platformId: Prisma.FieldRef<"UserGame", 'Int'>
-  readonly igdbID: Prisma.FieldRef<"UserGame", 'Int'>
+  readonly platform: Prisma.FieldRef<"UserGame", 'String'>
+  readonly genres: Prisma.FieldRef<"UserGame", 'String[]'>
   readonly title: Prisma.FieldRef<"UserGame", 'String'>
   readonly coverUrl: Prisma.FieldRef<"UserGame", 'String'>
 }
@@ -2249,73 +1779,6 @@ export type UserGameDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many UserGames to delete.
    */
   limit?: number
-}
-
-/**
- * UserGame.platform
- */
-export type UserGame$platformArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Platform
-   */
-  select?: Prisma.PlatformSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Platform
-   */
-  omit?: Prisma.PlatformOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PlatformInclude<ExtArgs> | null
-  where?: Prisma.PlatformWhereInput
-}
-
-/**
- * UserGame.platforms
- */
-export type UserGame$platformsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Platform
-   */
-  select?: Prisma.PlatformSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Platform
-   */
-  omit?: Prisma.PlatformOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PlatformInclude<ExtArgs> | null
-  where?: Prisma.PlatformWhereInput
-  orderBy?: Prisma.PlatformOrderByWithRelationInput | Prisma.PlatformOrderByWithRelationInput[]
-  cursor?: Prisma.PlatformWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PlatformScalarFieldEnum | Prisma.PlatformScalarFieldEnum[]
-}
-
-/**
- * UserGame.genres
- */
-export type UserGame$genresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Genre
-   */
-  select?: Prisma.GenreSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Genre
-   */
-  omit?: Prisma.GenreOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.GenreInclude<ExtArgs> | null
-  where?: Prisma.GenreWhereInput
-  orderBy?: Prisma.GenreOrderByWithRelationInput | Prisma.GenreOrderByWithRelationInput[]
-  cursor?: Prisma.GenreWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.GenreScalarFieldEnum | Prisma.GenreScalarFieldEnum[]
 }
 
 /**

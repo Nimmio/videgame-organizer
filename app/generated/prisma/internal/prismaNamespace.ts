@@ -92,12 +92,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 export const prismaVersion: PrismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 /**
@@ -401,8 +401,6 @@ export const ModelName = {
   IGDBAuth: 'IGDBAuth',
   UserGame: 'UserGame',
   Status: 'Status',
-  Genre: 'Genre',
-  Platform: 'Platform',
   System: 'System'
 } as const
 
@@ -419,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "userGame" | "status" | "genre" | "platform" | "system"
+    modelProps: "user" | "session" | "account" | "verification" | "iGDBAuth" | "userGame" | "status" | "system"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -941,154 +939,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Genre: {
-      payload: Prisma.$GenrePayload<ExtArgs>
-      fields: Prisma.GenreFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.GenreFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.GenreFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        findFirst: {
-          args: Prisma.GenreFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.GenreFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        findMany: {
-          args: Prisma.GenreFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>[]
-        }
-        create: {
-          args: Prisma.GenreCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        createMany: {
-          args: Prisma.GenreCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.GenreCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>[]
-        }
-        delete: {
-          args: Prisma.GenreDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        update: {
-          args: Prisma.GenreUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        deleteMany: {
-          args: Prisma.GenreDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.GenreUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.GenreUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>[]
-        }
-        upsert: {
-          args: Prisma.GenreUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$GenrePayload>
-        }
-        aggregate: {
-          args: Prisma.GenreAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateGenre>
-        }
-        groupBy: {
-          args: Prisma.GenreGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.GenreGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.GenreCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.GenreCountAggregateOutputType> | number
-        }
-      }
-    }
-    Platform: {
-      payload: Prisma.$PlatformPayload<ExtArgs>
-      fields: Prisma.PlatformFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.PlatformFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.PlatformFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        findFirst: {
-          args: Prisma.PlatformFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.PlatformFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        findMany: {
-          args: Prisma.PlatformFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>[]
-        }
-        create: {
-          args: Prisma.PlatformCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        createMany: {
-          args: Prisma.PlatformCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.PlatformCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>[]
-        }
-        delete: {
-          args: Prisma.PlatformDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        update: {
-          args: Prisma.PlatformUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        deleteMany: {
-          args: Prisma.PlatformDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.PlatformUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.PlatformUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>[]
-        }
-        upsert: {
-          args: Prisma.PlatformUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformPayload>
-        }
-        aggregate: {
-          args: Prisma.PlatformAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePlatform>
-        }
-        groupBy: {
-          args: Prisma.PlatformGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlatformGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.PlatformCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlatformCountAggregateOutputType> | number
-        }
-      }
-    }
     System: {
       payload: Prisma.$SystemPayload<ExtArgs>
       fields: Prisma.SystemFieldRefs
@@ -1275,11 +1125,12 @@ export const UserGameScalarFieldEnum = {
   userId: 'userId',
   statusId: 'statusId',
   notes: 'notes',
+  summary: 'summary',
   releaseDate: 'releaseDate',
   startDate: 'startDate',
   finishDate: 'finishDate',
-  platformId: 'platformId',
-  igdbID: 'igdbID',
+  platform: 'platform',
+  genres: 'genres',
   title: 'title',
   coverUrl: 'coverUrl'
 } as const
@@ -1295,26 +1146,6 @@ export const StatusScalarFieldEnum = {
 } as const
 
 export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof StatusScalarFieldEnum]
-
-
-export const GenreScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  igdbId: 'igdbId',
-  checksum: 'checksum'
-} as const
-
-export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
-
-
-export const PlatformScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  igdbId: 'igdbId',
-  checksum: 'checksum'
-} as const
-
-export type PlatformScalarFieldEnum = (typeof PlatformScalarFieldEnum)[keyof typeof PlatformScalarFieldEnum]
 
 
 export const SystemScalarFieldEnum = {
@@ -1513,8 +1344,6 @@ export type GlobalOmitConfig = {
   iGDBAuth?: Prisma.IGDBAuthOmit
   userGame?: Prisma.UserGameOmit
   status?: Prisma.StatusOmit
-  genre?: Prisma.GenreOmit
-  platform?: Prisma.PlatformOmit
   system?: Prisma.SystemOmit
 }
 
