@@ -12,6 +12,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { SearchGame } from "@/types/game";
+import PlatformAutoComplete from "../PlatformAutoComplete";
 
 const formSchema = z.object({
   title: z.string(),
@@ -77,6 +78,7 @@ const GameManual = ({ selectedGame }: { selectedGame: SearchGame }) => {
           />
         </form>
       </Form>
+      <PlatformAutoComplete />
       {/* {newGame.coverUrl && (
         <div className="flex justify-center mb-2">
           <img

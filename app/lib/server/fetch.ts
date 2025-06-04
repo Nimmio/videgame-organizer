@@ -2,6 +2,7 @@ import { readIGDBEnvVars } from "./igdb/auth";
 
 const IgdbEndpointsUrls = {
   game: "https://api.igdb.com/v4/games",
+  platform: "https://api.igdb.com/v4/platforms/",
 };
 
 interface fetchFuncParams {
@@ -9,6 +10,7 @@ interface fetchFuncParams {
   token: string;
   fields: string;
   search: string;
+  extra?: string;
 }
 
 export const fetchFunc = async ({
@@ -16,6 +18,7 @@ export const fetchFunc = async ({
   token,
   fields,
   search,
+  extra = "",
 }: fetchFuncParams) => {
   const response = await fetch(IgdbEndpointsUrls[endpoint], {
     method: "POST",
@@ -24,7 +27,7 @@ export const fetchFunc = async ({
       "Client-ID": readIGDBEnvVars().client,
       Authorization: `Bearer ${token}`,
     },
-    body: `search "${search}";fields ${fields}; where version_parent = null;`,
+    body: `search "${search}";fields ${fields};${extra}`,
   });
 
   return response;

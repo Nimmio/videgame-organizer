@@ -17,7 +17,7 @@ interface GameLookupProps {
   onSelectGame: (data: SearchGame) => void;
 }
 
-const searchGame = createServerFn({ method: "POST" })
+const searchGame = createServerFn({ method: "GET" })
   .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
   .middleware([igdbAuthMiddleware])
   .handler(async ({ data, context }) => {
@@ -30,6 +30,7 @@ const searchGame = createServerFn({ method: "POST" })
         "name,first_release_date,cover.url,summary,genres.name,genres.checksum,platforms.name,platforms.checksum,checksum",
       token: igdbAccessToken as string,
       search,
+      extra: "where version_parent = null;",
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
