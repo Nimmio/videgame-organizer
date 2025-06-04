@@ -1,10 +1,3 @@
-import {
-  Genre,
-  IGDBGame,
-  Platform,
-  Status,
-  UserGame,
-} from "@/generated/prisma";
 import { z } from "zod";
 
 export interface SearchGame {
