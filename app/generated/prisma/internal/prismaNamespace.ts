@@ -1132,7 +1132,9 @@ export const UserGameScalarFieldEnum = {
   platform: 'platform',
   genres: 'genres',
   title: 'title',
-  coverUrl: 'coverUrl'
+  coverUrl: 'coverUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]

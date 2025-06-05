@@ -1,3 +1,4 @@
+import { Status, UserGame } from "@/generated/prisma";
 import { z } from "zod";
 
 export interface SearchGame {
@@ -22,6 +23,7 @@ export interface SearchGame {
 export type SearchGameWithPlatfrom = SearchGame & {
   platform: SearchGame["platforms"][0];
 };
+export type GameWithStatus = UserGame & { status: Status };
 
 export const SearchGameSchema = z.object({
   name: z.string(),

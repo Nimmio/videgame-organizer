@@ -4,38 +4,14 @@ import { ArrowRight, Clock } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+import { GameWithStatus } from "@/types/game";
+import { format } from "date-fns";
 
-const DEMODATA = [
-  {
-    id: "1",
-    title: "Elden Ring",
-    platform: "PC",
-    status: "playing",
-    progress: 65,
-    lastPlayed: "2 hours ago",
-    coverUrl: "/placeholder.svg?height=80&width=60",
-  },
-  {
-    id: "2",
-    title: "Cyberpunk 2077",
-    platform: "PC",
-    status: "playing",
-    progress: 45,
-    lastPlayed: "1 day ago",
-    coverUrl: "/placeholder.svg?height=80&width=60",
-  },
-  {
-    id: "3",
-    title: "God of War",
-    platform: "PlayStation 5",
-    status: "completed",
-    progress: 100,
-    lastPlayed: "3 days ago",
-    coverUrl: "/placeholder.svg?height=80&width=60",
-  },
-];
+interface DashboardRecentActivityProps {
+  games: GameWithStatus[];
+}
 
-const DashboardRecentActivity = () => {
+const DashboardRecentActivity = ({ games }: DashboardRecentActivityProps) => {
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -46,7 +22,7 @@ const DashboardRecentActivity = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {DEMODATA.map((game) => (
+          {games.map((game) => (
             <div key={game.id} className="flex items-center space-x-4">
               <img
                 src={game.coverUrl || "/placeholder.svg"}
@@ -60,13 +36,15 @@ const DashboardRecentActivity = () => {
               <div className="text-right">
                 <Badge
                   variant={
-                    game.status === "completed" ? "default" : "secondary"
+                    game.status.statusTitle === "completed"
+                      ? "default"
+                      : "secondary"
                   }
                 >
-                  {game.status === "completed" ? "Completed" : "Playing"}
+                  {game.status.statusTitle}
                 </Badge>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {game.lastPlayed}
+                  {format(game.updatedAt, "PPP")}
                 </p>
               </div>
             </div>

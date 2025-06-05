@@ -1,14 +1,15 @@
 import prisma from "@/lib/prisma";
-import { SearchGameSchema } from "@/types/game";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { fromUnixTime } from "date-fns";
 
 const CreateUserGameSchema = z.object({
   title: z.string().min(1),
   platform: z.string().optional(),
   genres: z.array(z.string()),
+  releaseDate: z.date().optional(),
   status: z.number(),
+  startDate: z.date().optional(),
+  finishDate: z.date().optional(),
   coverUrl: z.string().url().or(z.literal("")),
   summary: z.string().optional(),
   notes: z.string().optional(),
@@ -22,7 +23,10 @@ export const createUserGame = createServerFn({ method: "POST" })
       title,
       platform,
       genres,
+      releaseDate,
       status,
+      startDate,
+      finishDate,
       coverUrl,
       summary,
       notes,
@@ -42,6 +46,9 @@ export const createUserGame = createServerFn({ method: "POST" })
         coverUrl,
         summary,
         notes,
+        startDate,
+        finishDate,
+        releaseDate,
         user: {
           connect: {
             id: userId,

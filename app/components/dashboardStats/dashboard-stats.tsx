@@ -7,6 +7,7 @@ interface DashboardStatsProps {
   completionRate: number;
   completedGames: number;
   currentlyPlaying: number;
+  gamesLastMonth: number;
 }
 
 const DashboardStats = ({
@@ -14,13 +15,14 @@ const DashboardStats = ({
   completionRate,
   currentlyPlaying,
   totalGames,
+  gamesLastMonth,
 }: DashboardStatsProps) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-4">
       <StatCard
         icon={<Library className="h-4 w-4 text-muted-foreground" />}
         title="Total Games"
-        subtitle="+2 from last month"
+        subtitle={`+${gamesLastMonth} from last month`}
         value={totalGames}
       />
       <StatCard

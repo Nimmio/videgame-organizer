@@ -84,24 +84,26 @@ model IGDBAuth {
 }
 
 model UserGame {
-  id          Int        @id @default(autoincrement())
-  user        User       @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
   userId      String
-  status      Status     @relation(fields: [statusId], references: [id])
+  status      Status    @relation(fields: [statusId], references: [id])
   statusId    Int
   notes       String?
-  summary String?
+  summary     String?
   releaseDate DateTime?
   startDate   DateTime?
   finishDate  DateTime?
   platform    String?
   genres      String[]
-  title   String
-  coverUrl String?
+  title       String
+  coverUrl    String?
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
 }
 
 model Status {
-  id          Int        @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   games       UserGame[]
   statusTitle String
   isDefault   Boolean

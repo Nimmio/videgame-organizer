@@ -1,5 +1,5 @@
-import { Plus, Search } from "lucide-react";
 import React, { useState } from "react";
+import { Plus, Search } from "lucide-react";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import { useQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
@@ -120,7 +120,8 @@ const GameLookup = ({ onSelectGame }: GameLookupProps) => {
                         Available on:
                       </div>
                       <div className="grid grid-cols-2 gap-1">
-                        {game.platforms.length > 0 &&
+                        {game.platforms &&
+                          game.platforms.length > 0 &&
                           game.platforms.map((platform) => (
                             <Button
                               key={platform.id}
