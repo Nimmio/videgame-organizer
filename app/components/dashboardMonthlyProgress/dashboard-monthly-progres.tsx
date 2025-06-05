@@ -17,7 +17,7 @@ const DashboardMonthlyProgress = ({ data }: DashboardMonthlyProgressProps) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-6 gap-4">
-          {data.reverse().map((stat) => (
+          {data.map((stat) => (
             <div key={stat.month} className="text-center space-y-2">
               <p className="text-sm font-medium">{stat.month}</p>
               <div className="space-y-1">

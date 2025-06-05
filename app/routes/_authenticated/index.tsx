@@ -9,18 +9,19 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  getCountAllGames,
+  getCountCompletedGames,
+  getCountPlayingGames,
+} from "@/lib/server/game";
 
 const getDashboardData = createServerFn({ method: "GET" })
   .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
   .handler(async ({ data }) => {
     const { userId } = data;
 
-    const countAllGames = await prisma.userGame.count({
-      where: {
-        userId,
-      },
-    });
+    const countAllGames = await getCountAllGames({ data: { userId } });
 
     const countLastMonth = await prisma.userGame.count({
       where: {
@@ -31,25 +32,13 @@ const getDashboardData = createServerFn({ method: "GET" })
       },
     });
 
-    const countCompletedGames = await prisma.userGame.count({
-      where: {
-        userId,
-        status: {
-          group: "FINISHED",
-        },
-      },
+    const countCompletedGames = await getCountCompletedGames({
+      data: { userId },
     });
 
     const completionRate = (countCompletedGames / countAllGames) * 100;
 
-    const currentlyPlaying = await prisma.userGame.count({
-      where: {
-        userId,
-        status: {
-          group: "PLAYING",
-        },
-      },
-    });
+    const currentlyPlaying = await getCountPlayingGames({ data: { userId } });
 
     const recentGames = await prisma.userGame.findMany({
       where: {
@@ -94,7 +83,7 @@ const getDashboardData = createServerFn({ method: "GET" })
       completionRate,
       currentlyPlaying,
       recentGames,
-      monthlyFinishedGames,
+      monthlyFinishedGames: monthlyFinishedGames.reverse(),
     };
   });
 
@@ -115,22 +104,25 @@ function Dashboard() {
     queryKey: ["dashboardData", user.id],
     queryFn: () => getDashboardData({ data: { userId: user.id } }),
   });
-  console.log("data", data);
   return (
     <div>
       <PageWrap
         title={"Dashboard"}
         subtitle="Welcome back! Here's an overview of your gaming activity."
       />
-      <DashboardStats
-        completedGames={data.countCompletedGames}
-        completionRate={data.completionRate}
-        currentlyPlaying={data.currentlyPlaying}
-        totalGames={data.countAllGames}
-        gamesLastMonth={data.countLastMonth}
-      />
-      <DashboardRecentActivity games={data.recentGames} />
-      <DashboardMonthlyProgress data={data.monthlyFinishedGames} />
+      {data && (
+        <>
+          <DashboardStats
+            completedGames={data.countCompletedGames}
+            completionRate={data.completionRate}
+            currentlyPlaying={data.currentlyPlaying}
+            totalGames={data.countAllGames}
+            gamesLastMonth={data.countLastMonth}
+          />
+          <DashboardRecentActivity games={data.recentGames || []} />
+          <DashboardMonthlyProgress data={data.monthlyFinishedGames} />
+        </>
+      )}
       <DashboardQuickActions />
     </div>
   );

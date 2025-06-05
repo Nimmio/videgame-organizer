@@ -13,14 +13,12 @@ interface GameLibraryListRowProps {
   userGame: LibraryUserGame;
   onDelete: (userGameId: UserGame["id"]) => void;
   onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
-  onPlatformChange: (userGameId: UserGame["id"], newPlatform: Platform) => void;
 }
 
 const GameLibraryListRow = ({
   userGame,
   onDelete,
   onStatusChange,
-  onPlatformChange,
 }: GameLibraryListRowProps) => {
   const { game } = userGame;
   return (
@@ -45,9 +43,6 @@ const GameLibraryListRow = ({
         <GameCardPlatformDropdown
           currentPlatform={userGame.platform as Platform}
           style="default"
-          onChange={(newPlatform: Platform) => {
-            onPlatformChange(game.id, newPlatform);
-          }}
           platformOptions={game.platforms}
         />
       </TableCell>

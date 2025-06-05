@@ -100,26 +100,37 @@ export const updateStatus = createServerFn({ method: "POST" })
     });
   });
 
-const updatePlatformSchema = z.object({
-  userGameId: z.number(),
-  userId: z.string(),
-  newPlatformId: z.number(),
-});
-
-export const updatePlatform = createServerFn({ method: "POST" })
-  .validator((d: unknown) => updatePlatformSchema.parse(d))
+export const getCountAllGames = createServerFn({ method: "GET" })
+  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
   .handler(async ({ data }) => {
-    const { userGameId, userId, newPlatformId } = data;
-    return await prisma.userGame.update({
+    return await prisma.userGame.count({
       where: {
-        userId,
-        id: userGameId,
+        userId: data.userId,
       },
-      data: {
-        platform: {
-          connect: {
-            id: newPlatformId,
-          },
+    });
+  });
+
+export const getCountCompletedGames = createServerFn({ method: "GET" })
+  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    return await prisma.userGame.count({
+      where: {
+        userId: data.userId,
+        status: {
+          group: "FINISHED",
+        },
+      },
+    });
+  });
+
+export const getCountPlayingGames = createServerFn({ method: "GET" })
+  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    return await prisma.userGame.count({
+      where: {
+        userId: data.userId,
+        status: {
+          group: "PLAYING",
         },
       },
     });

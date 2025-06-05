@@ -22,8 +22,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouteContext, useRouterState } from "@tanstack/react-router";
 import { NavUser } from "./nav-user";
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import {
+  getCountAllGames,
+  getCountCompletedGames,
+  getCountPlayingGames,
+} from "@/lib/server/game";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
 // Menu items.
 const items = [
   {
@@ -36,11 +45,11 @@ const items = [
     url: "/Library",
     icon: Library,
   },
-  {
-    title: "Backlog Roulette",
-    url: "/roulette",
-    icon: Shuffle,
-  },
+  // {
+  //   title: "Backlog Roulette",
+  //   url: "/roulette",
+  //   icon: Shuffle,
+  // },
   {
     title: "Settings",
     url: "/settings",
@@ -53,30 +62,27 @@ const items = [
   },
 ];
 
+const getDashboardData = createServerFn({ method: "GET" })
+  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    const { userId } = data;
+    const countAllGames = await getCountAllGames({ data: { userId } });
+    const currentlyPlaying = await getCountPlayingGames({ data: { userId } });
+    const countCompletedGames = await getCountCompletedGames({
+      data: { userId },
+    });
+    return { countAllGames, currentlyPlaying, countCompletedGames };
+  });
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouterState();
   const { pathname } = router.location;
-  const quickStats = [
-    {
-      title: "Playing",
-      count: 3,
-      icon: Clock,
-      color: "text-blue-500",
-    },
-    {
-      title: "Completed",
-      count: 12,
-      icon: CheckCircle,
-      color: "text-green-500",
-    },
-    {
-      title: "Total Games",
-      count: 24,
-      icon: TrendingUp,
-      color: "text-purple-500",
-    },
-  ];
+  const { user } = useRouteContext({ from: "/_authenticated" });
 
+  const { data } = useSuspenseQuery({
+    queryKey: ["sidebarData", user.id],
+    queryFn: () => getDashboardData({ data: { userId: user.id } }),
+  });
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="border-b">
@@ -103,25 +109,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Quick Stats</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="space-y-2 px-2">
-              {quickStats.map((stat) => (
-                <div
-                  key={stat.title}
-                  className="flex items-center justify-between p-2 rounded-md bg-sidebar-accent/50"
-                >
+        {data && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Quick Stats</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <div className="space-y-2 px-2">
+                <div className="flex items-center justify-between p-2 rounded-md bg-sidebar-accent/50">
                   <div className="flex items-center gap-2">
-                    <stat.icon className={`w-4 h-4 ${stat.color}`} />
-                    <span className="text-sm">{stat.title}</span>
+                    <Clock className={`w-4 h-4 text-blue-500`} />
+                    <span className="text-sm">Playing</span>
                   </div>
-                  <span className="text-sm font-medium">{stat.count}</span>
+                  <span className="text-sm font-medium">
+                    {data.currentlyPlaying}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                <div className="flex items-center justify-between p-2 rounded-md bg-sidebar-accent/50">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className={`w-4 h-4 text-green-500`} />
+                    <span className="text-sm">Completed</span>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {data.countCompletedGames}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-md bg-sidebar-accent/50">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className={`w-4 h-4 text-purple-500`} />
+                    <span className="text-sm">Total Games</span>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {data.countAllGames}
+                  </span>
+                </div>
+              </div>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

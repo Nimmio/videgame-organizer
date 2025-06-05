@@ -42,13 +42,6 @@ const GameLibrary = () => {
     },
   });
 
-  const updatePlatformMutation = useMutation({
-    mutationFn: updatePlatform,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userGames"] });
-    },
-  });
-
   const handleDelete = (gameId: UserGame["id"]) => {
     deleteUserGameMutation.mutate({
       data: {
@@ -68,18 +61,6 @@ const GameLibrary = () => {
     });
   };
 
-  const handlePlatformChange = (
-    gameId: UserGame["id"],
-    newPlatform: Platform
-  ) => {
-    updatePlatformMutation.mutate({
-      data: {
-        userGameId: gameId,
-        userId: user.id,
-        newPlatformId: newPlatform.id,
-      },
-    });
-  };
   return (
     <>
       <Suspense fallback={"Loading"}>
@@ -89,7 +70,6 @@ const GameLibrary = () => {
         <GameLibraryGrid
           games={userGameQuery.data}
           onDelete={handleDelete}
-          onPlatformChange={handlePlatformChange}
           onStatusChange={handleStatusChange}
         />
       )}
@@ -97,7 +77,6 @@ const GameLibrary = () => {
         <GameLibraryList
           games={userGameQuery.data}
           onDelete={handleDelete}
-          onPlatformChange={handlePlatformChange}
           onStatusChange={handleStatusChange}
         />
       )}

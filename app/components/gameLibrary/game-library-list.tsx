@@ -14,14 +14,12 @@ import GameLibraryListRow from "./game-library-list-row";
 interface GameLibraryListProps {
   games: LibraryUserGame[];
   onDelete: (userGameId: UserGame["id"]) => void;
-  onPlatformChange: (userGameId: UserGame["id"], newPlatform: Platform) => void;
   onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
 }
 
 const GameLibraryList = ({
   games,
   onDelete,
-  onPlatformChange,
   onStatusChange,
 }: GameLibraryListProps) => {
   return (
@@ -43,7 +41,6 @@ const GameLibraryList = ({
                 userGame={game}
                 key={game.id}
                 onDelete={onDelete}
-                onPlatformChange={onPlatformChange}
                 onStatusChange={onStatusChange}
               />
             ))
