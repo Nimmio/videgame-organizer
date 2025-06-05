@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -32,12 +32,16 @@ import { Button } from "../ui/button";
 import { getUrl } from "@/lib/server/igdb/cover";
 import { createUserGame } from "@/lib/server/game";
 import { useRouteContext } from "@tanstack/react-router";
+import ClearableDatePicker from "../clearable-date-picker";
 
 const formSchema = z.object({
   title: z.string().min(1),
   platform: z.string().optional(),
   genres: z.array(z.string()),
+  releaseDate: z.date().optional(),
   status: z.number(),
+  startDate: z.date().optional(),
+  finishDate: z.date().optional(),
   coverUrl: z.string().url().or(z.literal("")),
   summary: z.string().optional(),
   notes: z.string().optional(),
@@ -106,6 +110,9 @@ const GameManual = ({
   }, [selectedGame]);
 
   const { data: AllStatus } = useSuspenseQuery(StatusQueryOptions());
+  const [status, setStatus] = useState<number>(1);
+
+  useEffect(() => {}, [form.getValues("status")]);
 
   return (
     <div className="grid gap-4">
@@ -152,14 +159,28 @@ const GameManual = ({
           />
           <FormField
             control={form.control}
+            name="releaseDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Release Date (optional)</FormLabel>
+                <FormControl>
+                  <ClearableDatePicker {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="status"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
                 <Select
-                  onValueChange={(newValue: string) =>
-                    field.onChange(+newValue)
-                  }
+                  onValueChange={(newValue: string) => {
+                    setStatus(+newValue);
+                    field.onChange(+newValue);
+                  }}
                   defaultValue={field.value.toString()}
                 >
                   <FormControl>
@@ -179,6 +200,36 @@ const GameManual = ({
               </FormItem>
             )}
           />
+          {![1, 7, 8].includes(status) && ( //TODO!
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Started Playing on (optional)</FormLabel>
+                  <FormControl>
+                    <ClearableDatePicker {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          {[4, 5, 6].includes(status) && ( //TODO!
+            <FormField
+              control={form.control}
+              name="finishDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Finished on (optional)</FormLabel>
+                  <FormControl>
+                    <ClearableDatePicker {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name="coverUrl"
