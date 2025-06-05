@@ -33,6 +33,7 @@ import { getUrl } from "@/lib/server/igdb/cover";
 import { createUserGame } from "@/lib/server/game";
 import { useRouteContext } from "@tanstack/react-router";
 import ClearableDatePicker from "../clearable-date-picker";
+import { fromUnixTime } from "date-fns";
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -105,6 +106,12 @@ const GameManual = ({
       }
       if (selectedGame.summary) {
         form.setValue("summary", selectedGame.summary);
+      }
+      if (selectedGame.first_release_date) {
+        form.setValue(
+          "releaseDate",
+          fromUnixTime(selectedGame.first_release_date)
+        );
       }
     }
   }, [selectedGame]);
