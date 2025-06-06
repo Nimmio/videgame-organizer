@@ -6,20 +6,16 @@ import GameCardPlatformDropdown from "./game-card-platform-dropdown";
 import { Status, UserGame } from "@/generated/prisma";
 import GameCardDeleteButton from "./game-card-delete-button";
 import GameCardStatusBadge from "./game-card-status-badge";
+import { Badge } from "@/components/ui/badge";
+import { GameWithStatus } from "@/types/game";
 
 interface GameCardProps {
-  userGame: UserGame;
+  userGame: GameWithStatus;
   onDelete: (userGameId: UserGame["id"]) => void;
-  onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
-  onPlatformChange: (userGameId: UserGame["id"], newPlatform: Platform) => void;
 }
 
-const GameCard = ({
-  userGame,
-  onDelete,
-  onStatusChange,
-  onPlatformChange,
-}: GameCardProps) => {
+const GameCard = ({ userGame, onDelete }: GameCardProps) => {
+  console.log(userGame);
   return (
     <div className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
       {/* Cover Image - Full Card */}
@@ -35,7 +31,11 @@ const GameCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40"></div>
 
         {/* Status Badge - Top Left */}
-        <div className="absolute top-2 left-2 z-10"></div>
+        <div className="absolute top-2 left-2 z-10">
+          <div className="mb-4">
+            <Badge>{userGame.status.statusTitle}</Badge>
+          </div>
+        </div>
 
         {/* Action Buttons - Top Right */}
         <div className="absolute top-2 right-2 z-10 flex gap-1">
@@ -55,7 +55,7 @@ const GameCard = ({
             }}
           />
         </div>
-
+        <></>
         {/* Game Title - Bottom */}
         <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
           <h3 className="font-bold text-white text-lg leading-tight mb-1 drop-shadow-lg">

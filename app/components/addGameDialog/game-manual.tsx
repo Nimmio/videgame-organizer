@@ -72,7 +72,12 @@ const GameManual = ({
   const createGameMutation = useMutation({
     mutationFn: createUserGame,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userGames"] });
+      queryClient.invalidateQueries({
+        queryKey: ["userGames"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["libraryControlOptions"],
+      });
     },
   });
 

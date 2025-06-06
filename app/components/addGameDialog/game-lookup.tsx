@@ -18,27 +18,6 @@ interface GameLookupProps {
   onSelectGame: (data: SearchGameWithPlatfrom) => void;
 }
 
-const searchGame = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ search: z.string() }).parse(d))
-  .middleware([igdbAuthMiddleware])
-  .handler(async ({ data, context }) => {
-    const { search } = data;
-    const { igdbAccessToken } = context;
-
-    const response = await fetchFunc({
-      endpoint: "game",
-      fields:
-        "name,first_release_date,cover.url,summary,genres.name,genres.checksum,platforms.name,platforms.checksum,checksum",
-      token: igdbAccessToken as string,
-      search,
-      extra: "where version_parent = null;",
-    });
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  });
-
 const GameLookup = ({ onSelectGame }: GameLookupProps) => {
   const [search, setSearch] = useState<string>("");
   const [debouncedSearch] = useDebouncedValue<string>(search, {

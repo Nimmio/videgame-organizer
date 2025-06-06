@@ -1,6 +1,6 @@
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
-import { LibraryUserGame } from "@/types/game";
+import { GameWithStatus, LibraryUserGame } from "@/types/game";
 import { getUrl } from "@/lib/server/igdb/cover";
 import GameCardStatusBadge from "./gameCard/game-card-status-badge";
 import GameCardPlatformDropdown from "./gameCard/game-card-platform-dropdown";
@@ -10,7 +10,7 @@ import { Eye } from "lucide-react";
 import GameCardDeleteButton from "./gameCard/game-card-delete-button";
 
 interface GameLibraryListRowProps {
-  userGame: LibraryUserGame;
+  userGame: GameWithStatus;
   onDelete: (userGameId: UserGame["id"]) => void;
   onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
 }
@@ -18,34 +18,21 @@ interface GameLibraryListRowProps {
 const GameLibraryListRow = ({
   userGame,
   onDelete,
-  onStatusChange,
 }: GameLibraryListRowProps) => {
-  const { game } = userGame;
   return (
-    <TableRow key={game.id}>
+    <TableRow key={userGame.id}>
       <TableCell>
         <img
-          src={getUrl((game.coverUrl as string) || "", "cover_big")}
-          alt={`${game.name} cover`}
+          src={userGame.coverUrl || ""}
+          alt={userGame.title}
           className="h-16 w-12 object-cover rounded-sm"
         />
       </TableCell>
-      <TableCell className="font-medium">{game.name}</TableCell>
-      <TableCell>
-        <GameCardStatusBadge
-          currentStatus={userGame.status}
-          onStatusChange={(newStatus) => {
-            onStatusChange(game.id, newStatus);
-          }}
-        />
+      <TableCell className="font-medium">{userGame.title}</TableCell>
+      <TableCell className="font-medium">
+        {userGame.status.statusTitle}
       </TableCell>
-      <TableCell>
-        <GameCardPlatformDropdown
-          currentPlatform={userGame.platform as Platform}
-          style="default"
-          platformOptions={game.platforms}
-        />
-      </TableCell>
+      <TableCell className="font-medium">{userGame.platform}</TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="h-8 px-2 gap-1">
@@ -54,9 +41,9 @@ const GameLibraryListRow = ({
           </Button>
 
           <GameCardDeleteButton
-            gameName={game.name}
+            gameName={userGame.title}
             onDelete={() => {
-              onDelete(game.id);
+              onDelete(userGame.id);
             }}
             style="list"
           />

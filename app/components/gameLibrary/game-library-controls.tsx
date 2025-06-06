@@ -19,11 +19,50 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import AddGameDialog from "../addGameDialog/add-game-dialog";
+import { Label } from "../ui/label";
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import prisma from "@/lib/prisma";
 
 interface GameLibraryControlsProps {
   mode: libraryViewMode;
   onModeChange: (newMode: libraryViewMode) => void;
 }
+
+const getPlatformAndGenreOptions = createServerFn({ method: "GET" })
+  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    const { userId } = data;
+
+    const platforms = (
+      await prisma.userGame.findMany({
+        distinct: ["platform"],
+        where: {
+          userId: userId,
+        },
+        select: {
+          platform: true,
+        },
+      })
+    ).map((platformResult) => platformResult.platform);
+
+    const genres = [
+      ...new Set(
+        (
+          await prisma.userGame.findMany({
+            distinct: ["genres"],
+            select: { genres: true },
+            where: { userId: userId },
+          })
+        ).flatMap((genre) => genre.genres)
+      ),
+    ];
+
+    return {
+      platforms,
+      genres,
+    };
+  });
 
 const GameLibraryControls = ({
   mode,
@@ -36,27 +75,40 @@ const GameLibraryControls = ({
   const [debouncedSearch] = useDebouncedValue<string>(searchValue, {
     wait: 300,
   });
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [platformFilter, setPlatformFilter] = useState<string>("all");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedStatus, setSelectedStatuses] = useState<string[]>([]);
   const [limit, setLimit] = useState<number>(20);
 
   const { data: StatusOptions } = useSuspenseQuery(StatusQueryOptions());
 
   const LimitOptions = [5, 20, 50, 100];
 
+  const { data } = useSuspenseQuery({
+    queryKey: ["libraryControlOptions", user.id],
+    queryFn: () => getPlatformAndGenreOptions({ data: { userId: user.id } }),
+  });
+  const { platforms, genres } = data;
   useQuery(
     userGameQueryOptions({
       userId: user.id,
       search: debouncedSearch,
-      platform: platformFilter !== "all" ? +platformFilter : "all",
-      status: statusFilter !== "all" ? +statusFilter : "all",
+      platforms: selectedPlatforms,
+      genres: selectedGenres,
+      status: selectedStatus,
       limit,
     })
   );
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["userGames"] });
-  }, [debouncedSearch, platformFilter, statusFilter, limit]);
+  }, [
+    debouncedSearch,
+    limit,
+    selectedPlatforms,
+    selectedGenres,
+    selectedStatus,
+  ]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-4">
@@ -79,12 +131,15 @@ const GameLibraryControls = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            {/* <div className="p-2">
+            <div className="p-2">
               <Label className="text-xs font-semibold">Platforms</Label>
-              {platforms.map((platform) => (
+              {platforms.map((platform: string) => (
                 <DropdownMenuCheckboxItem
                   key={platform}
                   checked={selectedPlatforms.includes(platform)}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                  }}
                   onCheckedChange={(checked) => {
                     if (checked) {
                       setSelectedPlatforms([...selectedPlatforms, platform]);
@@ -105,6 +160,9 @@ const GameLibraryControls = ({
                 <DropdownMenuCheckboxItem
                   key={genre}
                   checked={selectedGenres.includes(genre)}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                  }}
                   onCheckedChange={(checked) => {
                     if (checked) {
                       setSelectedGenres([...selectedGenres, genre]);
@@ -118,28 +176,33 @@ const GameLibraryControls = ({
                   {genre}
                 </DropdownMenuCheckboxItem>
               ))}
-            </div> */}
-            {/* <div className="p-2 border-t">
+            </div>
+            <div className="p-2 border-t">
               <Label className="text-xs font-semibold">Status</Label>
-              {Object.entries(statusConfig).map(([status, config]) => (
+              {StatusOptions.map((status) => (
                 <DropdownMenuCheckboxItem
-                  key={status}
-                  checked={selectedStatuses.includes(status)}
+                  key={status.id}
+                  checked={selectedStatus.includes(status.statusTitle)}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                  }}
                   onCheckedChange={(checked) => {
                     if (checked) {
-                      setSelectedStatuses([...selectedStatuses, status]);
+                      setSelectedStatuses([
+                        ...selectedStatus,
+                        status.statusTitle,
+                      ]);
                     } else {
                       setSelectedStatuses(
-                        selectedStatuses.filter((s) => s !== status)
+                        selectedStatus.filter((s) => s !== status.statusTitle)
                       );
                     }
                   }}
                 >
-                  <config.icon className="w-3 h-3 mr-2" />
-                  {config.label}
+                  {status.statusTitle}
                 </DropdownMenuCheckboxItem>
               ))}
-            </div> */}
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
 

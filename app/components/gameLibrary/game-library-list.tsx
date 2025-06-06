@@ -1,5 +1,5 @@
 import React from "react";
-import { LibraryUserGame } from "@/types/game";
+import { GameWithStatus, LibraryUserGame } from "@/types/game";
 import { Platform, Status, UserGame } from "@/generated/prisma";
 import {
   Table,
@@ -12,16 +12,11 @@ import {
 import GameLibraryListRow from "./game-library-list-row";
 
 interface GameLibraryListProps {
-  games: LibraryUserGame[];
+  games: GameWithStatus[];
   onDelete: (userGameId: UserGame["id"]) => void;
-  onStatusChange: (userGameId: UserGame["id"], newStatus: Status) => void;
 }
 
-const GameLibraryList = ({
-  games,
-  onDelete,
-  onStatusChange,
-}: GameLibraryListProps) => {
+const GameLibraryList = ({ games, onDelete }: GameLibraryListProps) => {
   return (
     <div className="rounded-md border">
       <Table>
@@ -41,7 +36,6 @@ const GameLibraryList = ({
                 userGame={game}
                 key={game.id}
                 onDelete={onDelete}
-                onStatusChange={onStatusChange}
               />
             ))
           ) : (

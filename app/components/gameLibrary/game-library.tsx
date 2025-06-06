@@ -15,6 +15,7 @@ import GameLibraryControls from "./game-library-controls";
 import { userGameQueryOptions } from "@/lib/userGames";
 import GameLibraryGrid from "./game-library-grid";
 import GameLibraryList from "./game-library-list";
+import { Separator } from "../ui/separator";
 
 export type libraryViewMode = "grid" | "list";
 
@@ -35,13 +36,6 @@ const GameLibrary = () => {
     },
   });
 
-  const updateStatusMutation = useMutation({
-    mutationFn: updateStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userGames"] });
-    },
-  });
-
   const handleDelete = (gameId: UserGame["id"]) => {
     deleteUserGameMutation.mutate({
       data: {
@@ -51,34 +45,17 @@ const GameLibrary = () => {
     });
   };
 
-  const handleStatusChange = (gameId: UserGame["id"], newStatus: Status) => {
-    updateStatusMutation.mutate({
-      data: {
-        userGameId: gameId,
-        userId: user.id,
-        newStatusId: newStatus.id,
-      },
-    });
-  };
-
   return (
     <>
       <Suspense fallback={"Loading"}>
         <GameLibraryControls mode={mode} onModeChange={setMode} />
       </Suspense>
+      <Separator className="mb-4 mt-4" />
       {mode === "grid" && (
-        <GameLibraryGrid
-          games={userGameQuery.data}
-          onDelete={handleDelete}
-          onStatusChange={handleStatusChange}
-        />
+        <GameLibraryGrid games={userGameQuery.data} onDelete={handleDelete} />
       )}
       {mode == "list" && (
-        <GameLibraryList
-          games={userGameQuery.data}
-          onDelete={handleDelete}
-          onStatusChange={handleStatusChange}
-        />
+        <GameLibraryList games={userGameQuery.data} onDelete={handleDelete} />
       )}
     </>
   );
