@@ -15,7 +15,6 @@ interface GameCardProps {
 }
 
 const GameCard = ({ userGame, onDelete }: GameCardProps) => {
-  console.log(userGame);
   return (
     <div className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
       {/* Cover Image - Full Card */}
