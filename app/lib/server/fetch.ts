@@ -20,8 +20,6 @@ export const fetchFunc = async ({
   search,
   extra = "",
 }: fetchFuncParams) => {
-  console.log("client", readIGDBEnvVars().client);
-  console.log("{token}", token);
   const response = await fetch(IgdbEndpointsUrls[endpoint], {
     method: "POST",
     headers: {
