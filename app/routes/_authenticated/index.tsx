@@ -36,7 +36,10 @@ const getDashboardData = createServerFn({ method: "GET" })
       data: { userId },
     });
 
-    const completionRate = (countCompletedGames / countAllGames) * 100;
+    const completionRate = (
+      (countCompletedGames / countAllGames) *
+      100
+    ).toFixed(2);
 
     const currentlyPlaying = await getCountPlayingGames({ data: { userId } });
 
