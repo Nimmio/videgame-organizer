@@ -10,12 +10,21 @@ const fetchUserGamesSchema = z.object({
   status: z.array(z.string()),
   genres: z.array(z.string()),
   limit: z.number(),
+  page: z.number(),
 });
 
 const fetchUserGames = createServerFn({ method: "GET" })
   .validator((d: unknown) => fetchUserGamesSchema.parse(d))
   .handler(async ({ data }) => {
-    const { userId, search = "", status, platforms, genres, limit } = data;
+    const {
+      userId,
+      search = "",
+      status,
+      platforms,
+      genres,
+      limit,
+      page,
+    } = data;
 
     const platformWhere = [
       ...platforms.map((platform) => ({
@@ -45,18 +54,31 @@ const fetchUserGames = createServerFn({ method: "GET" })
     if (genresWhere.length > 0) AND.push({ OR: genresWhere });
     if (statusWhere.length > 0) AND.push({ OR: statusWhere });
 
-    return await prisma.userGame.findMany({
-      where: {
-        userId: userId,
-        title: { contains: search, mode: "insensitive" },
-        AND,
-      },
+    return await prisma.$transaction([
+      prisma.userGame.findMany({
+        where: {
+          userId: userId,
+          title: { contains: search, mode: "insensitive" },
+          AND,
+        },
 
-      include: {
-        status: true,
-      },
-      take: limit,
-    });
+        include: {
+          status: true,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: limit,
+        skip: limit * (page - 1),
+      }),
+      prisma.userGame.count({
+        where: {
+          userId: userId,
+          title: { contains: search, mode: "insensitive" },
+          AND,
+        },
+      }),
+    ]);
   });
 
 interface userGameQueryOptionsParams {
@@ -66,6 +88,7 @@ interface userGameQueryOptionsParams {
   genres?: string[];
   status?: string[];
   limit?: number;
+  page?: number;
 }
 
 export const userGameQueryOptions = ({
@@ -75,11 +98,12 @@ export const userGameQueryOptions = ({
   genres = [],
   status = [],
   limit = 20,
+  page = 1,
 }: userGameQueryOptionsParams) =>
   queryOptions({
     queryKey: ["userGames"],
     queryFn: () =>
       fetchUserGames({
-        data: { userId, search, platforms, genres, status, limit },
+        data: { userId, search, platforms, genres, status, limit, page },
       }),
   });
