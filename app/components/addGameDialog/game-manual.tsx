@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -35,7 +35,7 @@ import { useRouteContext } from "@tanstack/react-router";
 import ClearableDatePicker from "../clearable-date-picker";
 import { fromUnixTime } from "date-fns";
 
-const formSchema = z.object({
+export const formSchema = z.object({
   title: z.string().min(1),
   platform: z.string().optional(),
   genres: z.array(z.string()),
@@ -77,6 +77,12 @@ const GameManual = ({
       });
       queryClient.invalidateQueries({
         queryKey: ["libraryControlOptions"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["sidebarData"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["dashboardData"],
       });
     },
   });
@@ -120,8 +126,6 @@ const GameManual = ({
 
   const { data: AllStatus } = useSuspenseQuery(StatusQueryOptions());
   const [status, setStatus] = useState<number>(1);
-
-  useEffect(() => {}, [form.getValues("status")]);
 
   return (
     <div className="grid gap-4">

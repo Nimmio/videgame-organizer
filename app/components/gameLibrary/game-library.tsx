@@ -64,7 +64,6 @@ const GameLibrary = () => {
       {mode == "list" && (
         <GameLibraryList games={games} onDelete={handleDelete} />
       )}
-      {totalPages}
       <GameLibraryPaginationControls
         page={page}
         onPageChange={setPage}

@@ -1,13 +1,9 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { getUrl } from "@/lib/server/igdb/cover";
-import { Eye } from "lucide-react";
-import GameCardPlatformDropdown from "./game-card-platform-dropdown";
-import { Status, UserGame } from "@/generated/prisma";
+import { UserGame } from "@/generated/prisma";
 import GameCardDeleteButton from "./game-card-delete-button";
-import GameCardStatusBadge from "./game-card-status-badge";
 import { Badge } from "@/components/ui/badge";
 import { GameWithStatus } from "@/types/game";
+import ViewGameDialog from "@/components/viewGameDialog/view-game-dialog";
 
 interface GameCardProps {
   userGame: GameWithStatus;
@@ -38,14 +34,7 @@ const GameCard = ({ userGame, onDelete }: GameCardProps) => {
 
         {/* Action Buttons - Top Right */}
         <div className="absolute top-2 right-2 z-10 flex gap-1">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="h-8 w-8 bg-black/50 hover:bg-black/70 text-white border-0 backdrop-blur-sm"
-          >
-            <Eye className="h-4 w-4" />
-            <span className="sr-only">View</span>
-          </Button>
+          <ViewGameDialog game={userGame} />
 
           <GameCardDeleteButton
             gameName={userGame.title}
