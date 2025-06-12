@@ -51,6 +51,7 @@ import { Textarea } from "../ui/textarea";
 import { createServerFn } from "@tanstack/react-start";
 import prisma from "@/lib/prisma";
 import { useRouteContext } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const updateStatusSchema = z.object({
   userGameId: z.number(),
@@ -174,6 +175,7 @@ const ViewGameDialog = ({ game }: { game: GameWithStatus }) => {
       queryClient.invalidateQueries({
         queryKey: ["dashboardData"],
       });
+      toast("Successfully updated Status");
     },
   });
 
@@ -202,6 +204,7 @@ const ViewGameDialog = ({ game }: { game: GameWithStatus }) => {
       queryClient.invalidateQueries({
         queryKey: ["dashboardData"],
       });
+      toast("Successfully updated Game");
     },
   });
 

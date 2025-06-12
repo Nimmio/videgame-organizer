@@ -13,6 +13,7 @@ import GameLibraryGrid from "./game-library-grid";
 import GameLibraryList from "./game-library-list";
 import { Separator } from "../ui/separator";
 import GameLibraryPaginationControls from "./game-library-pagination-controls";
+import { toast } from "sonner";
 
 export type libraryViewMode = "grid" | "list";
 
@@ -31,6 +32,7 @@ const GameLibrary = () => {
     mutationFn: deleteUserGame,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userGames"] });
+      toast("Successfully deleted Game");
     },
   });
 

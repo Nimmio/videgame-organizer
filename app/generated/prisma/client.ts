@@ -89,6 +89,20 @@ export type Status = Prisma.StatusModel
  * 
  */
 export type System = Prisma.SystemModel
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
 
 export type StatusGroup = $Enums.StatusGroup
 export const StatusGroup = $Enums.StatusGroup
+
+export type Theme = $Enums.Theme
+export const Theme = $Enums.Theme
+
+export type View = $Enums.View
+export const View = $Enums.View
+
+export type GamesPerPage = $Enums.GamesPerPage
+export const GamesPerPage = $Enums.GamesPerPage

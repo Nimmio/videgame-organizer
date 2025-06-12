@@ -55,11 +55,11 @@ const items = [
     url: "/settings",
     icon: Settings,
   },
-  {
-    title: "Admin",
-    url: "/administration",
-    icon: Computer,
-  },
+  // {
+  //   title: "Admin",
+  //   url: "/administration",
+  //   icon: Computer,
+  // },
 ];
 
 const getDashboardData = createServerFn({ method: "GET" })

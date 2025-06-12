@@ -34,6 +34,7 @@ import { createUserGame } from "@/lib/server/game";
 import { useRouteContext } from "@tanstack/react-router";
 import ClearableDatePicker from "../clearable-date-picker";
 import { fromUnixTime } from "date-fns";
+import { toast } from "sonner";
 
 export const formSchema = z.object({
   title: z.string().min(1),
@@ -84,6 +85,7 @@ const GameManual = ({
       queryClient.invalidateQueries({
         queryKey: ["dashboardData"],
       });
+      toast("Successfully created Game");
     },
   });
 

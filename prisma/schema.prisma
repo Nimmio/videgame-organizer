@@ -16,7 +16,7 @@ datasource db {
 }
 
 model User {
-  id            String     @id
+  id            String        @id
   name          String
   email         String
   emailVerified Boolean
@@ -26,6 +26,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   games         UserGame[]
+  settingsId    Int?           @unique
+  settings      UserSettings? @relation(fields: [settingsId], references: [id], onDelete: Cascade)
 
   @@unique([email])
   @@map("user")
@@ -121,4 +123,32 @@ enum StatusGroup {
   FINISHED
   PLANNED
   DROPPED
+}
+
+model UserSettings {
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime     @updatedAt @db.Timestamptz(6)
+  theme        Theme
+  defaultView  View
+  gamesPerPage GamesPerPage
+  User         User?
+}
+
+enum Theme {
+  SYSTEM
+  DARK
+  LIGHT
+}
+
+enum View {
+  GRID
+  LIST
+}
+
+enum GamesPerPage {
+  GPP5
+  GPP20
+  GPP50
+  GPP100
 }

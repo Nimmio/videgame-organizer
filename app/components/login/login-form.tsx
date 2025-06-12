@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,9 +22,10 @@ import { Link } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { emailLogin } from "@/lib/server/authFunctions";
+// import { emailLogin } from "@/lib/server/authFunctions";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -46,18 +48,35 @@ export function LoginForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
-    const { data, error } = await emailLogin({
-      data: {
+    await authClient.signIn.email(
+      {
         email,
         password,
+        callbackURL: "/",
       },
-    });
-    if (!error) {
-      toast("Login successful!");
-      navigate({ to: "/" });
-    } else if (error) {
-      toast(`Error: ${error.message}`);
-    }
+      {
+        onError: (ctx) => {
+          // Handle the error
+          if (ctx.error.status === 403) {
+            alert("Please verify your email address");
+          }
+          //you can also show the original error message
+          alert(ctx.error.message);
+        },
+      }
+    );
+    // const { data, error } = await emailLogin({
+    //   data: {
+    //     email,
+    //     password,
+    //   },
+    // });
+    // if (!error) {
+    //   toast("Login successful!");
+    //   navigate({ to: "/" });
+    // } else if (error) {
+    //   toast(`Error: ${error.message}`);
+    // }
   }
 
   return (
