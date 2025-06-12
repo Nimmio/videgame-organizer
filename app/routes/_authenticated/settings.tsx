@@ -1,6 +1,13 @@
 import React from "react";
-import { ThemeModeToggle } from "@/components/theme-mode-toggle";
 import { createFileRoute } from "@tanstack/react-router";
+import PageWrap from "@/components/page-wrap";
+import ProfileSettings from "@/components/profileSettings/profile-settings";
+import DisplaySettings from "@/components/displaySettings/display-settings";
+import NotificationsSettings from "@/components/notificationsSettings/notifications-settings";
+import PrivacySettings from "@/components/privacySettings/privacy-settings";
+import DataManagementSettings from "@/components/dataManagementSettings/data-management-settings";
+import GdprSettings from "@/components/gdprSettings/gdpr-settings";
+import AccountStats from "@/components/accountStats/account-stats";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   component: RouteComponent,
@@ -9,11 +16,18 @@ export const Route = createFileRoute("/_authenticated/settings")({
 function RouteComponent() {
   return (
     <>
-      <div className="container mx-auto ">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Settings</h1>
-        </div>
-        <ThemeModeToggle />
+      <PageWrap
+        title={"Settings"}
+        subtitle="Customize your Video Game Organizer experience."
+      />
+      <div className="grid gap-6">
+        <ProfileSettings />
+        <DisplaySettings />
+        <NotificationsSettings />
+        <PrivacySettings />
+        <DataManagementSettings />
+        <GdprSettings />
+        <AccountStats />
       </div>
     </>
   );

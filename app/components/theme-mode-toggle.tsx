@@ -1,6 +1,5 @@
 import React from "react";
 import { useTheme } from "@/components/theme-provider";
-import { Label } from "./ui/label";
 import {
   Select,
   SelectContent,
@@ -14,12 +13,11 @@ export function ThemeModeToggle() {
 
   return (
     <>
-      <Label className="mb-4">Theme</Label>
       <Select
         value={theme}
         onValueChange={(newValue) => setTheme(newValue as typeof theme)}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent>
