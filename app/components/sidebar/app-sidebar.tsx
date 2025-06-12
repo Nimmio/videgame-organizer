@@ -2,11 +2,9 @@ import React from "react";
 import {
   CheckCircle,
   Clock,
-  Computer,
   Home,
   Library,
   Settings,
-  Shuffle,
   TrendingUp,
 } from "lucide-react";
 
@@ -22,10 +20,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link, useRouteContext, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { NavUser } from "./nav-user";
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
 import {
   getCountAllGames,
   getCountCompletedGames,
@@ -62,26 +59,20 @@ const items = [
   // },
 ];
 
-const getDashboardData = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
-  .handler(async ({ data }) => {
-    const { userId } = data;
-    const countAllGames = await getCountAllGames({ data: { userId } });
-    const currentlyPlaying = await getCountPlayingGames({ data: { userId } });
-    const countCompletedGames = await getCountCompletedGames({
-      data: { userId },
-    });
-    return { countAllGames, currentlyPlaying, countCompletedGames };
-  });
+const getDashboardData = createServerFn({ method: "GET" }).handler(async () => {
+  const countAllGames = await getCountAllGames();
+  const currentlyPlaying = await getCountPlayingGames();
+  const countCompletedGames = await getCountCompletedGames();
+  return { countAllGames, currentlyPlaying, countCompletedGames };
+});
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouterState();
   const { pathname } = router.location;
-  const { user } = useRouteContext({ from: "/_authenticated" });
 
   const { data } = useSuspenseQuery({
-    queryKey: ["sidebarData", user.id],
-    queryFn: () => getDashboardData({ data: { userId: user.id } }),
+    queryKey: ["sidebarData"],
+    queryFn: () => getDashboardData(),
   });
   return (
     <Sidebar collapsible="offcanvas" {...props}>

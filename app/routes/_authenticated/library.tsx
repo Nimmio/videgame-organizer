@@ -8,9 +8,7 @@ import PageHeader from "@/components/page-wrap";
 
 export const Route = createFileRoute("/_authenticated/library")({
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(
-      userGameQueryOptions({ userId: context.user.id })
-    );
+    await context.queryClient.ensureQueryData(userGameQueryOptions({}));
     await context.queryClient.ensureQueryData(StatusQueryOptions());
   },
   component: Library,

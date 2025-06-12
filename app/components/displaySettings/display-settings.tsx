@@ -65,7 +65,7 @@ const DisplaySettings = () => {
           </div>
         </div>
 
-        <Separator />
+        {/* <Separator />
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -95,7 +95,7 @@ const DisplaySettings = () => {
             </div>
             <Switch />
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

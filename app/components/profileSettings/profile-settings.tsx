@@ -9,9 +9,21 @@ import {
 import { User } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 
-const ProfileSettings = () => {
+interface ProfileSettingsProps {
+  username: string;
+  email: string;
+  bio?: string;
+  onChangeUsername: (newUsername: string) => void;
+  onChangeEmail: (newEmail: string) => void;
+}
+
+const ProfileSettings = ({
+  username,
+  email,
+  onChangeUsername,
+  onChangeEmail,
+}: ProfileSettingsProps) => {
   return (
     <Card>
       <CardHeader>
@@ -27,17 +39,30 @@ const ProfileSettings = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="username">Username</Label>
-            <Input id="username" />
+            <Input
+              id="username"
+              value={username}
+              onChange={(e) => onChangeUsername(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => onChangeEmail(e.target.value)}
+            />
           </div>
         </div>
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="bio">Bio</Label>
-          <Textarea id="bio" placeholder="Tell us about yourself..." />
-        </div>
+          <Textarea
+            id="bio"
+            placeholder="Tell us about yourself..."
+            disabled={true}
+          />
+        </div> */}
       </CardContent>
     </Card>
   );

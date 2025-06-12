@@ -1,5 +1,5 @@
-import React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import React, { useState } from "react";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import PageWrap from "@/components/page-wrap";
 import ProfileSettings from "@/components/profileSettings/profile-settings";
 import DisplaySettings from "@/components/displaySettings/display-settings";
@@ -14,6 +14,10 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function RouteComponent() {
+  const { user } = useRouteContext({ from: "/_authenticated" });
+  const [name, setName] = useState<string>(user.name);
+  const [email, setEmail] = useState<string>(user.email);
+
   return (
     <>
       <PageWrap
@@ -21,12 +25,17 @@ function RouteComponent() {
         subtitle="Customize your Video Game Organizer experience."
       />
       <div className="grid gap-6">
-        <ProfileSettings />
+        <ProfileSettings
+          username={name}
+          email={email}
+          onChangeUsername={setName}
+          onChangeEmail={setEmail}
+        />
         <DisplaySettings />
-        <NotificationsSettings />
+        {/* <NotificationsSettings />
         <PrivacySettings />
         <DataManagementSettings />
-        <GdprSettings />
+        <GdprSettings /> */}
         <AccountStats />
       </div>
     </>

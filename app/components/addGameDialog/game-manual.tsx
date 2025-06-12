@@ -31,7 +31,6 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { getUrl } from "@/lib/server/igdb/cover";
 import { createUserGame } from "@/lib/server/game";
-import { useRouteContext } from "@tanstack/react-router";
 import ClearableDatePicker from "../clearable-date-picker";
 import { fromUnixTime } from "date-fns";
 import { toast } from "sonner";
@@ -55,7 +54,6 @@ const GameManual = ({
   selectedGame?: SearchGameWithPlatfrom;
 }) => {
   const queryClient = useQueryClient();
-  const { user } = useRouteContext({ from: "/_authenticated" });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -90,7 +88,7 @@ const GameManual = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createGameMutation.mutate({ data: { ...values, userId: user.id } });
+    createGameMutation.mutate({ data: { ...values } });
   }
 
   useEffect(() => {

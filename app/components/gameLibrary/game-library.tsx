@@ -6,7 +6,6 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { deleteUserGame } from "@/lib/server/game";
-import { useRouteContext } from "@tanstack/react-router";
 import GameLibraryControls from "./game-library-controls";
 import { userGameQueryOptions } from "@/lib/userGames";
 import GameLibraryGrid from "./game-library-grid";
@@ -18,15 +17,12 @@ import { toast } from "sonner";
 export type libraryViewMode = "grid" | "list";
 
 const GameLibrary = () => {
-  const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
 
   const [mode, setMode] = useState<libraryViewMode>("grid");
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(20);
-  const userGameQuery = useSuspenseQuery(
-    userGameQueryOptions({ userId: user.id })
-  );
+  const userGameQuery = useSuspenseQuery(userGameQueryOptions({}));
 
   const deleteUserGameMutation = useMutation({
     mutationFn: deleteUserGame,
@@ -40,7 +36,6 @@ const GameLibrary = () => {
     deleteUserGameMutation.mutate({
       data: {
         userGameId: gameId,
-        userId: user.id,
       },
     });
   };

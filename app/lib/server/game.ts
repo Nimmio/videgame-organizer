@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { userMiddleware } from "./middleware";
 
 const CreateUserGameSchema = z.object({
   title: z.string().min(1),
@@ -13,12 +14,12 @@ const CreateUserGameSchema = z.object({
   coverUrl: z.string().url().or(z.literal("")),
   summary: z.string().optional(),
   notes: z.string().optional(),
-  userId: z.string(),
 });
 
 export const createUserGame = createServerFn({ method: "POST" })
+  .middleware([userMiddleware])
   .validator((d: unknown) => CreateUserGameSchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const {
       title,
       platform,
@@ -30,8 +31,9 @@ export const createUserGame = createServerFn({ method: "POST" })
       coverUrl,
       summary,
       notes,
-      userId,
     } = data;
+
+    const { user } = context;
 
     return await prisma.userGame.create({
       data: {
@@ -51,7 +53,7 @@ export const createUserGame = createServerFn({ method: "POST" })
         releaseDate,
         user: {
           connect: {
-            id: userId,
+            id: user?.id,
           },
         },
       },
@@ -60,16 +62,19 @@ export const createUserGame = createServerFn({ method: "POST" })
 
 const deleteUserGameSchema = z.object({
   userGameId: z.number(),
-  userId: z.string(),
 });
 
 export const deleteUserGame = createServerFn({ method: "POST" })
   .validator((d: unknown) => deleteUserGameSchema.parse(d))
-  .handler(async ({ data }) => {
-    const { userGameId, userId } = data;
+  .middleware([userMiddleware])
+
+  .handler(async ({ data, context }) => {
+    const { userGameId } = data;
+    const { user } = context;
+
     return await prisma.userGame.delete({
       where: {
-        userId,
+        userId: user.id,
         id: userGameId,
       },
     });
@@ -77,17 +82,19 @@ export const deleteUserGame = createServerFn({ method: "POST" })
 
 const updateStatusSchema = z.object({
   userGameId: z.number(),
-  userId: z.string(),
   newStatusId: z.number(),
 });
 
 export const updateStatus = createServerFn({ method: "POST" })
   .validator((d: unknown) => updateStatusSchema.parse(d))
-  .handler(async ({ data }) => {
-    const { userGameId, userId, newStatusId } = data;
+  .middleware([userMiddleware])
+  .handler(async ({ data, context }) => {
+    const { userGameId, newStatusId } = data;
+    const { user } = context;
+
     return await prisma.userGame.update({
       where: {
-        userId,
+        userId: user.id,
         id: userGameId,
       },
       data: {
@@ -101,21 +108,23 @@ export const updateStatus = createServerFn({ method: "POST" })
   });
 
 export const getCountAllGames = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
-  .handler(async ({ data }) => {
+  .middleware([userMiddleware])
+  .handler(async ({ context }) => {
+    const { user } = context;
     return await prisma.userGame.count({
       where: {
-        userId: data.userId,
+        userId: user.id,
       },
     });
   });
 
 export const getCountCompletedGames = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
-  .handler(async ({ data }) => {
+  .middleware([userMiddleware])
+  .handler(async ({ context }) => {
+    const { user } = context;
     return await prisma.userGame.count({
       where: {
-        userId: data.userId,
+        userId: user.id,
         status: {
           group: "FINISHED",
         },
@@ -124,11 +133,12 @@ export const getCountCompletedGames = createServerFn({ method: "GET" })
   });
 
 export const getCountPlayingGames = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
-  .handler(async ({ data }) => {
+  .middleware([userMiddleware])
+  .handler(async ({ context }) => {
+    const { user } = context;
     return await prisma.userGame.count({
       where: {
-        userId: data.userId,
+        userId: user.id,
         status: {
           group: "PLAYING",
         },

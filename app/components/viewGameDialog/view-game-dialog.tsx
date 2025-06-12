@@ -50,22 +50,24 @@ import { StatusQueryOptions } from "@/lib/server/status";
 import { Textarea } from "../ui/textarea";
 import { createServerFn } from "@tanstack/react-start";
 import prisma from "@/lib/prisma";
-import { useRouteContext } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { userMiddleware } from "@/lib/server/middleware";
 
 const updateStatusSchema = z.object({
   userGameId: z.number(),
-  userId: z.string(),
   newStatusId: z.number(),
 });
 
 const updateStatus = createServerFn({ method: "POST" })
+  .middleware([userMiddleware])
   .validator((d: unknown) => updateStatusSchema.parse(d))
-  .handler(async ({ data }) => {
-    const { userGameId, userId, newStatusId } = data;
+  .handler(async ({ data, context }) => {
+    const { userGameId, newStatusId } = data;
+    const { user } = context;
+
     return await prisma.userGame.update({
       where: {
-        userId,
+        userId: user.id,
         id: userGameId,
       },
       data: {
@@ -89,13 +91,14 @@ const updateGameSchema = z.object({
   coverUrl: z.string().url().or(z.literal("")),
   summary: z.string().optional(),
   notes: z.string().optional(),
-  userId: z.string(),
   gameId: z.number(),
 });
 
 const updateGame = createServerFn({ method: "POST" })
+  .middleware([userMiddleware])
+
   .validator((d: unknown) => updateGameSchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const {
       title,
       platform,
@@ -107,14 +110,14 @@ const updateGame = createServerFn({ method: "POST" })
       coverUrl,
       summary,
       notes,
-      userId,
       gameId,
     } = data;
+    const { user } = context;
 
     return await prisma.userGame.update({
       where: {
         id: gameId,
-        userId,
+        userId: user.id,
       },
       data: {
         title,
@@ -133,7 +136,7 @@ const updateGame = createServerFn({ method: "POST" })
         releaseDate,
         user: {
           connect: {
-            id: userId,
+            id: user.id,
           },
         },
       },
@@ -145,7 +148,6 @@ const ViewGameDialog = ({ game }: { game: GameWithStatus }) => {
   const [status, setStatus] = useState<number>(1);
   const { data: AllStatus } = useSuspenseQuery(StatusQueryOptions());
   const queryClient = useQueryClient();
-  const { user } = useRouteContext({ from: "/_authenticated" });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -183,7 +185,6 @@ const ViewGameDialog = ({ game }: { game: GameWithStatus }) => {
     updateStatusMutation.mutate({
       data: {
         userGameId: game.id,
-        userId: user.id,
         newStatusId: newStatus,
       },
     });
@@ -212,7 +213,6 @@ const ViewGameDialog = ({ game }: { game: GameWithStatus }) => {
     updateGameMutation.mutate({
       data: {
         ...values,
-        userId: user.id,
         gameId: game.id,
       },
     });

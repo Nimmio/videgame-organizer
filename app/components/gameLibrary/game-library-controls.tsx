@@ -7,7 +7,6 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { StatusQueryOptions } from "@/lib/server/status";
-import { useRouteContext } from "@tanstack/react-router";
 import { userGameQueryOptions } from "@/lib/userGames";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import { libraryViewMode } from "./game-library";
@@ -21,7 +20,6 @@ import { Button } from "../ui/button";
 import AddGameDialog from "../addGameDialog/add-game-dialog";
 import { Label } from "../ui/label";
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
 import prisma from "@/lib/prisma";
 import {
   Select,
@@ -30,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { userMiddleware } from "@/lib/server/middleware";
 
 interface GameLibraryControlsProps {
   mode: libraryViewMode;
@@ -41,15 +40,17 @@ interface GameLibraryControlsProps {
 }
 
 const getPlatformAndGenreOptions = createServerFn({ method: "GET" })
-  .validator((d: unknown) => z.object({ userId: z.string() }).parse(d))
-  .handler(async ({ data }) => {
-    const { userId } = data;
-
+  .middleware([userMiddleware])
+  .handler(async ({ context }) => {
+    const { user } = context;
+    if (!user) {
+      throw new Error("No User");
+    }
     const platforms = (
       await prisma.userGame.findMany({
         distinct: ["platform"],
         where: {
-          userId: userId,
+          userId: user.id,
         },
         select: {
           platform: true,
@@ -63,7 +64,7 @@ const getPlatformAndGenreOptions = createServerFn({ method: "GET" })
           await prisma.userGame.findMany({
             distinct: ["genres"],
             select: { genres: true },
-            where: { userId: userId },
+            where: { userId: user.id },
           })
         ).flatMap((genre) => genre.genres)
       ),
@@ -83,7 +84,6 @@ const GameLibraryControls = ({
   onLimitChange,
   page,
 }: GameLibraryControlsProps) => {
-  const { user } = useRouteContext({ from: "/_authenticated" });
   const queryClient = useQueryClient();
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -99,13 +99,12 @@ const GameLibraryControls = ({
   const LimitOptions = [5, 20, 50, 100];
 
   const { data } = useSuspenseQuery({
-    queryKey: ["libraryControlOptions", user.id],
-    queryFn: () => getPlatformAndGenreOptions({ data: { userId: user.id } }),
+    queryKey: ["libraryControlOptions"],
+    queryFn: () => getPlatformAndGenreOptions(),
   });
   const { platforms, genres } = data;
   useQuery(
     userGameQueryOptions({
-      userId: user.id,
       search: debouncedSearch,
       platforms: selectedPlatforms,
       genres: selectedGenres,

@@ -2,9 +2,9 @@ import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import prisma from "./prisma";
 import z from "zod";
+import { userMiddleware } from "./server/middleware";
 
 const fetchUserGamesSchema = z.object({
-  userId: z.string(),
   search: z.string().optional(),
   platforms: z.array(z.string()),
   status: z.array(z.string()),
@@ -14,17 +14,11 @@ const fetchUserGamesSchema = z.object({
 });
 
 const fetchUserGames = createServerFn({ method: "GET" })
+  .middleware([userMiddleware])
   .validator((d: unknown) => fetchUserGamesSchema.parse(d))
-  .handler(async ({ data }) => {
-    const {
-      userId,
-      search = "",
-      status,
-      platforms,
-      genres,
-      limit,
-      page,
-    } = data;
+  .handler(async ({ data, context }) => {
+    const { search = "", status, platforms, genres, limit, page } = data;
+    const { user } = context;
 
     const platformWhere = [
       ...platforms.map((platform) => ({
@@ -57,7 +51,7 @@ const fetchUserGames = createServerFn({ method: "GET" })
     return await prisma.$transaction([
       prisma.userGame.findMany({
         where: {
-          userId: userId,
+          userId: user.id,
           title: { contains: search, mode: "insensitive" },
           AND,
         },
@@ -73,7 +67,7 @@ const fetchUserGames = createServerFn({ method: "GET" })
       }),
       prisma.userGame.count({
         where: {
-          userId: userId,
+          userId: user.id,
           title: { contains: search, mode: "insensitive" },
           AND,
         },
@@ -82,7 +76,6 @@ const fetchUserGames = createServerFn({ method: "GET" })
   });
 
 interface userGameQueryOptionsParams {
-  userId: string;
   search?: string;
   platforms?: string[];
   genres?: string[];
@@ -92,7 +85,6 @@ interface userGameQueryOptionsParams {
 }
 
 export const userGameQueryOptions = ({
-  userId,
   search,
   platforms = [],
   genres = [],
@@ -104,6 +96,6 @@ export const userGameQueryOptions = ({
     queryKey: ["userGames"],
     queryFn: () =>
       fetchUserGames({
-        data: { userId, search, platforms, genres, status, limit, page },
+        data: { search, platforms, genres, status, limit, page },
       }),
   });
